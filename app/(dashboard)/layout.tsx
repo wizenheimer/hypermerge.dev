@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
 import { cookies } from "next/headers";
+import { NavActions } from "@/components/nav-actions";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +46,9 @@ export default async function DashboardLayout({
               className="mr-2 data-[orientation=vertical]:h-4"
             />
             <BreadcrumbClientWrapper />
+          </div>
+          <div className="ml-auto px-3">
+            <NavActions />
           </div>
         </header>
         {children}
