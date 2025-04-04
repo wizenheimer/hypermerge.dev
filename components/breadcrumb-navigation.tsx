@@ -12,8 +12,8 @@ import {
 
 // Define route mappings for breadcrumbs
 const routeMappings: Record<string, { label: string; parent?: string }> = {
-  "/insights/metrics": { label: "Metrics" },
-  "/insights/goals": { label: "Goals" },
+  "/metrics": { label: "Metrics" },
+  "/goals": { label: "Goals" },
   "/documentation": { label: "Documentation" },
   "/settings": { label: "Settings" },
 };

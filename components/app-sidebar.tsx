@@ -12,6 +12,7 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
+  Target,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -52,20 +53,14 @@ const data = {
   ],
   navMain: [
     {
-      title: "Insights",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "Metrics",
-          url: "/insights/metrics",
-        },
-        {
-          title: "Goals",
-          url: "/insights/goals",
-        },
-      ],
+      title: "Metrics",
+      url: "/metrics",
+      icon: PieChart,
+    },
+    {
+      title: "Goals",
+      url: "/goals",
+      icon: Target,
     },
     {
       title: "Documentation",
