@@ -13,6 +13,7 @@ import {
   Settings2,
   SquareTerminal,
   Target,
+  Telescope,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -53,14 +54,19 @@ const data = {
   ],
   navMain: [
     {
-      title: "Metrics",
-      url: "/metrics",
-      icon: PieChart,
-    },
-    {
-      title: "Goals",
-      url: "/goals",
-      icon: Target,
+      title: "Insights",
+      url: "/insights",
+      icon: Telescope,
+      items: [
+        {
+          title: "Metrics",
+          url: "/metrics",
+        },
+        {
+          title: "Goals",
+          url: "/goals",
+        },
+      ],
     },
     {
       title: "Documentation",
