@@ -124,8 +124,8 @@ export function GenericChart({
             {chartType === "area" && <defs>{renderAreaGradients()}</defs>}
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
-              dataKey={dataKeyX}
-              tickFormatter={(value) => value} // Keep basic formatter, specific ones handled in dashboard
+              dataKey="tooltipLabel"
+              tickFormatter={(value) => value}
               interval={xAxisInterval}
               tickLine={false}
               axisLine={{ stroke: "hsl(var(--border))" }}

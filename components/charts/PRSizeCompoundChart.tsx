@@ -198,7 +198,7 @@ export function PRSizeCompoundChart() {
         data={filteredData}
         metrics={selectedChartMetrics}
         config={currentChartConfig}
-        dataKeyX="week"
+        dataKeyX="tooltipLabel"
       />
     </DashboardLayout>
   );

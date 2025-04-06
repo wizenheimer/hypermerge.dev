@@ -13,6 +13,8 @@ import {
   LineChart,
   Link,
   MoreHorizontal,
+  RefreshCcw,
+  Send,
   Settings2,
   Star,
   Trash,
@@ -38,12 +40,20 @@ import {
 const data = [
   [
     {
-      label: "Customize Page",
+      label: "Customize View",
       icon: Settings2,
     },
     {
-      label: "Turn into wiki",
+      label: "Duplicate View",
+      icon: Copy,
+    },
+    {
+      label: "Prepare Report",
       icon: FileText,
+    },
+    {
+      label: "Share Report",
+      icon: Send,
     },
   ],
   [
@@ -51,39 +61,10 @@ const data = [
       label: "Copy Link",
       icon: Link,
     },
+
     {
-      label: "Duplicate",
-      icon: Copy,
-    },
-    {
-      label: "Move to",
-      icon: CornerUpRight,
-    },
-    {
-      label: "Move to Trash",
+      label: "Remove View",
       icon: Trash2,
-    },
-  ],
-  [
-    {
-      label: "Undo",
-      icon: CornerUpLeft,
-    },
-    {
-      label: "View analytics",
-      icon: LineChart,
-    },
-    {
-      label: "Version History",
-      icon: GalleryVerticalEnd,
-    },
-    {
-      label: "Show delete pages",
-      icon: Trash,
-    },
-    {
-      label: "Notifications",
-      icon: Bell,
     },
   ],
   [
@@ -108,10 +89,10 @@ export function NavActions() {
   return (
     <div className="flex items-center gap-2 text-sm">
       <div className="hidden font-medium text-muted-foreground md:inline-block">
-        Edit Oct 08
+        Sync: 08 Oct
       </div>
       <Button variant="ghost" size="icon" className="h-7 w-7">
-        <Star />
+        <RefreshCcw />
       </Button>
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>

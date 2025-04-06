@@ -201,7 +201,7 @@ export function PRPickupCompoundChart() {
         data={filteredData}
         metrics={selectedChartMetrics}
         config={currentChartConfig}
-        dataKeyX="week"
+        dataKeyX="tooltipLabel"
       />
     </DashboardLayout>
   );
