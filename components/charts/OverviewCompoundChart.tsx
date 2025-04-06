@@ -46,12 +46,7 @@ function MetricCard({
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value);
+    return `${value.toFixed(1)} hrs`;
   };
 
   return (
@@ -123,60 +118,62 @@ export function OverviewCompoundChart() {
   // Simulated data for different time periods
   const getMetricsForTimeRange = (range: string) => {
     // Base metrics
-    const baseMetrics =
-      {
-        "15days": {
-          codingTime: 2.1,
-          pickupTime: 1.1,
-          reviewTime: 10.5,
-          mergeTime: 1.3,
-        },
-        "1month": {
-          codingTime: 2.4,
-          pickupTime: 1.3,
-          reviewTime: 11.8,
-          mergeTime: 1.5,
-        },
-        "3month": {
-          codingTime: 2.8,
-          pickupTime: 1.5,
-          reviewTime: 12.2,
-          mergeTime: 1.7,
-        },
-      }[range] || baseMetrics["1month"];
+    const baseMetrics: Record<string, Record<string, number>> = {
+      "15days": {
+        codingTime: 2.1,
+        pickupTime: 1.1,
+        reviewTime: 10.5,
+        mergeTime: 1.3,
+      },
+      "1month": {
+        codingTime: 2.4,
+        pickupTime: 1.3,
+        reviewTime: 11.8,
+        mergeTime: 1.5,
+      },
+      "3month": {
+        codingTime: 2.8,
+        pickupTime: 1.5,
+        reviewTime: 12.2,
+        mergeTime: 1.7,
+      },
+    };
 
     return [
       {
         title: "Coding Time",
-        value: baseMetrics.codingTime,
+        value:
+          baseMetrics[range]?.codingTime || baseMetrics["1month"].codingTime,
         change: 5.97,
         progress: 60.29,
-        totalValue: 250000,
-        currentValue: 150736,
+        totalValue: 8, // Max hours
+        currentValue: 4.8, // Current hours
       },
       {
         title: "Pickup Time",
-        value: baseMetrics.pickupTime,
+        value:
+          baseMetrics[range]?.pickupTime || baseMetrics["1month"].pickupTime,
         change: -0.97,
         progress: 24.69,
-        totalValue: 250000,
-        currentValue: 61736,
+        totalValue: 4, // Max hours
+        currentValue: 1, // Current hours
       },
       {
         title: "Review Time",
-        value: baseMetrics.reviewTime,
+        value:
+          baseMetrics[range]?.reviewTime || baseMetrics["1month"].reviewTime,
         change: 0.02,
         progress: 44.69,
-        totalValue: 250000,
-        currentValue: 61736,
+        totalValue: 24, // Max hours
+        currentValue: 10.7, // Current hours
       },
       {
         title: "Merge Time",
-        value: baseMetrics.mergeTime,
+        value: baseMetrics[range]?.mergeTime || baseMetrics["1month"].mergeTime,
         change: 0.02,
         progress: 44.69,
-        totalValue: 250000,
-        currentValue: 61736,
+        totalValue: 4, // Max hours
+        currentValue: 1.8, // Current hours
       },
     ];
   };

@@ -104,6 +104,7 @@ export function GenericChart({
             stopOpacity={0.8}
             data-oid="rds23cz"
           />
+
           <stop
             offset="95%"
             stopColor={color}
@@ -146,7 +147,7 @@ export function GenericChart({
             )}
             <CartesianGrid strokeDasharray="3 3" data-oid="i2zm_6." />
             <XAxis
-              dataKey="tooltipLabel"
+              dataKey="week"
               tickFormatter={(value) => value}
               interval={xAxisInterval}
               tickLine={false}
@@ -160,11 +161,16 @@ export function GenericChart({
             <Tooltip
               content={<ChartTooltipContent data-oid="wn54hq4" />}
               data-oid="5__6d71"
+              labelFormatter={(value) =>
+                data.find((d) => d.week === value)?.tooltipLabel || value
+              }
             />
+
             <Legend
               content={<ChartLegendContent data-oid="4:1e8fj" />}
               data-oid="i-b.vsk"
             />
+
             {chartType === "area" ? renderAreas() : renderBars()}
           </ChartComponent>
         </ResponsiveContainer>
