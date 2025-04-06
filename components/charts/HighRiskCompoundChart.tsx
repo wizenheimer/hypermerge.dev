@@ -1,22 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
+// import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
 
-import Menu from "./Menu";
-import { DashboardLayout } from "./DashboardLayout";
-import { MetricCardGrid, MetricCardData } from "./MetricCardGrid";
-import { GenericChart } from "./GenericChart";
+import Menu from "@/components/menu";
+import { DashboardLayout } from "@/components/dashboard-layout";
+import { MetricCardGrid, MetricCardData } from "@/components/menu-card-grid";
+import { GenericChart } from "@/components/generic-chart";
 import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
+import { generateHighRiskGoalsData } from "@/data/dataGenerators";
 
-interface PRReviewTimeGoalDataEntry {
+interface HighRiskGoalDataEntry {
   date: Date;
   week: string;
   tooltipLabel: string;
-  reviewCompletionTime: number;
-  staleReviewRate: number;
-  iterationCount: number;
-  firstPassRate: number;
+  highRiskRate: number;
+  criticalPathChanges: number;
+  securityImpact: number;
+  multiServiceChanges: number;
   [key: string]: any;
 }
 
@@ -28,25 +29,25 @@ interface MetricConfig {
 
 const chartConfigs: { metrics: { [key: string]: MetricConfig } } = {
   metrics: {
-    reviewCompletionTime: {
-      label: "Review Completion Time",
-      target: 24,
-      description: "Average hours to complete full review cycle",
+    highRiskRate: {
+      label: "High Risk PR Rate",
+      target: 10,
+      description: "Percentage of PRs classified as high risk",
     },
-    staleReviewRate: {
-      label: "Stale Review Rate",
+    criticalPathChanges: {
+      label: "Critical Path Changes",
       target: 5,
-      description: "Percentage of reviews not completed within 24 hours",
+      description: "Percentage of PRs modifying critical system paths",
     },
-    iterationCount: {
-      label: "Review Iterations",
-      target: 2,
-      description: "Average number of review cycles before approval",
+    securityImpact: {
+      label: "Security Impact",
+      target: 3,
+      description: "Percentage of PRs with security implications",
     },
-    firstPassRate: {
-      label: "First-Pass Success",
-      target: 70,
-      description: "Percentage of PRs approved on first review",
+    multiServiceChanges: {
+      label: "Multi-Service Changes",
+      target: 15,
+      description: "Percentage of PRs affecting multiple services",
     },
   },
 };
@@ -65,62 +66,15 @@ const timeRangeLabels: Record<TimeRange, string> = {
   "1year": "1 Year",
 };
 
-// Mock data generator with realistic PR review time metrics
-const generatePRReviewTimeGoalsData = (): PRReviewTimeGoalDataEntry[] => {
-  const today = new Date();
-  const data = [];
-  for (let i = 51; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i * 7);
-    const weekNumber = Math.floor(1 + i);
-    const weekKey = `W${String(weekNumber).padStart(2, "0")}`;
-    const tooltipLabel = `Week ${weekNumber}, ${date.getFullYear()}`;
-
-    // Progress factor that improves metrics over time
-    const progress = (52 - i) / 52; // 0 to 1
-    const randomVariation = () => (Math.random() - 0.5) * 10; // ±5 variation
-
-    // Start with challenging metrics that improve over time
-    data.push({
-      date,
-      week: weekKey,
-      tooltipLabel,
-      // Review completion time should decrease (target: 24 hours)
-      reviewCompletionTime: Math.max(
-        12,
-        Math.min(48, 36 - progress * 12 + randomVariation() * 0.5)
-      ),
-      // Stale review rate should decrease (target: 5%)
-      staleReviewRate: Math.max(
-        2,
-        Math.min(20, 15 - progress * 10 + randomVariation() * 0.5)
-      ),
-      // Average iterations should decrease (target: 2)
-      iterationCount: Math.max(
-        1,
-        Math.min(4, 3 - progress * 1 + randomVariation() * 0.1)
-      ),
-      // First-pass success rate should increase (target: 70%)
-      firstPassRate: Math.min(
-        90,
-        Math.max(40, 50 + progress * 20 + randomVariation())
-      ),
-    });
-  }
-  return data;
-};
-
-export function PRReviewTimeGoalsDashboard() {
-  const [goalsData, setGoalsData] = React.useState<PRReviewTimeGoalDataEntry[]>(
-    []
-  );
+export function HighRiskCompoundChart() {
+  const [goalsData, setGoalsData] = React.useState<HighRiskGoalDataEntry[]>([]);
 
   React.useEffect(() => {
-    setGoalsData(generatePRReviewTimeGoalsData());
+    setGoalsData(generateHighRiskGoalsData());
   }, []);
 
   const { timeRange, setTimeRange, filteredData } =
-    useDashboardState<PRReviewTimeGoalDataEntry>({
+    useDashboardState<HighRiskGoalDataEntry>({
       data: goalsData,
     });
 
@@ -154,32 +108,14 @@ export function PRReviewTimeGoalsDashboard() {
     const target = currentCardConfig[key].target;
     if (!target) return "neutral";
 
-    // For metrics where lower is better (reviewCompletionTime, staleReviewRate, iterationCount)
-    if (
-      key === "reviewCompletionTime" ||
-      key === "staleReviewRate" ||
-      key === "iterationCount"
-    ) {
-      if (value <= target) return "positive";
-      if (value <= target * 1.5) return "neutral";
-      return "negative";
-    }
-
-    // For metrics where higher is better (firstPassRate)
-    if (value >= target) return "positive";
-    if (value >= target * 0.9) return "neutral";
+    // All metrics should be lower for better results
+    if (value <= target) return "positive";
+    if (value <= target * 1.5) return "neutral";
     return "negative";
   };
 
   const formatValue = (key: string, value: number): string => {
-    switch (key) {
-      case "reviewCompletionTime":
-        return `${value.toFixed(1)}h`;
-      case "iterationCount":
-        return value.toFixed(1);
-      default:
-        return `${value.toFixed(1)}%`;
-    }
+    return `${value.toFixed(1)}%`;
   };
 
   const metricCards: MetricCardData[] = React.useMemo(
@@ -211,7 +147,7 @@ export function PRReviewTimeGoalsDashboard() {
   };
 
   if (goalsData.length === 0) {
-    return <div>Loading PR review time goals data...</div>;
+    return <div>Loading high risk PR goals data...</div>;
   }
 
   const menuContent = (
@@ -233,8 +169,8 @@ export function PRReviewTimeGoalsDashboard() {
 
   return (
     <DashboardLayout
-      title="PR Review Time Goals"
-      description="Track and improve pull request review completion time"
+      title="High Risk PR Goals"
+      description="Track and reduce high risk pull requests"
       menuContent={menuContent}
     >
       <MetricCardGrid

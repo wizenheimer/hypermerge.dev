@@ -1,18 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
+// import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
 import { subDays, subMonths } from "date-fns";
 
-import Menu from "./Menu";
-import { DashboardLayout } from "./DashboardLayout";
-import { MetricCardGrid, MetricCardData } from "./MetricCardGrid";
-import { GenericChart } from "./GenericChart";
+import Menu from "@/components/menu";
+import { DashboardLayout } from "@/components/dashboard-layout";
+import { MetricCardGrid, MetricCardData } from "@/components/menu-card-grid";
+import { GenericChart } from "@/components/generic-chart";
 import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
 import {
   generateDeploymentCountData,
   generateDeploymentFocusData,
-} from "./dataGenerators";
+} from "@/data/dataGenerators";
 import { getColorFromPalette } from "@/lib/colors";
 
 // TODO: Define specific types for Deployment data instead of any[] based on dataGenerators.ts
@@ -85,7 +85,7 @@ const timeRangeLabels: Record<TimeRange, string> = {
 };
 
 // --- Component ---
-export function DeploymentMetricsDashboard() {
+export function DeploymentMetricsCompoundChart() {
   const [viewType, setViewType] = React.useState<ViewType>("count");
 
   // Original Data State

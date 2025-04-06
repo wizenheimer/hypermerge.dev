@@ -1,25 +1,25 @@
 "use client";
 
 import * as React from "react";
-import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
+// import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import Menu from "./Menu";
+// import {
+//   Command,
+//   CommandEmpty,
+//   CommandGroup,
+//   CommandInput,
+//   CommandItem,
+// } from "@/components/ui/command";
+import Menu from "@/components/menu";
 import {
   generatePRTypeData,
   generatePRStatusData,
   generatePRSizeData,
   generatePRLOCData,
-} from "./dataGenerators";
-import { DashboardLayout } from "./DashboardLayout";
-import { MetricCardGrid, MetricCardData } from "./MetricCardGrid";
-import { GenericChart } from "./GenericChart";
+} from "@/data/dataGenerators";
+import { DashboardLayout } from "@/components/dashboard-layout";
+import { MetricCardGrid, MetricCardData } from "@/components/menu-card-grid";
+import { GenericChart } from "@/components/generic-chart";
 import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
 
 // TODO: Define specific types for PR data instead of any[] based on dataGenerators.ts
@@ -102,7 +102,7 @@ const timeRangeLabels: Record<TimeRange, string> = {
 };
 
 // --- Component ---
-export function PRMetricsDashboard() {
+export function PRMetricsCompoundChart() {
   const [viewType, setViewType] = React.useState<ViewType>("distribution");
 
   // Original Data State

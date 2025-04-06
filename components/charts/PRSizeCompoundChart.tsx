@@ -1,22 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
+// import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
 
-import Menu from "./Menu";
-import { DashboardLayout } from "./DashboardLayout";
-import { MetricCardGrid, MetricCardData } from "./MetricCardGrid";
-import { GenericChart } from "./GenericChart";
+import Menu from "@/components/menu";
+import { DashboardLayout } from "@/components/dashboard-layout";
+import { MetricCardGrid, MetricCardData } from "@/components/menu-card-grid";
+import { GenericChart } from "@/components/generic-chart";
 import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
+import { generatePRSizeGoalsData } from "@/data/dataGenerators";
 
-interface PRReviewGoalDataEntry {
+interface PRSizeGoalDataEntry {
   date: Date;
   week: string;
   tooltipLabel: string;
-  reviewCoverage: number;
-  reviewerCount: number;
-  timeToFirstReview: number;
-  approvalRate: number;
+  smallPRPercentage: number;
+  avgPRSize: number;
+  reviewTime: number;
+  mergeSuccess: number;
   [key: string]: any;
 }
 
@@ -28,25 +29,25 @@ interface MetricConfig {
 
 const chartConfigs: { metrics: { [key: string]: MetricConfig } } = {
   metrics: {
-    reviewCoverage: {
-      label: "Review Coverage",
-      target: 100,
-      description: "Percentage of PRs that received at least one review",
+    smallPRPercentage: {
+      label: "Small PRs (<200 LOC)",
+      target: 80,
+      description: "Percentage of PRs under 200 lines of code",
     },
-    reviewerCount: {
-      label: "Reviewers per PR",
-      target: 2,
-      description: "Average number of reviewers per pull request",
+    avgPRSize: {
+      label: "Average PR Size",
+      target: 150,
+      description: "Average lines of code per PR",
     },
-    timeToFirstReview: {
-      label: "Time to First Review",
-      target: 4,
-      description: "Average hours until first review comment",
+    reviewTime: {
+      label: "Review Time",
+      target: 24,
+      description: "Average hours to complete review",
     },
-    approvalRate: {
-      label: "Approval Rate",
-      target: 90,
-      description: "Percentage of PRs approved on first review",
+    mergeSuccess: {
+      label: "Merge Success Rate",
+      target: 95,
+      description: "Percentage of PRs merged without conflicts",
     },
   },
 };
@@ -65,60 +66,15 @@ const timeRangeLabels: Record<TimeRange, string> = {
   "1year": "1 Year",
 };
 
-// Mock data generator with realistic PR review metrics
-const generatePRReviewGoalsData = (): PRReviewGoalDataEntry[] => {
-  const today = new Date();
-  const data = [];
-  for (let i = 51; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i * 7);
-    const weekNumber = Math.floor(1 + i);
-    const weekKey = `W${String(weekNumber).padStart(2, "0")}`;
-    const tooltipLabel = `Week ${weekNumber}, ${date.getFullYear()}`;
-
-    // Progress factor that improves metrics over time
-    const progress = (52 - i) / 52; // 0 to 1
-    const randomVariation = () => (Math.random() - 0.5) * 10; // ±5 variation
-
-    // Start with challenging metrics that improve over time
-    data.push({
-      date,
-      week: weekKey,
-      tooltipLabel,
-      // Review coverage should be very high (target: 100%)
-      reviewCoverage: Math.min(
-        100,
-        Math.max(80, 90 + progress * 10 + randomVariation())
-      ),
-      // Average reviewers per PR should increase (target: 2)
-      reviewerCount: Math.min(
-        3,
-        Math.max(1, 1.5 + progress * 0.5 + randomVariation() * 0.1)
-      ),
-      // Time to first review should decrease (target: 4 hours)
-      timeToFirstReview: Math.max(
-        2,
-        Math.min(12, 8 - progress * 4 + randomVariation() * 0.5)
-      ),
-      // Approval rate should increase (target: 90%)
-      approvalRate: Math.min(
-        100,
-        Math.max(70, 75 + progress * 15 + randomVariation())
-      ),
-    });
-  }
-  return data;
-};
-
-export function PRReviewGoalsDashboard() {
-  const [goalsData, setGoalsData] = React.useState<PRReviewGoalDataEntry[]>([]);
+export function PRSizeCompoundChart() {
+  const [goalsData, setGoalsData] = React.useState<PRSizeGoalDataEntry[]>([]);
 
   React.useEffect(() => {
-    setGoalsData(generatePRReviewGoalsData());
+    setGoalsData(generatePRSizeGoalsData());
   }, []);
 
   const { timeRange, setTimeRange, filteredData } =
-    useDashboardState<PRReviewGoalDataEntry>({
+    useDashboardState<PRSizeGoalDataEntry>({
       data: goalsData,
     });
 
@@ -152,14 +108,14 @@ export function PRReviewGoalsDashboard() {
     const target = currentCardConfig[key].target;
     if (!target) return "neutral";
 
-    // For metrics where lower is better (timeToFirstReview)
-    if (key === "timeToFirstReview") {
+    // For metrics where lower is better (avgPRSize and reviewTime)
+    if (key === "avgPRSize" || key === "reviewTime") {
       if (value <= target) return "positive";
-      if (value <= target * 1.5) return "neutral";
+      if (value <= target * 1.1) return "neutral";
       return "negative";
     }
 
-    // For metrics where higher is better (all others)
+    // For metrics where higher is better (smallPRPercentage and mergeSuccess)
     if (value >= target) return "positive";
     if (value >= target * 0.9) return "neutral";
     return "negative";
@@ -167,9 +123,9 @@ export function PRReviewGoalsDashboard() {
 
   const formatValue = (key: string, value: number): string => {
     switch (key) {
-      case "reviewerCount":
-        return value.toFixed(1);
-      case "timeToFirstReview":
+      case "avgPRSize":
+        return `${Math.round(value)} LOC`;
+      case "reviewTime":
         return `${value.toFixed(1)}h`;
       default:
         return `${value.toFixed(1)}%`;
@@ -205,7 +161,7 @@ export function PRReviewGoalsDashboard() {
   };
 
   if (goalsData.length === 0) {
-    return <div>Loading PR review goals data...</div>;
+    return <div>Loading PR size goals data...</div>;
   }
 
   const menuContent = (
@@ -227,8 +183,8 @@ export function PRReviewGoalsDashboard() {
 
   return (
     <DashboardLayout
-      title="PR Review Goals"
-      description="Track and improve pull request review process"
+      title="PR Size Goals"
+      description="Track and improve pull request size metrics"
       menuContent={menuContent}
     >
       <MetricCardGrid

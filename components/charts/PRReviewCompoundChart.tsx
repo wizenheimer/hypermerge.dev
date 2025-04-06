@@ -1,22 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
+// import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
 
-import Menu from "./Menu";
-import { DashboardLayout } from "./DashboardLayout";
-import { MetricCardGrid, MetricCardData } from "./MetricCardGrid";
-import { GenericChart } from "./GenericChart";
+import Menu from "@/components/menu";
+import { DashboardLayout } from "@/components/dashboard-layout";
+import { MetricCardGrid, MetricCardData } from "@/components/menu-card-grid";
+import { GenericChart } from "@/components/generic-chart";
 import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
+import { generatePRReviewGoalsData } from "@/data/dataGenerators";
 
-interface PRMergeTimeGoalDataEntry {
+interface PRReviewGoalDataEntry {
   date: Date;
   week: string;
   tooltipLabel: string;
-  mergeTime: number;
-  staleMergeRate: number;
-  mergeSuccessRate: number;
-  conflictRate: number;
+  reviewCoverage: number;
+  reviewerCount: number;
+  timeToFirstReview: number;
+  approvalRate: number;
   [key: string]: any;
 }
 
@@ -28,25 +29,25 @@ interface MetricConfig {
 
 const chartConfigs: { metrics: { [key: string]: MetricConfig } } = {
   metrics: {
-    mergeTime: {
-      label: "Merge Time",
-      target: 48,
-      description: "Average hours from PR creation to merge",
+    reviewCoverage: {
+      label: "Review Coverage",
+      target: 100,
+      description: "Percentage of PRs that received at least one review",
     },
-    staleMergeRate: {
-      label: "Stale Merge Rate",
-      target: 5,
-      description: "Percentage of PRs not merged within 48 hours",
+    reviewerCount: {
+      label: "Reviewers per PR",
+      target: 2,
+      description: "Average number of reviewers per pull request",
     },
-    mergeSuccessRate: {
-      label: "Merge Success Rate",
-      target: 95,
-      description: "Percentage of approved PRs successfully merged",
+    timeToFirstReview: {
+      label: "Time to First Review",
+      target: 4,
+      description: "Average hours until first review comment",
     },
-    conflictRate: {
-      label: "Conflict Rate",
-      target: 10,
-      description: "Percentage of PRs requiring conflict resolution",
+    approvalRate: {
+      label: "Approval Rate",
+      target: 90,
+      description: "Percentage of PRs approved on first review",
     },
   },
 };
@@ -65,62 +66,15 @@ const timeRangeLabels: Record<TimeRange, string> = {
   "1year": "1 Year",
 };
 
-// Mock data generator with realistic PR merge time metrics
-const generatePRMergeTimeGoalsData = (): PRMergeTimeGoalDataEntry[] => {
-  const today = new Date();
-  const data = [];
-  for (let i = 51; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i * 7);
-    const weekNumber = Math.floor(1 + i);
-    const weekKey = `W${String(weekNumber).padStart(2, "0")}`;
-    const tooltipLabel = `Week ${weekNumber}, ${date.getFullYear()}`;
-
-    // Progress factor that improves metrics over time
-    const progress = (52 - i) / 52; // 0 to 1
-    const randomVariation = () => (Math.random() - 0.5) * 10; // ±5 variation
-
-    // Start with challenging metrics that improve over time
-    data.push({
-      date,
-      week: weekKey,
-      tooltipLabel,
-      // Merge time should decrease (target: 48 hours)
-      mergeTime: Math.max(
-        24,
-        Math.min(72, 60 - progress * 24 + randomVariation())
-      ),
-      // Stale merge rate should decrease (target: 5%)
-      staleMergeRate: Math.max(
-        2,
-        Math.min(20, 15 - progress * 10 + randomVariation() * 0.5)
-      ),
-      // Merge success rate should increase (target: 95%)
-      mergeSuccessRate: Math.min(
-        100,
-        Math.max(80, 85 + progress * 10 + randomVariation())
-      ),
-      // Conflict rate should decrease (target: 10%)
-      conflictRate: Math.max(
-        5,
-        Math.min(25, 20 - progress * 10 + randomVariation() * 0.5)
-      ),
-    });
-  }
-  return data;
-};
-
-export function PRMergeTimeGoalsDashboard() {
-  const [goalsData, setGoalsData] = React.useState<PRMergeTimeGoalDataEntry[]>(
-    []
-  );
+export function PRReviewCompoundChart() {
+  const [goalsData, setGoalsData] = React.useState<PRReviewGoalDataEntry[]>([]);
 
   React.useEffect(() => {
-    setGoalsData(generatePRMergeTimeGoalsData());
+    setGoalsData(generatePRReviewGoalsData());
   }, []);
 
   const { timeRange, setTimeRange, filteredData } =
-    useDashboardState<PRMergeTimeGoalDataEntry>({
+    useDashboardState<PRReviewGoalDataEntry>({
       data: goalsData,
     });
 
@@ -154,18 +108,14 @@ export function PRMergeTimeGoalsDashboard() {
     const target = currentCardConfig[key].target;
     if (!target) return "neutral";
 
-    // For metrics where lower is better (mergeTime, staleMergeRate, conflictRate)
-    if (
-      key === "mergeTime" ||
-      key === "staleMergeRate" ||
-      key === "conflictRate"
-    ) {
+    // For metrics where lower is better (timeToFirstReview)
+    if (key === "timeToFirstReview") {
       if (value <= target) return "positive";
       if (value <= target * 1.5) return "neutral";
       return "negative";
     }
 
-    // For metrics where higher is better (mergeSuccessRate)
+    // For metrics where higher is better (all others)
     if (value >= target) return "positive";
     if (value >= target * 0.9) return "neutral";
     return "negative";
@@ -173,7 +123,9 @@ export function PRMergeTimeGoalsDashboard() {
 
   const formatValue = (key: string, value: number): string => {
     switch (key) {
-      case "mergeTime":
+      case "reviewerCount":
+        return value.toFixed(1);
+      case "timeToFirstReview":
         return `${value.toFixed(1)}h`;
       default:
         return `${value.toFixed(1)}%`;
@@ -209,7 +161,7 @@ export function PRMergeTimeGoalsDashboard() {
   };
 
   if (goalsData.length === 0) {
-    return <div>Loading PR merge time goals data...</div>;
+    return <div>Loading PR review goals data...</div>;
   }
 
   const menuContent = (
@@ -231,8 +183,8 @@ export function PRMergeTimeGoalsDashboard() {
 
   return (
     <DashboardLayout
-      title="PR Merge Time Goals"
-      description="Track and improve pull request merge completion time"
+      title="PR Review Goals"
+      description="Track and improve pull request review process"
       menuContent={menuContent}
     >
       <MetricCardGrid

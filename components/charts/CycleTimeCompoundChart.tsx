@@ -1,14 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { Calendar, Check, LineChart } from "lucide-react";
+// import { Calendar, Check, LineChart } from "lucide-react";
 
 // import { cn } from "@/lib/utils"; // Removed unused import
-import Menu from "./Menu";
-import { DashboardLayout } from "./DashboardLayout";
-import { MetricCardGrid, MetricCardData } from "./MetricCardGrid";
-import { GenericChart } from "./GenericChart";
+import Menu from "@/components/menu";
+import { DashboardLayout } from "@/components/dashboard-layout";
+import { MetricCardGrid, MetricCardData } from "@/components/menu-card-grid";
+import { GenericChart } from "@/components/generic-chart";
 import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
+import { generateCycleTimeData } from "@/data/dataGenerators";
 
 // --- Configuration ---
 interface MetricConfig {
@@ -50,30 +51,30 @@ interface CycleTimeData {
 }
 
 // Mock data generator (keep specific logic here)
-const generateCycleTimeData = (): CycleTimeData[] => {
-  const today = new Date();
-  const data = [];
-  for (let i = 51; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i * 7);
-    const weekNumber = Math.floor(1 + i); // Simple week number
-    const weekKey = `W${String(weekNumber).padStart(2, "0")}`;
-    const tooltipLabel = `Week ${weekNumber}, ${date.getFullYear()}`;
-    data.push({
-      date,
-      week: weekKey,
-      tooltipLabel,
-      codingTime: Math.random() * 5 + 2, // 2-7 hours
-      pickupTime: Math.random() * 8 + 4, // 4-12 hours
-      reviewTime: Math.random() * 10 + 6, // 6-16 hours
-      mergeTime: Math.random() * 2 + 0.1, // 0.1-2.1 hours
-    });
-  }
-  return data;
-};
+// const generateCycleTimeData = (): CycleTimeData[] => {
+//   const today = new Date();
+//   const data = [];
+//   for (let i = 51; i >= 0; i--) {
+//     const date = new Date(today);
+//     date.setDate(today.getDate() - i * 7);
+//     const weekNumber = Math.floor(1 + i); // Simple week number
+//     const weekKey = `W${String(weekNumber).padStart(2, "0")}`;
+//     const tooltipLabel = `Week ${weekNumber}, ${date.getFullYear()}`;
+//     data.push({
+//       date,
+//       week: weekKey,
+//       tooltipLabel,
+//       codingTime: Math.random() * 5 + 2, // 2-7 hours
+//       pickupTime: Math.random() * 8 + 4, // 4-12 hours
+//       reviewTime: Math.random() * 10 + 6, // 6-16 hours
+//       mergeTime: Math.random() * 2 + 0.1, // 0.1-2.1 hours
+//     });
+//   }
+//   return data;
+// };
 
 // --- Component ---
-export function CycleTimeDashboard() {
+export function CycleTimeCompoundChart() {
   // Original Data State
   const [cycleTimeData, setCycleTimeData] = React.useState<CycleTimeData[]>([]);
 

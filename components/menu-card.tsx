@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardDescription } from "@/components/ui/card";
-import ChangeIndicator from "./ChangeIndicator";
+import ChangeIndicator from "./change-indicator";
 
 interface MetricCardProps {
   title: string;

@@ -1,36 +1,54 @@
 "use client";
 
 import * as React from "react";
-import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
+// import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
 
-import Menu from "./Menu";
-import { DashboardLayout } from "./DashboardLayout";
-import { MetricCardGrid, MetricCardData } from "./MetricCardGrid";
-import { GenericChart } from "./GenericChart";
+import Menu from "@/components/menu";
+import { DashboardLayout } from "@/components/dashboard-layout";
+import { MetricCardGrid, MetricCardData } from "@/components/menu-card-grid";
+import { GenericChart } from "@/components/generic-chart";
 import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
+import { generatePRMergeTimeGoalsData } from "@/data/dataGenerators";
 
-interface GoalDataEntry {
+interface PRMergeTimeGoalDataEntry {
   date: Date;
   week: string;
   tooltipLabel: string;
-  productivity: number;
-  quality: number;
-  learning: number;
-  teamwork: number;
+  mergeTime: number;
+  staleMergeRate: number;
+  mergeSuccessRate: number;
+  conflictRate: number;
   [key: string]: any;
 }
 
 interface MetricConfig {
   label: string;
   target?: number;
+  description: string;
 }
 
 const chartConfigs: { metrics: { [key: string]: MetricConfig } } = {
   metrics: {
-    productivity: { label: "Productivity", target: 85 },
-    quality: { label: "Code Quality", target: 90 },
-    learning: { label: "Learning & Growth", target: 80 },
-    teamwork: { label: "Team Collaboration", target: 85 },
+    mergeTime: {
+      label: "Merge Time",
+      target: 48,
+      description: "Average hours from PR creation to merge",
+    },
+    staleMergeRate: {
+      label: "Stale Merge Rate",
+      target: 5,
+      description: "Percentage of PRs not merged within 48 hours",
+    },
+    mergeSuccessRate: {
+      label: "Merge Success Rate",
+      target: 95,
+      description: "Percentage of approved PRs successfully merged",
+    },
+    conflictRate: {
+      label: "Conflict Rate",
+      target: 10,
+      description: "Percentage of PRs requiring conflict resolution",
+    },
   },
 };
 
@@ -48,55 +66,17 @@ const timeRangeLabels: Record<TimeRange, string> = {
   "1year": "1 Year",
 };
 
-// Mock data generator
-const generateGoalsData = (): GoalDataEntry[] => {
-  const today = new Date();
-  const data = [];
-  for (let i = 51; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i * 7);
-    const weekNumber = Math.floor(1 + i);
-    const weekKey = `W${String(weekNumber).padStart(2, "0")}`;
-    const tooltipLabel = `Week ${weekNumber}, ${date.getFullYear()}`;
-
-    // Generate random values that trend towards their targets over time
-    const progress = (52 - i) / 52; // Progress factor (0 to 1)
-    const randomVariation = () => (Math.random() - 0.5) * 20; // ±10 variation
-
-    data.push({
-      date,
-      week: weekKey,
-      tooltipLabel,
-      productivity: Math.min(
-        100,
-        Math.max(50, 70 + progress * 15 + randomVariation())
-      ),
-      quality: Math.min(
-        100,
-        Math.max(50, 75 + progress * 15 + randomVariation())
-      ),
-      learning: Math.min(
-        100,
-        Math.max(50, 65 + progress * 15 + randomVariation())
-      ),
-      teamwork: Math.min(
-        100,
-        Math.max(50, 70 + progress * 15 + randomVariation())
-      ),
-    });
-  }
-  return data;
-};
-
-export function GoalsDashboard() {
-  const [goalsData, setGoalsData] = React.useState<GoalDataEntry[]>([]);
+export function PRMergeTimeCompoundChart() {
+  const [goalsData, setGoalsData] = React.useState<PRMergeTimeGoalDataEntry[]>(
+    []
+  );
 
   React.useEffect(() => {
-    setGoalsData(generateGoalsData());
+    setGoalsData(generatePRMergeTimeGoalsData());
   }, []);
 
   const { timeRange, setTimeRange, filteredData } =
-    useDashboardState<GoalDataEntry>({
+    useDashboardState<PRMergeTimeGoalDataEntry>({
       data: goalsData,
     });
 
@@ -129,9 +109,31 @@ export function GoalsDashboard() {
   ): MetricCardData["changeType"] => {
     const target = currentCardConfig[key].target;
     if (!target) return "neutral";
+
+    // For metrics where lower is better (mergeTime, staleMergeRate, conflictRate)
+    if (
+      key === "mergeTime" ||
+      key === "staleMergeRate" ||
+      key === "conflictRate"
+    ) {
+      if (value <= target) return "positive";
+      if (value <= target * 1.5) return "neutral";
+      return "negative";
+    }
+
+    // For metrics where higher is better (mergeSuccessRate)
     if (value >= target) return "positive";
     if (value >= target * 0.9) return "neutral";
     return "negative";
+  };
+
+  const formatValue = (key: string, value: number): string => {
+    switch (key) {
+      case "mergeTime":
+        return `${value.toFixed(1)}h`;
+      default:
+        return `${value.toFixed(1)}%`;
+    }
   };
 
   const metricCards: MetricCardData[] = React.useMemo(
@@ -144,9 +146,10 @@ export function GoalsDashboard() {
           return {
             key,
             title: config.label,
-            value: `${value.toFixed(1)}%`,
+            value: formatValue(key, value),
             change: Number(change.toFixed(1)),
             changeType: getChangeType(key, value),
+            description: config.description,
           };
         }),
     [selectedCardMetrics, filteredData, currentCardConfig]
@@ -162,7 +165,7 @@ export function GoalsDashboard() {
   };
 
   if (goalsData.length === 0) {
-    return <div>Loading goals data...</div>;
+    return <div>Loading PR merge time goals data...</div>;
   }
 
   const menuContent = (
@@ -184,8 +187,8 @@ export function GoalsDashboard() {
 
   return (
     <DashboardLayout
-      title="Goals Progress"
-      description="Track progress towards personal and team goals"
+      title="PR Merge Time Goals"
+      description="Track and improve pull request merge completion time"
       menuContent={menuContent}
     >
       <MetricCardGrid

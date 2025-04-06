@@ -1,5 +1,5 @@
 import * as React from "react";
-import MetricCard from "./MetricCard";
+import MetricCard from "./menu-card";
 import { cn } from "@/lib/utils";
 
 export interface MetricCardData {

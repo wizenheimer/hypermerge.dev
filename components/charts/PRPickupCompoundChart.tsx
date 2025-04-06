@@ -1,13 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
+// import { BarChart3, Calendar, Check, LineChart } from "lucide-react";
 
-import Menu from "./Menu";
-import { DashboardLayout } from "./DashboardLayout";
-import { MetricCardGrid, MetricCardData } from "./MetricCardGrid";
-import { GenericChart } from "./GenericChart";
+import Menu from "@/components/menu";
+import { DashboardLayout } from "@/components/dashboard-layout";
+import { MetricCardGrid, MetricCardData } from "@/components/menu-card-grid";
+import { GenericChart } from "@/components/generic-chart";
 import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
+import { generatePRPickupGoalsData } from "@/data/dataGenerators";
 
 interface PRPickupGoalDataEntry {
   date: Date;
@@ -65,52 +66,7 @@ const timeRangeLabels: Record<TimeRange, string> = {
   "1year": "1 Year",
 };
 
-// Mock data generator with realistic PR pickup metrics
-const generatePRPickupGoalsData = (): PRPickupGoalDataEntry[] => {
-  const today = new Date();
-  const data = [];
-  for (let i = 51; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i * 7);
-    const weekNumber = Math.floor(1 + i);
-    const weekKey = `W${String(weekNumber).padStart(2, "0")}`;
-    const tooltipLabel = `Week ${weekNumber}, ${date.getFullYear()}`;
-
-    // Progress factor that improves metrics over time
-    const progress = (52 - i) / 52; // 0 to 1
-    const randomVariation = () => (Math.random() - 0.5) * 10; // ±5 variation
-
-    // Start with challenging metrics that improve over time
-    data.push({
-      date,
-      week: weekKey,
-      tooltipLabel,
-      // Average pickup time should decrease (target: 12 hours)
-      pickupTime: Math.max(
-        4,
-        Math.min(24, 18 - progress * 6 + randomVariation() * 0.5)
-      ),
-      // Stale PR rate should decrease (target: 5%)
-      staleRate: Math.max(
-        2,
-        Math.min(20, 15 - progress * 10 + randomVariation() * 0.5)
-      ),
-      // Assignee pickup rate should increase (target: 90%)
-      assigneePickupRate: Math.min(
-        100,
-        Math.max(70, 75 + progress * 15 + randomVariation())
-      ),
-      // Team response time should decrease (target: 4 hours)
-      teamResponseTime: Math.max(
-        2,
-        Math.min(12, 8 - progress * 4 + randomVariation() * 0.3)
-      ),
-    });
-  }
-  return data;
-};
-
-export function PRPickupGoalsDashboard() {
+export function PRPickupCompoundChart() {
   const [goalsData, setGoalsData] = React.useState<PRPickupGoalDataEntry[]>([]);
 
   React.useEffect(() => {
