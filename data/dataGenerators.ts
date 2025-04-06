@@ -89,6 +89,21 @@ interface PRMergeTimeGoalDataEntry {
   [key: string]: any;
 }
 
+export interface OverviewData {
+  date: Date;
+  week: string;
+  tooltipLabel: string;
+  codingTime: number;
+  pickupTime: number;
+  reviewTime: number;
+  mergeTime: number;
+  codingProgress: number;
+  pickupProgress: number;
+  reviewProgress: number;
+  mergeProgress: number;
+  [key: string]: any;
+}
+
 // --- Existing Generators ---
 export const generatePRTypeData = () => {
   const today = new Date();
@@ -493,6 +508,49 @@ export const generatePRMergeTimeGoalsData = (): PRMergeTimeGoalDataEntry[] => {
       mergeSuccessRate: Math.min(100, Math.max(80, 85 + progress * 10 + randomVariation())),
       // Conflict rate should decrease (target: 10%)
       conflictRate: Math.max(2, Math.min(25, 20 - progress * 10 + randomVariation() * 0.5)),
+    });
+  }
+  return data;
+};
+
+export const generateOverviewData = (): OverviewData[] => {
+  const today = new Date();
+  const data = [];
+  for (let i = 51; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(today.getDate() - i * 7);
+    const weekNumber = Math.floor(1 + i);
+    const weekKey = `W${String(weekNumber).padStart(2, "0")}`;
+    const tooltipLabel = `Week ${weekNumber}, ${date.getFullYear()}`;
+
+    // Progress factor that improves metrics over time
+    const progress = (52 - i) / 52; // 0 to 1
+    const randomVariation = () => (Math.random() - 0.5) * 0.5; // Small random variation
+
+    // Generate base metrics
+    const codingTime = Math.max(1, Math.min(4, 2.4 + randomVariation()));
+    const pickupTime = Math.max(0.5, Math.min(2, 1.3 + randomVariation()));
+    const reviewTime = Math.max(8, Math.min(14, 11.8 + randomVariation()));
+    const mergeTime = Math.max(1, Math.min(2, 1.5 + randomVariation()));
+
+    // Calculate progress percentages (60% baseline + improvement over time)
+    const codingProgress = Math.min(100, Math.max(0, 60 + progress * 40 + randomVariation() * 10));
+    const pickupProgress = Math.min(100, Math.max(0, 60 + progress * 40 + randomVariation() * 10));
+    const reviewProgress = Math.min(100, Math.max(0, 60 + progress * 40 + randomVariation() * 10));
+    const mergeProgress = Math.min(100, Math.max(0, 60 + progress * 40 + randomVariation() * 10));
+
+    data.push({
+      date,
+      week: weekKey,
+      tooltipLabel,
+      codingTime,
+      pickupTime,
+      reviewTime,
+      mergeTime,
+      codingProgress,
+      pickupProgress,
+      reviewProgress,
+      mergeProgress,
     });
   }
   return data;
