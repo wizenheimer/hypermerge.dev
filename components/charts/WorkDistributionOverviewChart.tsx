@@ -93,46 +93,61 @@ function MetricCard({
   } satisfies ChartConfig;
 
   return (
-    <Card className="flex flex-col" data-oid="4gt5zpm">
-      <CardHeader className="items-center space-y-0 pb-0" data-oid="8g2_zlf">
-        <CardTitle className="text-sm font-medium" data-oid="gblrynf">
-          {title}
-        </CardTitle>
-        <CardDescription className="text-xs" data-oid="_h01qi6">
+    <Card className="flex flex-col" data-oid=".zp4:qo">
+      <CardHeader className="items-center space-y-0 pb-0" data-oid=":ps0.pq">
+        <div className="flex items-center gap-2" data-oid="6rwtc:g">
+          <CardTitle className="text-sm font-medium" data-oid="5tot..1">
+            {title}
+          </CardTitle>
+          <div
+            className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
+              change > 0
+                ? "bg-green-50 text-green-500"
+                : change < 0
+                  ? "bg-red-50 text-red-500"
+                  : "bg-orange-50 text-orange-500"
+            }`}
+            data-oid="3_3mees"
+          >
+            {getChangeIcon()}
+            {Math.abs(change).toFixed(1)}%
+          </div>
+        </div>
+        <CardDescription className="text-xs" data-oid="vmku6u9">
           Pull Requests focussed on {title.toLowerCase()}
         </CardDescription>
       </CardHeader>
       <CardContent
-        className="flex flex-1 items-center justify-center p-0"
-        data-oid="2fpqcqz"
+        className="flex flex-1 flex-col items-center gap-2 pb-2"
+        data-oid="g:31-lt"
       >
         <ChartContainer
           config={metricConfig}
           className="mx-auto aspect-square w-full max-w-[200px]"
-          data-oid="_ultwm5"
+          data-oid="w9df-6:"
         >
           <RadialBarChart
             data={chartData}
             innerRadius={60}
-            outerRadius={100}
+            outerRadius={90}
             startAngle={180}
             endAngle={0}
             margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-            data-oid="2v_1:xt"
+            data-oid="nkg5z:u"
           >
             <ChartTooltip
               content={
-                <ChartTooltipContent indicator="line" data-oid="tu1w.:7" />
+                <ChartTooltipContent indicator="line" data-oid="wdq-o_." />
               }
               cursor={false}
-              data-oid="kipqw0n"
+              data-oid="fi1iism"
             />
 
             <PolarRadiusAxis
               tick={false}
               tickLine={false}
               axisLine={false}
-              data-oid="7c3kw8b"
+              data-oid="p2v79t5"
             >
               <Label
                 content={({ viewBox }) => {
@@ -142,21 +157,21 @@ function MetricCard({
                         x={viewBox.cx}
                         y={viewBox.cy}
                         textAnchor="middle"
-                        data-oid="wzimtbr"
+                        data-oid="d_fq2w6"
                       >
                         <tspan
                           x={viewBox.cx}
-                          y={(viewBox.cy || 0) - 12}
-                          className="fill-foreground text-2xl font-bold"
-                          data-oid="vhp8q5o"
+                          y={(viewBox.cy || 0) - 16}
+                          className="fill-foreground text-3xl font-bold"
+                          data-oid="ytrv872"
                         >
                           {value}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 8}
+                          y={(viewBox.cy || 0) + 12}
                           className="fill-muted-foreground text-xs"
-                          data-oid="b:3pbq6"
+                          data-oid="-pokxfx"
                         >
                           {title}
                         </tspan>
@@ -164,7 +179,7 @@ function MetricCard({
                     );
                   }
                 }}
-                data-oid="ql7fbz."
+                data-oid="j1jb.dt"
               />
             </PolarRadiusAxis>
             <RadialBar
@@ -175,7 +190,7 @@ function MetricCard({
               fill={blueColors[0]}
               className="stroke-transparent stroke-2"
               maxBarSize={25}
-              data-oid="u8h4wkw"
+              data-oid="zn9w2hb"
             />
 
             <RadialBar
@@ -187,32 +202,36 @@ function MetricCard({
               fillOpacity={0.4}
               className="stroke-transparent stroke-2"
               maxBarSize={25}
-              data-oid="8-blbhq"
+              data-oid="_0r9x_7"
             />
           </RadialBarChart>
         </ChartContainer>
-      </CardContent>
-      <CardFooter
-        className="flex items-center justify-between gap-2 pt-2"
-        data-oid="coy4n_b"
-      >
-        <div className="text-xs text-muted-foreground" data-oid="v6w9mkn">
-          {((value / totalValue) * 100).toFixed(1)}% of total PRs
-        </div>
         <div
-          className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
-            change > 0
-              ? "bg-green-50 text-green-500"
-              : change < 0
-                ? "bg-red-50 text-red-500"
-                : "bg-orange-50 text-orange-500"
-          }`}
-          data-oid="b2.ap.r"
+          className="flex items-center justify-center gap-4"
+          data-oid="::k:ol_"
         >
-          {getChangeIcon()}
-          {Math.abs(change).toFixed(1)}%
+          <div className="flex items-center gap-1.5" data-oid=":k-ht_.">
+            <div
+              className="h-2 w-2 rounded-full bg-blue-500"
+              data-oid="r.c.:3q"
+            />
+
+            <span className="text-xs text-muted-foreground" data-oid=".egybxf">
+              Count
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5" data-oid="_qfs_px">
+            <div
+              className="h-2 w-2 rounded-full bg-blue-200"
+              data-oid="dwwg81z"
+            />
+
+            <span className="text-xs text-muted-foreground" data-oid="90::624">
+              Others
+            </span>
+          </div>
         </div>
-      </CardFooter>
+      </CardContent>
     </Card>
   );
 }
@@ -449,7 +468,7 @@ export function WorkDistributionOverviewChart() {
 
       <div className="mt-4 grid gap-4 md:grid-cols-2" data-oid="inx8d3i">
         <Card className="h-full" data-oid="ulvu7xx">
-          <CardHeader className="pb-0" data-oid="j9q1xb6">
+          <CardHeader className="pb-2" data-oid="j9q1xb6">
             <CardTitle data-oid="vxoqmc_">Pull Request Distribution</CardTitle>
             <CardDescription data-oid="l2zn-21">
               Distribution of pull requests by type over{" "}
@@ -458,7 +477,7 @@ export function WorkDistributionOverviewChart() {
                 ?.label.toLowerCase()}
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-0 pt-2" data-oid="jw7rhtw">
+          <CardContent data-oid="jw7rhtw">
             <ChartContainer
               config={chartConfig}
               className="mx-auto aspect-[4/3] w-full"
