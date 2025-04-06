@@ -87,7 +87,7 @@ export function CycleTimeCompoundChart() {
   const { timeRange, setTimeRange, filteredData } =
     useDashboardState<CycleTimeData>({ data: cycleTimeData });
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -142,7 +142,7 @@ export function CycleTimeCompoundChart() {
       getMetricValue, // Added dependency
       getChangePercentage, // Added dependency
       getChangeType, // Added dependency
-    ]
+    ],
   );
 
   // --- Event Handlers ---
@@ -157,7 +157,7 @@ export function CycleTimeCompoundChart() {
 
   // --- Loading State ---
   if (cycleTimeData.length === 0) {
-    return <div>Loading cycle time data...</div>;
+    return <div data-oid="tg_cgg1">Loading cycle time data...</div>;
   }
 
   // --- Menu Configuration ---
@@ -176,6 +176,7 @@ export function CycleTimeCompoundChart() {
       showChartMetricSelector={true}
       showCardSelector={true}
       showTimeRangeSelector={true}
+      data-oid="bhhgily"
     />
   );
 
@@ -186,11 +187,13 @@ export function CycleTimeCompoundChart() {
       description="Track time for code changes through different stages"
       menuContent={menuContent}
       // No pagination needed
+      data-oid="0qqa1tk"
     >
       <MetricCardGrid
         metrics={metricCards}
         gridClasses="grid-cols-1 md:grid-cols-2 lg:grid-cols-4" // Fixed grid for 4 cards
         className="mb-6"
+        data-oid="lt:2gy1"
       />
 
       <GenericChart
@@ -199,6 +202,7 @@ export function CycleTimeCompoundChart() {
         metrics={selectedChartMetrics}
         config={currentChartConfig}
         dataKeyX="week"
+        data-oid="l1moag3"
       />
     </DashboardLayout>
   );

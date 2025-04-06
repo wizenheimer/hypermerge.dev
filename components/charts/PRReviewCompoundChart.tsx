@@ -79,7 +79,7 @@ export function PRReviewCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -103,7 +103,7 @@ export function PRReviewCompoundChart() {
 
   const getChangeType = (
     key: string,
-    value: number
+    value: number,
   ): MetricCardData["changeType"] => {
     const target = currentCardConfig[key].target;
     if (!target) return "neutral";
@@ -148,7 +148,7 @@ export function PRReviewCompoundChart() {
             description: config.description,
           };
         }),
-    [selectedCardMetrics, filteredData, currentCardConfig]
+    [selectedCardMetrics, filteredData, currentCardConfig],
   );
 
   const toggleChartMetric = (metric: string) => {
@@ -161,7 +161,7 @@ export function PRReviewCompoundChart() {
   };
 
   if (goalsData.length === 0) {
-    return <div>Loading PR review goals data...</div>;
+    return <div data-oid="1oynabf">Loading PR review goals data...</div>;
   }
 
   const menuContent = (
@@ -178,6 +178,7 @@ export function PRReviewCompoundChart() {
       showChartMetricSelector={true}
       showCardSelector={true}
       showTimeRangeSelector={true}
+      data-oid="too:fz8"
     />
   );
 
@@ -186,11 +187,13 @@ export function PRReviewCompoundChart() {
       title="PR Review Goals"
       description="Track and improve pull request review process"
       menuContent={menuContent}
+      data-oid="-1reqbe"
     >
       <MetricCardGrid
         metrics={metricCards}
         gridClasses="grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
         className="mb-6"
+        data-oid="-df.jf0"
       />
 
       <GenericChart
@@ -199,6 +202,7 @@ export function PRReviewCompoundChart() {
         metrics={selectedChartMetrics}
         config={currentChartConfig}
         dataKeyX="tooltipLabel"
+        data-oid="q51gwve"
       />
     </DashboardLayout>
   );

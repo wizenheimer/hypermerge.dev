@@ -53,6 +53,7 @@ export function GenericChart({
         name={config[metric]?.label || metric}
         fill={config[metric]?.color || getColorFromPalette(index)}
         stackId={chartType === "stacked-bar" ? "a" : undefined}
+        data-oid="yqwu--s"
       />
     ));
   };
@@ -74,6 +75,7 @@ export function GenericChart({
           stroke={color}
           fill={`url(#gradient-${metric})`}
           strokeWidth={1}
+          data-oid="yz_17hl"
         />
       );
     });
@@ -94,9 +96,20 @@ export function GenericChart({
           y1="0"
           x2="0"
           y2="1"
+          data-oid="1os7bg."
         >
-          <stop offset="5%" stopColor={color} stopOpacity={0.8} />
-          <stop offset="95%" stopColor={color} stopOpacity={0.1} />
+          <stop
+            offset="5%"
+            stopColor={color}
+            stopOpacity={0.8}
+            data-oid="rds23cz"
+          />
+          <stop
+            offset="95%"
+            stopColor={color}
+            stopOpacity={0.1}
+            data-oid="5_km43i"
+          />
         </linearGradient>
       );
     });
@@ -113,16 +126,25 @@ export function GenericChart({
       }
       return acc;
     },
-    {} as Record<string, { label: string }>
+    {} as Record<string, { label: string }>,
   );
 
   return (
-    <div className={cn("h-[400px] w-full overflow-hidden", className)}>
-      <ChartContainer config={chartContainerConfig} className="w-full h-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <ChartComponent data={data}>
-            {chartType === "area" && <defs>{renderAreaGradients()}</defs>}
-            <CartesianGrid strokeDasharray="3 3" />
+    <div
+      className={cn("h-[400px] w-full overflow-hidden", className)}
+      data-oid=".9bng5-"
+    >
+      <ChartContainer
+        config={chartContainerConfig}
+        className="w-full h-full"
+        data-oid="e1grn33"
+      >
+        <ResponsiveContainer width="100%" height="100%" data-oid="nudrey9">
+          <ChartComponent data={data} data-oid="k:d-8y0">
+            {chartType === "area" && (
+              <defs data-oid="5nit6zu">{renderAreaGradients()}</defs>
+            )}
+            <CartesianGrid strokeDasharray="3 3" data-oid="i2zm_6." />
             <XAxis
               dataKey="tooltipLabel"
               tickFormatter={(value) => value}
@@ -131,10 +153,18 @@ export function GenericChart({
               axisLine={{ stroke: "hsl(var(--border))" }}
               tick={{ fontSize: 12 }}
               height={30}
+              data-oid="bhrzh1e"
             />
-            <YAxis />
-            <Tooltip content={<ChartTooltipContent />} />
-            <Legend content={<ChartLegendContent />} />
+
+            <YAxis data-oid="h2mlgdq" />
+            <Tooltip
+              content={<ChartTooltipContent data-oid="wn54hq4" />}
+              data-oid="5__6d71"
+            />
+            <Legend
+              content={<ChartLegendContent data-oid="4:1e8fj" />}
+              data-oid="i-b.vsk"
+            />
             {chartType === "area" ? renderAreas() : renderBars()}
           </ChartComponent>
         </ResponsiveContainer>

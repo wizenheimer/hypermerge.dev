@@ -62,7 +62,7 @@ export function UserGoalsCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -86,7 +86,7 @@ export function UserGoalsCompoundChart() {
 
   const getChangeType = (
     key: string,
-    value: number
+    value: number,
   ): MetricCardData["changeType"] => {
     const target = currentCardConfig[key].target;
     if (!target) return "neutral";
@@ -110,7 +110,7 @@ export function UserGoalsCompoundChart() {
             changeType: getChangeType(key, value),
           };
         }),
-    [selectedCardMetrics, filteredData, currentCardConfig]
+    [selectedCardMetrics, filteredData, currentCardConfig],
   );
 
   const toggleChartMetric = (metric: string) => {
@@ -123,7 +123,7 @@ export function UserGoalsCompoundChart() {
   };
 
   if (goalsData.length === 0) {
-    return <div>Loading goals data...</div>;
+    return <div data-oid="q:-0a9w">Loading goals data...</div>;
   }
 
   const menuContent = (
@@ -140,6 +140,7 @@ export function UserGoalsCompoundChart() {
       showChartMetricSelector={true}
       showCardSelector={true}
       showTimeRangeSelector={true}
+      data-oid="_zbje_a"
     />
   );
 
@@ -148,11 +149,13 @@ export function UserGoalsCompoundChart() {
       title="Goals Progress"
       description="Track progress towards personal and team goals"
       menuContent={menuContent}
+      data-oid=":1m3w0a"
     >
       <MetricCardGrid
         metrics={metricCards}
         gridClasses="grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
         className="mb-6"
+        data-oid="3tdbejg"
       />
 
       <GenericChart
@@ -161,6 +164,7 @@ export function UserGoalsCompoundChart() {
         metrics={selectedChartMetrics}
         config={currentChartConfig}
         dataKeyX="tooltipLabel"
+        data-oid="hcmuyyl"
       />
     </DashboardLayout>
   );

@@ -139,10 +139,10 @@ export function PRMetricsCompoundChart() {
     data: rawData,
   });
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
 
   // Pagination State
@@ -171,8 +171,8 @@ export function PRMetricsCompoundChart() {
     return key === "merged" || key === "feature" || key === "enhancement"
       ? "positive"
       : key === "closed" || key === "bugfix" || key === "security"
-      ? "negative"
-      : "neutral";
+        ? "negative"
+        : "neutral";
   };
 
   // Prepare data for Metric Cards
@@ -194,14 +194,14 @@ export function PRMetricsCompoundChart() {
       getMetricValue,
       getChangePercentage,
       getChangeType,
-    ]
+    ],
   );
 
   // Pagination Logic
   const totalPages = Math.ceil(allMetricCards.length / itemsPerPage);
   const paginatedMetricCards = allMetricCards.slice(
     currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
+    (currentPage + 1) * itemsPerPage,
   );
 
   const handleNextPage = () => {
@@ -269,7 +269,7 @@ export function PRMetricsCompoundChart() {
     locData.length === 0
   ) {
     // Basic loading state, consider a more robust skeleton loader
-    return <div>Loading metrics data...</div>;
+    return <div data-oid="kchb7f1">Loading metrics data...</div>;
   }
 
   // --- Menu Configuration ---
@@ -294,6 +294,7 @@ export function PRMetricsCompoundChart() {
       showChartMetricSelector={true} // Enable chart metric selector
       showCardSelector={true} // Enable card selector
       showTimeRangeSelector={true} // Enable time range selector
+      data-oid="beyk3q8"
     />
   );
 
@@ -305,10 +306,10 @@ export function PRMetricsCompoundChart() {
         viewType === "distribution"
           ? "Analyze PR types and distribution"
           : viewType === "status"
-          ? "Monitor PR status and lifecycle"
-          : viewType === "size"
-          ? "Track PR sizes over time"
-          : "Analyze code changes (LOC metrics)"
+            ? "Monitor PR status and lifecycle"
+            : viewType === "size"
+              ? "Track PR sizes over time"
+              : "Analyze code changes (LOC metrics)"
       }
       menuContent={menuContent}
       pagination={{
@@ -319,11 +320,13 @@ export function PRMetricsCompoundChart() {
         isNextDisabled: currentPage + 1 >= totalPages,
         totalPages,
       }}
+      data-oid="d_6:v.w"
     >
       <MetricCardGrid
         metrics={paginatedMetricCards}
         gridClasses={getGridClass(paginatedMetricCards.length)} // Use dynamic grid class
         className="mb-6"
+        data-oid="gcifqlw"
       />
 
       <GenericChart
@@ -332,6 +335,7 @@ export function PRMetricsCompoundChart() {
         metrics={currentSelectedChartMetrics}
         config={currentChartConfig}
         dataKeyX="week" // Assuming 'week' is the common key
+        data-oid="0m.j-8q"
       />
     </DashboardLayout>
   );

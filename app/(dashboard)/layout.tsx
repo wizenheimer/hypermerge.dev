@@ -28,27 +28,30 @@ export const metadata: Metadata = {
 
 export default async function DashboardLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
 
   return (
-    <SidebarProvider defaultOpen={defaultOpen}>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
+    <SidebarProvider defaultOpen={defaultOpen} data-oid="d5_5sr1">
+      <AppSidebar data-oid="i7m9xzx" />
+      <SidebarInset data-oid="cr08lkr">
+        <header
+          className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12"
+          data-oid="z81v.5a"
+        >
+          <div className="flex items-center gap-2 px-4" data-oid=".gr-69y">
+            <SidebarTrigger className="-ml-1" data-oid="1jc2eu6" />
             <Separator
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
+              data-oid=":qejjun"
             />
-            <BreadcrumbClientWrapper />
+
+            <BreadcrumbClientWrapper data-oid="smo_6mp" />
           </div>
-          <div className="ml-auto px-3">
-            <NavActions />
+          <div className="ml-auto px-3" data-oid="gjyewqk">
+            <NavActions data-oid="5hypg4t" />
           </div>
         </header>
         {children}

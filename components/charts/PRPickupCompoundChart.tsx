@@ -79,7 +79,7 @@ export function PRPickupCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -103,7 +103,7 @@ export function PRPickupCompoundChart() {
 
   const getChangeType = (
     key: string,
-    value: number
+    value: number,
   ): MetricCardData["changeType"] => {
     const target = currentCardConfig[key].target;
     if (!target) return "neutral";
@@ -151,7 +151,7 @@ export function PRPickupCompoundChart() {
             description: config.description,
           };
         }),
-    [selectedCardMetrics, filteredData, currentCardConfig]
+    [selectedCardMetrics, filteredData, currentCardConfig],
   );
 
   const toggleChartMetric = (metric: string) => {
@@ -164,7 +164,7 @@ export function PRPickupCompoundChart() {
   };
 
   if (goalsData.length === 0) {
-    return <div>Loading PR pickup goals data...</div>;
+    return <div data-oid="4b9tcxz">Loading PR pickup goals data...</div>;
   }
 
   const menuContent = (
@@ -181,6 +181,7 @@ export function PRPickupCompoundChart() {
       showChartMetricSelector={true}
       showCardSelector={true}
       showTimeRangeSelector={true}
+      data-oid="k2lcdp9"
     />
   );
 
@@ -189,11 +190,13 @@ export function PRPickupCompoundChart() {
       title="PR Pickup Goals"
       description="Track and improve pull request pickup time and responsiveness"
       menuContent={menuContent}
+      data-oid="td9iovi"
     >
       <MetricCardGrid
         metrics={metricCards}
         gridClasses="grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
         className="mb-6"
+        data-oid="4261tcg"
       />
 
       <GenericChart
@@ -202,6 +205,7 @@ export function PRPickupCompoundChart() {
         metrics={selectedChartMetrics}
         config={currentChartConfig}
         dataKeyX="tooltipLabel"
+        data-oid="mpr_nrd"
       />
     </DashboardLayout>
   );

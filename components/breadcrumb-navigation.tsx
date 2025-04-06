@@ -51,20 +51,24 @@ export function BreadcrumbNavigation({ path }: { path: string }) {
   }
 
   return (
-    <Breadcrumb>
-      <BreadcrumbList>
+    <Breadcrumb data-oid="tf4j1il">
+      <BreadcrumbList data-oid="da-m.hv">
         {breadcrumbs.map((item, index) => (
           <React.Fragment key={item.href}>
-            <BreadcrumbItem>
+            <BreadcrumbItem data-oid="z4h1a09">
               {index === breadcrumbs.length - 1 ? (
-                <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                <BreadcrumbPage data-oid="po.cs:.">{item.label}</BreadcrumbPage>
               ) : (
-                <BreadcrumbLink href={item.href} asChild>
-                  <Link href={item.href}>{item.label}</Link>
+                <BreadcrumbLink href={item.href} asChild data-oid="nncq7vp">
+                  <Link href={item.href} data-oid="vy4va8h">
+                    {item.label}
+                  </Link>
                 </BreadcrumbLink>
               )}
             </BreadcrumbItem>
-            {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
+            {index < breadcrumbs.length - 1 && (
+              <BreadcrumbSeparator data-oid="fjwttun" />
+            )}
           </React.Fragment>
         ))}
       </BreadcrumbList>

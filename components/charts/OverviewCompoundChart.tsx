@@ -36,9 +36,13 @@ function MetricCard({
   currentValue,
 }: MetricCardProps) {
   const getChangeIcon = () => {
-    if (change > 0) return <ArrowUp className="h-4 w-4 text-green-500" />;
-    if (change < 0) return <ArrowDown className="h-4 w-4 text-red-500" />;
-    return <ArrowRight className="h-4 w-4 text-orange-500" />;
+    if (change > 0)
+      return <ArrowUp className="h-4 w-4 text-green-500" data-oid="k9zhq2." />;
+    if (change < 0)
+      return <ArrowDown className="h-4 w-4 text-red-500" data-oid="u5z1.qm" />;
+    return (
+      <ArrowRight className="h-4 w-4 text-orange-500" data-oid="v6chpwc" />
+    );
   };
 
   const formatCurrency = (value: number) => {
@@ -51,39 +55,54 @@ function MetricCard({
   };
 
   return (
-    <div className="rounded-xl border bg-card p-6 shadow-sm">
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-muted-foreground">{title}</span>
-        <div className="flex items-center gap-1 rounded-full bg-green-50 px-2 py-1">
+    <div className="rounded-xl border bg-card p-6 shadow-sm" data-oid="md_80_u">
+      <div className="flex items-center justify-between" data-oid="t638-qy">
+        <span className="text-sm text-muted-foreground" data-oid="p82v60-">
+          {title}
+        </span>
+        <div
+          className="flex items-center gap-1 rounded-full bg-green-50 px-2 py-1"
+          data-oid="g0hyyey"
+        >
           {getChangeIcon()}
           <span
             className={`text-sm ${
               change > 0
                 ? "text-green-500"
                 : change < 0
-                ? "text-red-500"
-                : "text-orange-500"
+                  ? "text-red-500"
+                  : "text-orange-500"
             }`}
+            data-oid=".jd5ue1"
           >
             {Math.abs(change).toFixed(2)}%
           </span>
         </div>
       </div>
-      <div className="mt-2">
-        <span className="text-2xl font-bold">{value} hr</span>
+      <div className="mt-2" data-oid="-:qcyaw">
+        <span className="text-2xl font-bold" data-oid="cagp43w">
+          {value} hr
+        </span>
       </div>
-      <div className="mt-4">
-        <div className="flex justify-between text-sm text-muted-foreground">
-          <span>
+      <div className="mt-4" data-oid="a2xd3:.">
+        <div
+          className="flex justify-between text-sm text-muted-foreground"
+          data-oid=":0k-6_6"
+        >
+          <span data-oid="saxv-tw">
             {((currentValue / totalValue) * 100).toFixed(2)}% (
             {formatCurrency(currentValue)})
           </span>
-          <span>{formatCurrency(totalValue)}</span>
+          <span data-oid="5ygxqsv">{formatCurrency(totalValue)}</span>
         </div>
-        <div className="mt-2 h-2 w-full rounded-full bg-blue-100">
+        <div
+          className="mt-2 h-2 w-full rounded-full bg-blue-100"
+          data-oid="f83ljbj"
+        >
           <div
             className="h-full rounded-full bg-blue-500"
             style={{ width: `${(currentValue / totalValue) * 100}%` }}
+            data-oid="r:u_2.a"
           />
         </div>
       </div>
@@ -165,64 +184,78 @@ export function OverviewCompoundChart() {
   const metrics = getMetricsForTimeRange(timeRange);
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="flex items-center gap-2 text-2xl font-semibold">
+    <div className="space-y-4" data-oid="bdyn5oa">
+      <div className="flex items-center justify-between" data-oid="y6lnen6">
+        <div data-oid="sg-3gch">
+          <h2
+            className="flex items-center gap-2 text-2xl font-semibold"
+            data-oid="d77m7rj"
+          >
             Development Velocity
-            <span className="flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-sm text-green-500">
-              <ArrowUp className="h-4 w-4" />
+            <span
+              className="flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-sm text-green-500"
+              data-oid="1nr9r63"
+            >
+              <ArrowUp className="h-4 w-4" data-oid="ujz0ihc" />
               5.97%
             </span>
           </h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground" data-oid="jaapajh">
             Neque porro quisquam est qui dolorem ipsum quia
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+        <div className="flex items-center gap-2" data-oid=":a6572m">
+          <DropdownMenu data-oid="p:2dri-">
+            <DropdownMenuTrigger asChild data-oid="nfs:767">
+              <Button variant="outline" size="sm" data-oid="i81jgao">
                 {timeRangeOptions.find((opt) => opt.value === timeRange)?.label}
-                <ChevronDown className="ml-2 h-4 w-4" />
+                <ChevronDown className="ml-2 h-4 w-4" data-oid="05c89m8" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" data-oid="19y57.s">
               {timeRangeOptions.map((option) => (
                 <DropdownMenuItem
                   key={option.value}
                   onClick={() => setTimeRange(option.value)}
+                  data-oid="xbhrd3f"
                 >
                   {option.label}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" data-oid="nfu6o-s">
             <Button
               variant="outline"
               size="icon"
               onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+              data-oid="xd0ugn3"
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="h-4 w-4" data-oid="391vjyo" />
             </Button>
             <Button
               variant="outline"
               size="icon"
               onClick={() => setCurrentPage((p) => p + 1)}
+              data-oid="iz31z0s"
             >
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="h-4 w-4" data-oid="nxa3glx" />
             </Button>
-            <Button variant="outline" size="sm" asChild>
-              <Link href="/metrics">View More</Link>
+            <Button variant="outline" size="sm" asChild data-oid="t6ft6lk">
+              <Link href="/metrics" data-oid="4r46bca">
+                View More
+              </Link>
             </Button>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div
+        className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
+        data-oid="y.yq-nh"
+      >
         {metrics.map((metric) => (
-          <MetricCard key={metric.title} {...metric} />
+          <MetricCard key={metric.title} {...metric} data-oid="u-s2xnp" />
         ))}
       </div>
     </div>

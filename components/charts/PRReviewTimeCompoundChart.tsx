@@ -68,7 +68,7 @@ const timeRangeLabels: Record<TimeRange, string> = {
 
 export function PRReviewTimeCompoundChart() {
   const [goalsData, setGoalsData] = React.useState<PRReviewTimeGoalDataEntry[]>(
-    []
+    [],
   );
 
   React.useEffect(() => {
@@ -81,7 +81,7 @@ export function PRReviewTimeCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -105,7 +105,7 @@ export function PRReviewTimeCompoundChart() {
 
   const getChangeType = (
     key: string,
-    value: number
+    value: number,
   ): MetricCardData["changeType"] => {
     const target = currentCardConfig[key].target;
     if (!target) return "neutral";
@@ -154,7 +154,7 @@ export function PRReviewTimeCompoundChart() {
             description: config.description,
           };
         }),
-    [selectedCardMetrics, filteredData, currentCardConfig]
+    [selectedCardMetrics, filteredData, currentCardConfig],
   );
 
   const toggleChartMetric = (metric: string) => {
@@ -167,7 +167,7 @@ export function PRReviewTimeCompoundChart() {
   };
 
   if (goalsData.length === 0) {
-    return <div>Loading PR review time goals data...</div>;
+    return <div data-oid="mbl2_m_">Loading PR review time goals data...</div>;
   }
 
   const menuContent = (
@@ -184,6 +184,7 @@ export function PRReviewTimeCompoundChart() {
       showChartMetricSelector={true}
       showCardSelector={true}
       showTimeRangeSelector={true}
+      data-oid="128lzoy"
     />
   );
 
@@ -192,11 +193,13 @@ export function PRReviewTimeCompoundChart() {
       title="PR Review Time Goals"
       description="Track and improve pull request review completion time"
       menuContent={menuContent}
+      data-oid="8yn2cml"
     >
       <MetricCardGrid
         metrics={metricCards}
         gridClasses="grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
         className="mb-6"
+        data-oid="kkp4dw2"
       />
 
       <GenericChart
@@ -205,6 +208,7 @@ export function PRReviewTimeCompoundChart() {
         metrics={selectedChartMetrics}
         config={currentChartConfig}
         dataKeyX="tooltipLabel"
+        data-oid="-xhpu0o"
       />
     </DashboardLayout>
   );

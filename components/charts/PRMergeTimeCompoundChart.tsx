@@ -68,7 +68,7 @@ const timeRangeLabels: Record<TimeRange, string> = {
 
 export function PRMergeTimeCompoundChart() {
   const [goalsData, setGoalsData] = React.useState<PRMergeTimeGoalDataEntry[]>(
-    []
+    [],
   );
 
   React.useEffect(() => {
@@ -81,7 +81,7 @@ export function PRMergeTimeCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -105,7 +105,7 @@ export function PRMergeTimeCompoundChart() {
 
   const getChangeType = (
     key: string,
-    value: number
+    value: number,
   ): MetricCardData["changeType"] => {
     const target = currentCardConfig[key].target;
     if (!target) return "neutral";
@@ -152,7 +152,7 @@ export function PRMergeTimeCompoundChart() {
             description: config.description,
           };
         }),
-    [selectedCardMetrics, filteredData, currentCardConfig]
+    [selectedCardMetrics, filteredData, currentCardConfig],
   );
 
   const toggleChartMetric = (metric: string) => {
@@ -165,7 +165,7 @@ export function PRMergeTimeCompoundChart() {
   };
 
   if (goalsData.length === 0) {
-    return <div>Loading PR merge time goals data...</div>;
+    return <div data-oid="s17agw0">Loading PR merge time goals data...</div>;
   }
 
   const menuContent = (
@@ -182,6 +182,7 @@ export function PRMergeTimeCompoundChart() {
       showChartMetricSelector={true}
       showCardSelector={true}
       showTimeRangeSelector={true}
+      data-oid=":57vw45"
     />
   );
 
@@ -190,11 +191,13 @@ export function PRMergeTimeCompoundChart() {
       title="PR Merge Time Goals"
       description="Track and improve pull request merge completion time"
       menuContent={menuContent}
+      data-oid=".ecg:ew"
     >
       <MetricCardGrid
         metrics={metricCards}
         gridClasses="grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
         className="mb-6"
+        data-oid="hlv4y6u"
       />
 
       <GenericChart
@@ -203,6 +206,7 @@ export function PRMergeTimeCompoundChart() {
         metrics={selectedChartMetrics}
         config={currentChartConfig}
         dataKeyX="tooltipLabel"
+        data-oid="07dr:6-"
       />
     </DashboardLayout>
   );

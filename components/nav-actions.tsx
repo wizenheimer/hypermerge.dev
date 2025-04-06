@@ -56,6 +56,7 @@ const data = [
       icon: Send,
     },
   ],
+
   [
     {
       label: "Copy Link",
@@ -67,6 +68,7 @@ const data = [
       icon: Trash2,
     },
   ],
+
   [
     {
       label: "Import",
@@ -87,37 +89,56 @@ export function NavActions() {
   }, []);
 
   return (
-    <div className="flex items-center gap-2 text-sm">
-      <div className="hidden font-medium text-muted-foreground md:inline-block">
+    <div className="flex items-center gap-2 text-sm" data-oid="0jw2roq">
+      <div
+        className="hidden font-medium text-muted-foreground md:inline-block"
+        data-oid="m1ojgig"
+      >
         Sync: 08 Oct
       </div>
-      <Button variant="ghost" size="icon" className="h-7 w-7">
-        <RefreshCcw />
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-7 w-7"
+        data-oid="xs05_.0"
+      >
+        <RefreshCcw data-oid=":by9qvg" />
       </Button>
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
-        <PopoverTrigger asChild>
+      <Popover open={isOpen} onOpenChange={setIsOpen} data-oid="dwe0j9g">
+        <PopoverTrigger asChild data-oid="m85d3wd">
           <Button
             variant="ghost"
             size="icon"
             className="h-7 w-7 data-[state=open]:bg-accent"
+            data-oid="-2wwphn"
           >
-            <MoreHorizontal />
+            <MoreHorizontal data-oid=":fwo7-g" />
           </Button>
         </PopoverTrigger>
         <PopoverContent
           className="w-56 overflow-hidden rounded-lg p-0"
           align="end"
+          data-oid="gbx2tew"
         >
-          <Sidebar collapsible="none" className="bg-transparent">
-            <SidebarContent>
+          <Sidebar
+            collapsible="none"
+            className="bg-transparent"
+            data-oid="se8k60v"
+          >
+            <SidebarContent data-oid="7mcm0g3">
               {data.map((group, index) => (
-                <SidebarGroup key={index} className="border-b last:border-none">
-                  <SidebarGroupContent className="gap-0">
-                    <SidebarMenu>
+                <SidebarGroup
+                  key={index}
+                  className="border-b last:border-none"
+                  data-oid="r8jg78e"
+                >
+                  <SidebarGroupContent className="gap-0" data-oid="t-q.70m">
+                    <SidebarMenu data-oid="-v4aqun">
                       {group.map((item, index) => (
-                        <SidebarMenuItem key={index}>
-                          <SidebarMenuButton>
-                            <item.icon /> <span>{item.label}</span>
+                        <SidebarMenuItem key={index} data-oid="4.ahd:g">
+                          <SidebarMenuButton data-oid="1wpr-kg">
+                            <item.icon data-oid="-zly1iy" />{" "}
+                            <span data-oid="6f6npjz">{item.label}</span>
                           </SidebarMenuButton>
                         </SidebarMenuItem>
                       ))}

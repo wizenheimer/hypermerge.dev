@@ -27,18 +27,15 @@ export function NavMain({
     url: string;
     icon?: LucideIcon;
     isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
+    items?: { title: string; url: string }[];
   }[];
 }) {
   const router = useRouter();
 
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
-      <SidebarMenu>
+    <SidebarGroup data-oid="lla_1hw">
+      <SidebarGroupLabel data-oid="m8rob-j">Platform</SidebarGroupLabel>
+      <SidebarMenu data-oid="dc9x60c">
         {items.map((item) =>
           item.items ? (
             <Collapsible
@@ -46,9 +43,10 @@ export function NavMain({
               asChild
               defaultOpen={item.isActive}
               className="group/collapsible"
+              data-oid="jsoovwj"
             >
-              <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
+              <SidebarMenuItem data-oid="luccy-h">
+                <CollapsibleTrigger asChild data-oid="o_y73p2">
                   <SidebarMenuButton
                     tooltip={item.title}
                     onClick={(e) => {
@@ -58,19 +56,26 @@ export function NavMain({
                         router.push(item.url);
                       }
                     }}
+                    data-oid="4fxdz5r"
                   >
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    {item.icon && <item.icon data-oid="k9co-ep" />}
+                    <span data-oid="q687vr1">{item.title}</span>
+                    <ChevronRight
+                      className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+                      data-oid="lkaym0w"
+                    />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarMenuSub>
+                <CollapsibleContent data-oid=":ib-9ns">
+                  <SidebarMenuSub data-oid="hiul-5k">
                     {item.items.map((subItem) => (
-                      <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild>
-                          <a href={subItem.url}>
-                            <span>{subItem.title}</span>
+                      <SidebarMenuSubItem
+                        key={subItem.title}
+                        data-oid="q40djh_"
+                      >
+                        <SidebarMenuSubButton asChild data-oid="nmse1bj">
+                          <a href={subItem.url} data-oid="sm-58ht">
+                            <span data-oid="7io-kdn">{subItem.title}</span>
                           </a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
@@ -80,15 +85,19 @@ export function NavMain({
               </SidebarMenuItem>
             </Collapsible>
           ) : (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title} asChild>
-                <a href={item.url}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
+            <SidebarMenuItem key={item.title} data-oid="xy3rvs.">
+              <SidebarMenuButton
+                tooltip={item.title}
+                asChild
+                data-oid="zxsawef"
+              >
+                <a href={item.url} data-oid="24lzyxd">
+                  {item.icon && <item.icon data-oid="2o:2:6k" />}
+                  <span data-oid=".rgb0al">{item.title}</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          )
+          ),
         )}
       </SidebarMenu>
     </SidebarGroup>

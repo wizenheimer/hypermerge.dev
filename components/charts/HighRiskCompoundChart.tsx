@@ -79,7 +79,7 @@ export function HighRiskCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -103,7 +103,7 @@ export function HighRiskCompoundChart() {
 
   const getChangeType = (
     key: string,
-    value: number
+    value: number,
   ): MetricCardData["changeType"] => {
     const target = currentCardConfig[key].target;
     if (!target) return "neutral";
@@ -134,7 +134,7 @@ export function HighRiskCompoundChart() {
             description: config.description,
           };
         }),
-    [selectedCardMetrics, filteredData, currentCardConfig]
+    [selectedCardMetrics, filteredData, currentCardConfig],
   );
 
   const toggleChartMetric = (metric: string) => {
@@ -147,7 +147,7 @@ export function HighRiskCompoundChart() {
   };
 
   if (goalsData.length === 0) {
-    return <div>Loading high risk PR goals data...</div>;
+    return <div data-oid="ogbvo.z">Loading high risk PR goals data...</div>;
   }
 
   const menuContent = (
@@ -164,6 +164,7 @@ export function HighRiskCompoundChart() {
       showChartMetricSelector={true}
       showCardSelector={true}
       showTimeRangeSelector={true}
+      data-oid="cflg6uz"
     />
   );
 
@@ -172,11 +173,13 @@ export function HighRiskCompoundChart() {
       title="High Risk PR Goals"
       description="Track and reduce high risk pull requests"
       menuContent={menuContent}
+      data-oid="_7qumck"
     >
       <MetricCardGrid
         metrics={metricCards}
         gridClasses="grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
         className="mb-6"
+        data-oid="l30_wuo"
       />
 
       <GenericChart
@@ -185,6 +188,7 @@ export function HighRiskCompoundChart() {
         metrics={selectedChartMetrics}
         config={currentChartConfig}
         dataKeyX="tooltipLabel"
+        data-oid="11gzftr"
       />
     </DashboardLayout>
   );

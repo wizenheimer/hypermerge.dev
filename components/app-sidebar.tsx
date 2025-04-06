@@ -52,6 +52,7 @@ const data = {
       plan: "Free",
     },
   ],
+
   navMain: [
     {
       title: "Insights",
@@ -83,18 +84,23 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" variant="floating" {...props}>
-      <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+    <Sidebar
+      collapsible="icon"
+      variant="floating"
+      {...props}
+      data-oid="9.g4ydo"
+    >
+      <SidebarHeader data-oid="vkxzylr">
+        <TeamSwitcher teams={data.teams} data-oid="-mx2ftf" />
       </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
+      <SidebarContent data-oid="_2jpsmq">
+        <NavMain items={data.navMain} data-oid="_kr4ym6" />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
+      <SidebarFooter data-oid="hbfi335">
+        <NavUser user={data.user} data-oid="nif5wn1" />
       </SidebarFooter>
-      <SidebarRail />
+      <SidebarRail data-oid="9m0bjqr" />
     </Sidebar>
   );
 }

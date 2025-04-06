@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   BadgeCheck,
@@ -7,13 +7,9 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
-} from "lucide-react"
+} from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,43 +18,53 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 export function NavUser({
   user,
 }: {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
+  user: { name: string; email: string; avatar: string };
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
 
   return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+    <SidebarMenu data-oid="rrh3:si">
+      <SidebarMenuItem data-oid="149u9q-">
+        <DropdownMenu data-oid="hqm-c.a">
+          <DropdownMenuTrigger asChild data-oid="s82x7x3">
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              data-oid="j5z65_v"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+              <Avatar className="h-8 w-8 rounded-lg" data-oid="xkk1_3i">
+                <AvatarImage
+                  src={user.avatar}
+                  alt={user.name}
+                  data-oid="oangv0w"
+                />
+                <AvatarFallback className="rounded-lg" data-oid="ks.47i5">
+                  CN
+                </AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+              <div
+                className="grid flex-1 text-left text-sm leading-tight"
+                data-oid="1j_uvlg"
+              >
+                <span className="truncate font-medium" data-oid="c7l6h4i">
+                  {user.name}
+                </span>
+                <span className="truncate text-xs" data-oid="stut1g-">
+                  {user.email}
+                </span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+              <ChevronsUpDown className="ml-auto size-4" data-oid="677l5-q" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -66,49 +72,66 @@ export function NavUser({
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
+            data-oid="sgge8tj"
           >
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+            <DropdownMenuLabel className="p-0 font-normal" data-oid="s.hzkaj">
+              <div
+                className="flex items-center gap-2 px-1 py-1.5 text-left text-sm"
+                data-oid="kdon6tp"
+              >
+                <Avatar className="h-8 w-8 rounded-lg" data-oid="umbo6f3">
+                  <AvatarImage
+                    src={user.avatar}
+                    alt={user.name}
+                    data-oid="ycfebh."
+                  />
+                  <AvatarFallback className="rounded-lg" data-oid="8y23hdn">
+                    CN
+                  </AvatarFallback>
                 </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                <div
+                  className="grid flex-1 text-left text-sm leading-tight"
+                  data-oid="t5qb6ws"
+                >
+                  <span className="truncate font-medium" data-oid="90ay.hn">
+                    {user.name}
+                  </span>
+                  <span className="truncate text-xs" data-oid="aw5.v:u">
+                    {user.email}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
+            <DropdownMenuSeparator data-oid=".8v3o0s" />
+            <DropdownMenuGroup data-oid="0.16i2m">
+              <DropdownMenuItem data-oid="k8v6bpw">
+                <Sparkles data-oid="rxqckh." />
                 Upgrade to Pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
+            <DropdownMenuSeparator data-oid="479::dr" />
+            <DropdownMenuGroup data-oid="akhetor">
+              <DropdownMenuItem data-oid="kfukyx2">
+                <BadgeCheck data-oid="tozrg2d" />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
+              <DropdownMenuItem data-oid="1bm7ev2">
+                <CreditCard data-oid="fh1gdgx" />
                 Billing
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
+              <DropdownMenuItem data-oid="xrep1-x">
+                <Bell data-oid="spnnv.3" />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
+            <DropdownMenuSeparator data-oid="ii5er5h" />
+            <DropdownMenuItem data-oid="sr7b8lr">
+              <LogOut data-oid="4cmseyu" />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

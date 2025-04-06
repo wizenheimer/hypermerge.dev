@@ -28,7 +28,7 @@ export function MetricCardGrid({
   }
 
   return (
-    <div className={cn("grid", gridClasses, gap, className)}>
+    <div className={cn("grid", gridClasses, gap, className)} data-oid="54g37ry">
       {metrics.map((metric) => (
         <MetricCard
           key={metric.key}
@@ -36,6 +36,7 @@ export function MetricCardGrid({
           value={metric.value}
           change={metric.change}
           changeType={metric.changeType}
+          data-oid="_5z1zu2"
         />
       ))}
     </div>

@@ -61,42 +61,52 @@ function MetricCard({
   currentValue,
 }: MetricCardProps) {
   const getChangeIcon = () => {
-    if (change > 0) return <ArrowUp className="h-4 w-4 text-green-500" />;
-    if (change < 0) return <ArrowDown className="h-4 w-4 text-red-500" />;
-    return <ArrowRight className="h-4 w-4 text-orange-500" />;
+    if (change > 0)
+      return <ArrowUp className="h-4 w-4 text-green-500" data-oid="cebgc8h" />;
+    if (change < 0)
+      return <ArrowDown className="h-4 w-4 text-red-500" data-oid="8stvzff" />;
+    return (
+      <ArrowRight className="h-4 w-4 text-orange-500" data-oid="t02yynq" />
+    );
   };
+
+  // Calculate the remaining value for stacking
+  const remaining = totalValue - value;
 
   const chartData = [
     {
-      type: title,
+      name: title,
       count: value,
-      total: 50, // Using a fixed total for better visualization
+      remaining: remaining,
     },
   ];
 
   const metricConfig = {
     count: {
-      label: "Count",
+      label: title,
       color: blueColors[0],
     },
-    total: {
-      label: "Total",
+    remaining: {
+      label: "Others",
       color: blueColors[7],
     },
   } satisfies ChartConfig;
 
   return (
-    <Card className="flex flex-col">
-      <CardHeader className="items-center space-y-0 pb-0">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <CardDescription className="text-xs">
+    <Card className="flex flex-col" data-oid="74.11cd">
+      <CardHeader className="items-center space-y-0 pb-0" data-oid="wymsht-">
+        <CardTitle className="text-sm font-medium" data-oid="qgjoqhl">
+          {title}
+        </CardTitle>
+        <CardDescription className="text-xs" data-oid="pkgm04.">
           Pull Requests focussed on {title.toLowerCase()}
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-1 items-center pb-0">
+      <CardContent className="flex flex-1 items-center pb-0" data-oid="-6sie8y">
         <ChartContainer
           config={metricConfig}
           className="mx-auto aspect-square w-full max-w-[180px]"
+          data-oid="aijklrm"
         >
           <RadialBarChart
             data={chartData}
@@ -104,21 +114,37 @@ function MetricCard({
             outerRadius={80}
             startAngle={180}
             endAngle={0}
+            data-oid="5t:g0mr"
           >
             <ChartTooltip
-              content={<ChartTooltipContent indicator="line" />}
+              content={
+                <ChartTooltipContent indicator="line" data-oid="s-a:3ji" />
+              }
               cursor={false}
+              data-oid="9fpakua"
             />
-            <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
+
+            <PolarRadiusAxis
+              tick={false}
+              tickLine={false}
+              axisLine={false}
+              data-oid="l0g43-b"
+            >
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                     return (
-                      <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
+                      <text
+                        x={viewBox.cx}
+                        y={viewBox.cy}
+                        textAnchor="middle"
+                        data-oid=":be0qpe"
+                      >
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) - 12}
                           className="fill-foreground text-2xl font-bold"
+                          data-oid="8g4bb8h"
                         >
                           {value}
                         </tspan>
@@ -126,50 +152,62 @@ function MetricCard({
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 8}
                           className="fill-muted-foreground text-xs"
+                          data-oid="408qzxr"
                         >
-                          Count
+                          {title}
                         </tspan>
                       </text>
                     );
                   }
                 }}
+                data-oid="ob7:mge"
               />
             </PolarRadiusAxis>
             <RadialBar
-              name="Count"
+              name={title}
               dataKey="count"
               stackId="a"
               cornerRadius={5}
               fill={blueColors[0]}
               className="stroke-transparent stroke-2"
+              maxBarSize={20}
+              data-oid="84zmvy:"
             />
+
             <RadialBar
-              name="Total"
-              dataKey="total"
+              name="Others"
+              dataKey="remaining"
               stackId="a"
               cornerRadius={5}
               fill={blueColors[7]}
+              fillOpacity={0.4}
               className="stroke-transparent stroke-2"
+              maxBarSize={20}
+              data-oid="z-qthw0"
             />
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-1 pt-2 text-xs">
-        <div className="flex items-center gap-1 font-medium leading-none">
+      <CardFooter className="flex-col gap-1 pt-2 text-xs" data-oid="gbdy0o4">
+        <div
+          className="flex items-center gap-1 font-medium leading-none"
+          data-oid="23d2mpu"
+        >
           Change {getChangeIcon()}
           <span
             className={
               change > 0
                 ? "text-green-500"
                 : change < 0
-                ? "text-red-500"
-                : "text-orange-500"
+                  ? "text-red-500"
+                  : "text-orange-500"
             }
+            data-oid="d4gz_fj"
           >
             {Math.abs(change).toFixed(2)}%
           </span>
         </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="leading-none text-muted-foreground" data-oid="v3v0n_e">
           {((value / totalValue) * 100).toFixed(1)}% of total PRs
         </div>
       </CardFooter>
@@ -197,20 +235,20 @@ const baseMetrics15Days = {
 function getScaledMetrics(multiplier: number, trendFactor: number = 1) {
   return {
     Features: Math.round(
-      baseMetrics15Days.Features * multiplier * (1 + 0.2 * trendFactor)
+      baseMetrics15Days.Features * multiplier * (1 + 0.2 * trendFactor),
     ),
     Bugs: Math.round(
-      baseMetrics15Days.Bugs * multiplier * (1 - 0.1 * trendFactor)
+      baseMetrics15Days.Bugs * multiplier * (1 - 0.1 * trendFactor),
     ),
     Chore: Math.round(baseMetrics15Days.Chore * multiplier),
     Documentation: Math.round(
-      baseMetrics15Days.Documentation * multiplier * (1 + 0.1 * trendFactor)
+      baseMetrics15Days.Documentation * multiplier * (1 + 0.1 * trendFactor),
     ),
     Enhancement: Math.round(
-      baseMetrics15Days.Enhancement * multiplier * (1 + 0.15 * trendFactor)
+      baseMetrics15Days.Enhancement * multiplier * (1 + 0.15 * trendFactor),
     ),
     Security: Math.round(
-      baseMetrics15Days.Security * multiplier * (1 + 0.05 * trendFactor)
+      baseMetrics15Days.Security * multiplier * (1 + 0.05 * trendFactor),
     ),
   };
 }
@@ -226,20 +264,20 @@ const getMetricsForTimeRange = (range: string) => {
   // Calculate the total PRs for this period
   const totalPRs = Object.values(baseMetrics).reduce(
     (sum, count) => sum + count,
-    0
+    0,
   );
 
   // Calculate realistic change percentages based on previous period
   const getChangePercentage = (
     current: number,
-    metric: keyof typeof baseMetrics15Days
+    metric: keyof typeof baseMetrics15Days,
   ) => {
     const previousPeriod =
       range === "15days"
         ? baseMetrics15Days[metric] * 0.9 // Simulate previous 15 days
         : range === "1month"
-        ? getScaledMetrics(1, 0)[metric] // Compare with 15 days
-        : getScaledMetrics(2, 0.5)[metric]; // Compare with 1 month
+          ? getScaledMetrics(1, 0)[metric] // Compare with 15 days
+          : getScaledMetrics(2, 0.5)[metric]; // Compare with 1 month
 
     return ((current - previousPeriod) / previousPeriod) * 100;
   };
@@ -301,7 +339,7 @@ const getRadarDataForTimeRange = (range: string) => {
   // Calculate total PRs for this period
   const totalPRs = Object.values(metrics).reduce(
     (sum, count) => sum + count,
-    0
+    0,
   );
 
   // Return the same categories as the metric cards
@@ -341,33 +379,40 @@ export function WorkDistributionOverviewChart() {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="flex items-center gap-2 text-2xl font-semibold">
+    <div className="flex flex-col" data-oid="s1znzcc">
+      <div className="flex items-center justify-between" data-oid="hnj8hk-">
+        <div data-oid="rt0m0j5">
+          <h2
+            className="flex items-center gap-2 text-2xl font-semibold"
+            data-oid="hj0dog3"
+          >
             Work Distribution
-            <span className="flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-sm text-green-500">
-              <ArrowUp className="h-4 w-4" />
+            <span
+              className="flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-sm text-green-500"
+              data-oid="7wztk6a"
+            >
+              <ArrowUp className="h-4 w-4" data-oid="w9x:p6c" />
               5.97%
             </span>
           </h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground" data-oid="q87is3p">
             Neque porro quisquam est qui dolorem ipsum quia
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+        <div className="flex items-center gap-2" data-oid="ek9rzte">
+          <DropdownMenu data-oid="5y7s9.1">
+            <DropdownMenuTrigger asChild data-oid="s_k_y:9">
+              <Button variant="outline" size="sm" data-oid="wtgfivk">
                 {timeRangeOptions.find((opt) => opt.value === timeRange)?.label}
-                <ChevronDown className="ml-2 h-4 w-4" />
+                <ChevronDown className="ml-2 h-4 w-4" data-oid="mfojep6" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" data-oid="2q8yoq0">
               {timeRangeOptions.map((option) => (
                 <DropdownMenuItem
                   key={option.value}
                   onClick={() => setTimeRange(option.value)}
+                  data-oid="q0di1g6"
                 >
                   {option.label}
                 </DropdownMenuItem>
@@ -379,38 +424,43 @@ export function WorkDistributionOverviewChart() {
             size="icon"
             onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
             disabled={currentPage === 0}
+            data-oid="dosk481"
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4" data-oid="mkt1ie-" />
           </Button>
           <Button
             variant="outline"
             size="icon"
             onClick={() => setCurrentPage((p) => Math.min(maxPages - 1, p + 1))}
             disabled={currentPage === maxPages - 1}
+            data-oid="xbp310o"
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4" data-oid="g3uv87d" />
           </Button>
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/metrics">View More</Link>
+          <Button variant="outline" size="sm" asChild data-oid="nm6wvg:">
+            <Link href="/metrics" data-oid="764_s:8">
+              View More
+            </Link>
           </Button>
         </div>
       </div>
 
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
-        <Card className="h-full">
-          <CardHeader className="pb-2">
-            <CardTitle>Pull Request Distribution</CardTitle>
-            <CardDescription>
+      <div className="mt-4 grid gap-4 md:grid-cols-2" data-oid="inx8d3i">
+        <Card className="h-full" data-oid="ulvu7xx">
+          <CardHeader className="pb-2" data-oid="j9q1xb6">
+            <CardTitle data-oid="vxoqmc_">Pull Request Distribution</CardTitle>
+            <CardDescription data-oid="l2zn-21">
               Distribution of pull requests by type over{" "}
               {timeRangeOptions
                 .find((opt) => opt.value === timeRange)
                 ?.label.toLowerCase()}
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent data-oid="jw7rhtw">
             <ChartContainer
               config={chartConfig}
               className="mx-auto aspect-[4/3] w-full"
+              data-oid="7tu8a5k"
             >
               <RadarChart
                 data={radarData}
@@ -420,42 +470,63 @@ export function WorkDistributionOverviewChart() {
                   bottom: 20,
                   left: 20,
                 }}
+                data-oid="8o8u32c"
               >
                 <ChartTooltip
-                  content={<ChartTooltipContent indicator="line" />}
+                  content={
+                    <ChartTooltipContent indicator="line" data-oid="8y6p99p" />
+                  }
                   cursor={false}
+                  data-oid="136_bh3"
                 />
-                <PolarGrid stroke={blueColors[7]} strokeDasharray="3 3" />
+
+                <PolarGrid
+                  stroke={blueColors[7]}
+                  strokeDasharray="3 3"
+                  data-oid="89edcxj"
+                />
                 <PolarAngleAxis
                   dataKey="type"
                   tick={{
                     fill: "hsl(var(--foreground))",
                     fontSize: 12,
                   }}
+                  data-oid="tlotk4-"
                 />
+
                 <Radar
                   name="Count"
                   dataKey="count"
                   stroke={blueColors[0]}
                   fill={blueColors[0]}
                   fillOpacity={0.6}
+                  data-oid="hd-fmiq"
                 />
+
                 <Radar
                   name="Total"
                   dataKey="total"
                   stroke={blueColors[7]}
                   fill={blueColors[7]}
                   fillOpacity={0.4}
+                  data-oid="3pkr8iy"
                 />
-                <ChartLegend content={<ChartLegendContent />} />
+
+                <ChartLegend
+                  content={<ChartLegendContent data-oid="6nc-gwi" />}
+                  data-oid="ez5b0kv"
+                />
               </RadarChart>
             </ChartContainer>
           </CardContent>
         </Card>
 
-        <div className="grid h-full grid-cols-2 content-start gap-4">
+        <div
+          className="grid h-full grid-cols-2 content-start gap-4"
+          data-oid="n1el1-5"
+        >
           {getCurrentMetrics().map((metric) => (
-            <MetricCard key={metric.title} {...metric} />
+            <MetricCard key={metric.title} {...metric} data-oid="c6rn8.0" />
           ))}
         </div>
       </div>

@@ -64,19 +64,22 @@ const Menu: React.FC<MenuProps> = ({
           label: "View Type",
           icon: BarChart3,
           content: (
-            <CommandGroup>
+            <CommandGroup data-oid="m5j_wtx">
               {Object.entries(viewTypeLabels).map(([key, label]) => (
                 <CommandItem
                   key={key}
                   value={key}
                   onSelect={() => setViewType(key)}
+                  data-oid="j.6w25z"
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      viewType === key ? "opacity-100" : "opacity-0"
+                      viewType === key ? "opacity-100" : "opacity-0",
                     )}
+                    data-oid="nfxe097"
                   />
+
                   {label}
                 </CommandItem>
               ))}
@@ -100,21 +103,24 @@ const Menu: React.FC<MenuProps> = ({
           label: "Chart Metrics",
           icon: LineChart,
           content: (
-            <CommandGroup>
+            <CommandGroup data-oid=":3_psrs">
               {Object.entries(currentConfig).map(([key, config]) => (
                 <CommandItem
                   key={key}
                   value={key}
                   onSelect={() => toggleMetric(key)}
+                  data-oid="kfx89a2"
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
                       currentSelectedMetrics.includes(key)
                         ? "opacity-100"
-                        : "opacity-0"
+                        : "opacity-0",
                     )}
+                    data-oid="xt1k42_"
                   />
+
                   {config.label}
                 </CommandItem>
               ))}
@@ -133,7 +139,7 @@ const Menu: React.FC<MenuProps> = ({
           label: "Cards",
           icon: BarChart3, // Using BarChart3 icon for consistency, change if needed
           content: (
-            <CommandGroup>
+            <CommandGroup data-oid="qrs.s0u">
               {Object.entries(cardConfigs).map(([key, config]) => (
                 <CommandItem
                   key={key}
@@ -144,7 +150,7 @@ const Menu: React.FC<MenuProps> = ({
                       setSelectedCards((prev = []) =>
                         prev.includes(key)
                           ? prev.filter((card) => card !== key)
-                          : [...prev, key]
+                          : [...prev, key],
                       );
                     } else {
                       // Handle direct array setting if needed, though less common with useState
@@ -154,13 +160,16 @@ const Menu: React.FC<MenuProps> = ({
                       setSelectedCards(newSelected); // This branch might be unused if only state setters are passed
                     }
                   }}
+                  data-oid="vpi7tm6"
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      selectedCards.includes(key) ? "opacity-100" : "opacity-0"
+                      selectedCards.includes(key) ? "opacity-100" : "opacity-0",
                     )}
+                    data-oid="7kfwpvw"
                   />
+
                   {config.label}
                 </CommandItem>
               ))}
@@ -179,19 +188,22 @@ const Menu: React.FC<MenuProps> = ({
           label: "Time Range",
           icon: Calendar,
           content: (
-            <CommandGroup>
+            <CommandGroup data-oid="6ree2wj">
               {Object.entries(timeRangeLabels).map(([key, label]) => (
                 <CommandItem
                   key={key}
                   value={key}
                   onSelect={() => setTimeRange(key as TimeRange)} // Cast key to TimeRange
+                  data-oid="y1quz3n"
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      timeRange === key ? "opacity-100" : "opacity-0"
+                      timeRange === key ? "opacity-100" : "opacity-0",
                     )}
+                    data-oid="o2r1zdi"
                   />
+
                   {label}
                 </CommandItem>
               ))}
@@ -203,20 +215,27 @@ const Menu: React.FC<MenuProps> = ({
   }
 
   return (
-    <Sidebar collapsible="none" className="bg-transparent">
-      <SidebarContent className="overflow-y-auto max-h-96">
+    <Sidebar collapsible="none" className="bg-transparent" data-oid=".mokap1">
+      <SidebarContent className="overflow-y-auto max-h-96" data-oid="mw7vttq">
         {" "}
         {/* Increased max height slightly */}
         {menuGroups.map((group, groupIndex) => (
-          <SidebarGroup key={groupIndex} className="border-b last:border-none">
-            <SidebarGroupContent className="gap-0">
-              <SidebarMenu>
+          <SidebarGroup
+            key={groupIndex}
+            className="border-b last:border-none"
+            data-oid="vbx_ydg"
+          >
+            <SidebarGroupContent className="gap-0" data-oid=":3j50ge">
+              <SidebarMenu data-oid="4zy:t19">
                 {group.items.map((item, itemIndex) => (
-                  <SidebarMenuItem key={itemIndex}>
-                    <Command className="w-full">
-                      <div className="flex items-center gap-2 px-2 py-1 text-sm font-medium text-muted-foreground">
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.label}</span>
+                  <SidebarMenuItem key={itemIndex} data-oid="6t..j6_">
+                    <Command className="w-full" data-oid="slhl2p9">
+                      <div
+                        className="flex items-center gap-2 px-2 py-1 text-sm font-medium text-muted-foreground"
+                        data-oid="19qc6gd"
+                      >
+                        <item.icon className="h-4 w-4" data-oid="5ck1nei" />
+                        <span data-oid="321.:or">{item.label}</span>
                       </div>
                       {item.content}
                     </Command>

@@ -5,5 +5,5 @@ import { BreadcrumbNavigation } from "@/components/breadcrumb-navigation";
 
 export function BreadcrumbClientWrapper() {
   const pathname = usePathname();
-  return <BreadcrumbNavigation path={pathname} />;
+  return <BreadcrumbNavigation path={pathname} data-oid="lihzww-" />;
 }

@@ -16,15 +16,27 @@ const MetricCard: React.FC<MetricCardProps> = ({
   changeType,
 }) => {
   return (
-    <Card className="overflow-hidden border-none shadow-none">
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between">
-          <CardDescription className="text-sm font-medium text-gray-500">
+    <Card
+      className="overflow-hidden border-none shadow-none"
+      data-oid="cn9ki2c"
+    >
+      <CardContent className="p-4" data-oid="u9eo7s1">
+        <div className="flex items-center justify-between" data-oid="or0jcsq">
+          <CardDescription
+            className="text-sm font-medium text-gray-500"
+            data-oid="oelz10r"
+          >
             {title}
           </CardDescription>
-          <ChangeIndicator value={change} type={changeType} />
+          <ChangeIndicator
+            value={change}
+            type={changeType}
+            data-oid="-8grqaa"
+          />
         </div>
-        <div className="mt-2 text-2xl font-bold md:text-3xl">{value}</div>
+        <div className="mt-2 text-2xl font-bold md:text-3xl" data-oid="b:_xd90">
+          {value}
+        </div>
       </CardContent>
     </Card>
   );

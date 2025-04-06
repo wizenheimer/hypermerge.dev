@@ -41,15 +41,23 @@ export function DashboardLayout({
   const [settingsOpen, setSettingsOpen] = React.useState(false);
 
   return (
-    <Card className="w-full">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <div>
-          <CardTitle className="text-xl font-semibold">{title}</CardTitle>
-          <CardDescription className="text-sm text-muted-foreground">
+    <Card className="w-full" data-oid="ju77jvc">
+      <CardHeader
+        className="flex flex-row items-center justify-between"
+        data-oid="j5ssrig"
+      >
+        <div data-oid="2lb.ipl">
+          <CardTitle className="text-xl font-semibold" data-oid="4pzbp4c">
+            {title}
+          </CardTitle>
+          <CardDescription
+            className="text-sm text-muted-foreground"
+            data-oid="cw:okxc"
+          >
             {description}
           </CardDescription>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2" data-oid="bogp25x">
           {pagination && pagination.totalPages > 1 && (
             <>
               <button
@@ -61,10 +69,14 @@ export function DashboardLayout({
                     : "hover:text-foreground"
                 }`}
                 aria-label="Previous page"
+                data-oid="vk42gmq"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-4 w-4" data-oid="-:a96z5" />
               </button>
-              <span className="text-sm text-muted-foreground">
+              <span
+                className="text-sm text-muted-foreground"
+                data-oid="0o48lpr"
+              >
                 {pagination.currentPage + 1} / {pagination.totalPages}
               </span>
               <button
@@ -76,32 +88,41 @@ export function DashboardLayout({
                     : "hover:text-foreground"
                 }`}
                 aria-label="Next page"
+                data-oid="fx2sit2"
               >
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4" data-oid="lj1m6w3" />
               </button>
             </>
           )}
-          <Popover open={settingsOpen} onOpenChange={setSettingsOpen}>
-            <PopoverTrigger asChild>
+          <Popover
+            open={settingsOpen}
+            onOpenChange={setSettingsOpen}
+            data-oid="733o56z"
+          >
+            <PopoverTrigger asChild data-oid="dqyuj4g">
               <Button
                 variant="outline"
                 size="icon"
                 className="h-9 w-9 data-[state=open]:bg-accent"
                 aria-label="Dashboard settings"
+                data-oid="s533ftv"
               >
-                <Settings2 className="h-4 w-4" />
+                <Settings2 className="h-4 w-4" data-oid="y1ixp0g" />
               </Button>
             </PopoverTrigger>
             <PopoverContent
               className="w-64 overflow-hidden rounded-lg p-0"
               align="end"
+              data-oid=":9gezkx"
             >
               {menuContent}
             </PopoverContent>
           </Popover>
         </div>
       </CardHeader>
-      <CardContent className="p-4 overflow-hidden">{children}</CardContent>
+      <CardContent className="p-4 overflow-hidden" data-oid="4499lwh">
+        {children}
+      </CardContent>
     </Card>
   );
 }
