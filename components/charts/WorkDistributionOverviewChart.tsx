@@ -485,6 +485,7 @@ export function WorkDistributionOverviewChart() {
                   strokeDasharray="3 3"
                   data-oid="89edcxj"
                 />
+
                 <PolarAngleAxis
                   dataKey="type"
                   tick={{
