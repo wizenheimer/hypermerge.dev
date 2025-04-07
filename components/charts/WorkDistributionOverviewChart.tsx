@@ -1,42 +1,17 @@
 "use client";
 
 import * as React from "react";
-import {
-  ArrowDown,
-  ArrowRight,
-  ArrowUp,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { ArrowUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import {
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  Radar,
-  RadialBarChart,
-  PolarRadiusAxis,
-  RadialBar,
-  Label,
-} from "recharts";
+import { ResponsiveContainer, Sankey, Layer, Rectangle } from "recharts";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
 import { blueColors } from "@/lib/colors";
 import {
   DropdownMenu,
@@ -45,512 +20,398 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-interface MetricCardProps {
-  title: string;
-  value: number;
-  change: number;
-  totalValue: number;
-  currentValue: number;
-}
-
-function MetricCard({
-  title,
-  value,
-  change,
-  totalValue,
-  currentValue,
-}: MetricCardProps) {
-  const getChangeIcon = () => {
-    if (change > 0)
-      return <ArrowUp className="h-4 w-4 text-green-500" data-oid="cebgc8h" />;
-    if (change < 0)
-      return <ArrowDown className="h-4 w-4 text-red-500" data-oid="8stvzff" />;
-    return (
-      <ArrowRight className="h-4 w-4 text-orange-500" data-oid="t02yynq" />
-    );
-  };
-
-  // Calculate the remaining value for stacking
-  const remaining = totalValue - value;
-
-  const chartData = [
-    {
-      name: title,
-      count: value,
-      remaining: remaining,
-    },
-  ];
-
-  const metricConfig = {
-    count: {
-      label: title,
-      color: blueColors[0],
-    },
-    remaining: {
-      label: "Others",
-      color: blueColors[7],
-    },
-  } satisfies ChartConfig;
-
-  return (
-    <Card className="flex flex-col" data-oid=".zp4:qo">
-      <CardHeader className="items-center space-y-0 pb-0" data-oid=":ps0.pq">
-        <div className="flex items-center gap-2" data-oid="6rwtc:g">
-          <CardTitle className="text-sm font-medium" data-oid="5tot..1">
-            {title}
-          </CardTitle>
-          <div
-            className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
-              change > 0
-                ? "bg-green-50 text-green-500"
-                : change < 0
-                  ? "bg-red-50 text-red-500"
-                  : "bg-orange-50 text-orange-500"
-            }`}
-            data-oid="3_3mees"
-          >
-            {getChangeIcon()}
-            {Math.abs(change).toFixed(1)}%
-          </div>
-        </div>
-        <CardDescription className="text-xs" data-oid="vmku6u9">
-          Pull Requests focussed on {title.toLowerCase()}
-        </CardDescription>
-      </CardHeader>
-      <CardContent
-        className="flex flex-1 flex-col items-center gap-2 pb-2"
-        data-oid="g:31-lt"
-      >
-        <ChartContainer
-          config={metricConfig}
-          className="mx-auto aspect-square w-full max-w-[200px]"
-          data-oid="w9df-6:"
-        >
-          <RadialBarChart
-            data={chartData}
-            innerRadius={60}
-            outerRadius={90}
-            startAngle={180}
-            endAngle={0}
-            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-            data-oid="nkg5z:u"
-          >
-            <ChartTooltip
-              content={
-                <ChartTooltipContent indicator="line" data-oid="wdq-o_." />
-              }
-              cursor={false}
-              data-oid="fi1iism"
-            />
-
-            <PolarRadiusAxis
-              tick={false}
-              tickLine={false}
-              axisLine={false}
-              data-oid="p2v79t5"
-            >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        data-oid="d_fq2w6"
-                      >
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) - 16}
-                          className="fill-foreground text-3xl font-bold"
-                          data-oid="ytrv872"
-                        >
-                          {value}
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 12}
-                          className="fill-muted-foreground text-xs"
-                          data-oid="-pokxfx"
-                        >
-                          {title}
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-                data-oid="j1jb.dt"
-              />
-            </PolarRadiusAxis>
-            <RadialBar
-              name={title}
-              dataKey="count"
-              stackId="a"
-              cornerRadius={5}
-              fill={blueColors[0]}
-              className="stroke-transparent stroke-2"
-              maxBarSize={25}
-              data-oid="zn9w2hb"
-            />
-
-            <RadialBar
-              name="Others"
-              dataKey="remaining"
-              stackId="a"
-              cornerRadius={5}
-              fill={blueColors[7]}
-              fillOpacity={0.4}
-              className="stroke-transparent stroke-2"
-              maxBarSize={25}
-              data-oid="_0r9x_7"
-            />
-          </RadialBarChart>
-        </ChartContainer>
-        <div
-          className="flex items-center justify-center gap-4"
-          data-oid="::k:ol_"
-        >
-          <div className="flex items-center gap-1.5" data-oid=":k-ht_.">
-            <div
-              className="h-2 w-2 rounded-full bg-blue-500"
-              data-oid="r.c.:3q"
-            />
-
-            <span className="text-xs text-muted-foreground" data-oid=".egybxf">
-              Count
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5" data-oid="_qfs_px">
-            <div
-              className="h-2 w-2 rounded-full bg-blue-200"
-              data-oid="dwwg81z"
-            />
-
-            <span className="text-xs text-muted-foreground" data-oid="90::624">
-              Others
-            </span>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
 const timeRangeOptions = [
   { label: "15 Days", value: "15days" },
   { label: "1 Month", value: "1month" },
   { label: "3 Months", value: "3month" },
 ];
 
-// Base metrics for 15 days (realistic daily PR volumes for a medium-sized team)
-const baseMetrics15Days = {
-  Features: 12, // ~0.8 feature PRs per day
-  Bugs: 18, // ~1.2 bug fixes per day
-  Chore: 9, // ~0.6 chores per day
-  Documentation: 6, // ~0.4 docs per day
-  Enhancement: 8, // ~0.5 enhancements per day
-  Security: 3, // ~0.2 security fixes per day
-};
+const viewOptions = [
+  { label: "PR Count", value: "count" },
+  { label: "Time Focus", value: "time" },
+];
 
-// Helper function for scaled metrics (used by both generators)
-function getScaledMetrics(multiplier: number, trendFactor: number = 1) {
-  return {
-    Features: Math.round(
-      baseMetrics15Days.Features * multiplier * (1 + 0.2 * trendFactor),
-    ),
-    Bugs: Math.round(
-      baseMetrics15Days.Bugs * multiplier * (1 - 0.1 * trendFactor),
-    ),
-    Chore: Math.round(baseMetrics15Days.Chore * multiplier),
-    Documentation: Math.round(
-      baseMetrics15Days.Documentation * multiplier * (1 + 0.1 * trendFactor),
-    ),
-    Enhancement: Math.round(
-      baseMetrics15Days.Enhancement * multiplier * (1 + 0.15 * trendFactor),
-    ),
-    Security: Math.round(
-      baseMetrics15Days.Security * multiplier * (1 + 0.05 * trendFactor),
-    ),
-  };
+interface Metrics {
+  Features: number;
+  Bugs: number;
+  Chore: number;
+  Documentation: number;
+  Enhancement: number;
+  Security: number;
 }
 
-const getMetricsForTimeRange = (range: string) => {
-  const baseMetrics =
-    {
-      "15days": getScaledMetrics(1, 0), // Base period
-      "1month": getScaledMetrics(2, 0.5), // ~2x with slight trends
-      "3month": getScaledMetrics(5, 1), // ~5x with stronger trends
-    }[range] || getScaledMetrics(2, 0.5); // Default to 1 month
+type MetricKey = keyof Metrics;
 
-  // Calculate the total PRs for this period
-  const totalPRs = Object.values(baseMetrics).reduce(
-    (sum, count) => sum + count,
-    0,
+interface BaseMetric {
+  count: number;
+  timeRange: { min: number; max: number };
+  complexity: number;
+}
+
+type BaseMetrics = Record<MetricKey, BaseMetric>;
+
+// Realistic base metrics for 15 days
+const baseMetrics15Days: BaseMetrics = {
+  Features: {
+    count: 15, // ~1 feature PR per day
+    timeRange: { min: 4, max: 12 }, // hours per PR
+    complexity: 1.2, // multiplier for time variance
+  },
+  Bugs: {
+    count: 24, // ~1.6 bug fixes per day
+    timeRange: { min: 1, max: 6 }, // hours per PR
+    complexity: 0.8,
+  },
+  Chore: {
+    count: 12, // ~0.8 chores per day
+    timeRange: { min: 1, max: 4 }, // hours per PR
+    complexity: 0.6,
+  },
+  Documentation: {
+    count: 9, // ~0.6 docs per day
+    timeRange: { min: 1, max: 3 }, // hours per PR
+    complexity: 0.4,
+  },
+  Enhancement: {
+    count: 18, // ~1.2 enhancements per day
+    timeRange: { min: 2, max: 8 }, // hours per PR
+    complexity: 1.0,
+  },
+  Security: {
+    count: 6, // ~0.4 security fixes per day
+    timeRange: { min: 3, max: 10 }, // hours per PR
+    complexity: 1.5,
+  },
+};
+
+// Helper function to generate random number within range
+const getRandomInRange = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+// Helper function to add realistic variance
+const addVariance = (base: number, variance: number = 0.2) => {
+  const randomVariance = (Math.random() - 0.5) * 2 * variance;
+  return Math.round(base * (1 + randomVariance));
+};
+
+// Helper function for scaled metrics with randomness
+function getScaledMetrics(
+  multiplier: number,
+  trendFactor: number = 1
+): Metrics {
+  const result = {} as Metrics;
+
+  (Object.entries(baseMetrics15Days) as [MetricKey, BaseMetric][]).forEach(
+    ([key, value]) => {
+      // Base count with trend
+      const baseCount = value.count * multiplier * (1 + 0.1 * trendFactor);
+      // Add daily variance
+      const daysInPeriod = multiplier * 15;
+      let totalCount = 0;
+
+      // Simulate daily variations
+      for (let i = 0; i < daysInPeriod; i++) {
+        const dailyBase = baseCount / daysInPeriod;
+        const dailyCount = addVariance(dailyBase, 0.3);
+        totalCount += dailyCount;
+      }
+
+      result[key] = Math.round(totalCount);
+    }
   );
 
-  // Calculate realistic change percentages based on previous period
-  const getChangePercentage = (
-    current: number,
-    metric: keyof typeof baseMetrics15Days,
-  ) => {
-    const previousPeriod =
-      range === "15days"
-        ? baseMetrics15Days[metric] * 0.9 // Simulate previous 15 days
-        : range === "1month"
-          ? getScaledMetrics(1, 0)[metric] // Compare with 15 days
-          : getScaledMetrics(2, 0.5)[metric]; // Compare with 1 month
+  return result;
+}
 
-    return ((current - previousPeriod) / previousPeriod) * 100;
+function getScaledTimeMetrics(
+  multiplier: number,
+  trendFactor: number = 1
+): Metrics {
+  const countMetrics = getScaledMetrics(multiplier, trendFactor);
+  const result = {} as Metrics;
+
+  (Object.entries(baseMetrics15Days) as [MetricKey, BaseMetric][]).forEach(
+    ([key, value]) => {
+      const prCount = countMetrics[key];
+      let totalHours = 0;
+
+      // Calculate time for each PR with realistic variance
+      for (let i = 0; i < prCount; i++) {
+        const baseTime = getRandomInRange(
+          value.timeRange.min,
+          value.timeRange.max
+        );
+        const complexityFactor = value.complexity;
+
+        // Add complexity-based variance
+        const timeWithComplexity = baseTime * complexityFactor;
+
+        // Add random variance based on PR size
+        const finalTime = addVariance(timeWithComplexity, 0.25);
+        totalHours += finalTime;
+      }
+
+      // Add trend factor influence
+      totalHours = Math.round(totalHours * (1 + 0.05 * trendFactor));
+      result[key] = totalHours;
+    }
+  );
+
+  return result;
+}
+
+const formatHours = (hours: number) => {
+  if (hours < 24) return `${hours}h`;
+  const days = Math.floor(hours / 24);
+  const remainingHours = hours % 24;
+  return remainingHours > 0 ? `${days}d ${remainingHours}h` : `${days}d`;
+};
+
+const getSankeyData = (metrics: Metrics, viewType: string) => {
+  const total = Object.values(metrics).reduce((a, b) => a + b, 0);
+  const formatValue = viewType === "time" ? formatHours : String;
+  const formatTotal =
+    viewType === "time" ? `${formatHours(total)} Total` : `${total} Total PRs`;
+
+  return {
+    nodes: [
+      { name: formatTotal },
+      { name: `Features (${formatValue(metrics.Features)})` },
+      { name: `Bugs (${formatValue(metrics.Bugs)})` },
+      { name: `Chore (${formatValue(metrics.Chore)})` },
+      { name: `Documentation (${formatValue(metrics.Documentation)})` },
+      { name: `Enhancement (${formatValue(metrics.Enhancement)})` },
+      { name: `Security (${formatValue(metrics.Security)})` },
+    ].map((node, index) => ({ ...node, id: index })),
+    links: [
+      { source: 0, target: 1, value: metrics.Features },
+      { source: 0, target: 2, value: metrics.Bugs },
+      { source: 0, target: 3, value: metrics.Chore },
+      { source: 0, target: 4, value: metrics.Documentation },
+      { source: 0, target: 5, value: metrics.Enhancement },
+      { source: 0, target: 6, value: metrics.Security },
+    ],
   };
-
-  return [
-    {
-      title: "Features",
-      value: baseMetrics.Features,
-      change: getChangePercentage(baseMetrics.Features, "Features"),
-      totalValue: totalPRs,
-      currentValue: baseMetrics.Features,
-    },
-    {
-      title: "Bugs",
-      value: baseMetrics.Bugs,
-      change: getChangePercentage(baseMetrics.Bugs, "Bugs"),
-      totalValue: totalPRs,
-      currentValue: baseMetrics.Bugs,
-    },
-    {
-      title: "Chore",
-      value: baseMetrics.Chore,
-      change: getChangePercentage(baseMetrics.Chore, "Chore"),
-      totalValue: totalPRs,
-      currentValue: baseMetrics.Chore,
-    },
-    {
-      title: "Documentation",
-      value: baseMetrics.Documentation,
-      change: getChangePercentage(baseMetrics.Documentation, "Documentation"),
-      totalValue: totalPRs,
-      currentValue: baseMetrics.Documentation,
-    },
-    {
-      title: "Enhancement",
-      value: baseMetrics.Enhancement,
-      change: getChangePercentage(baseMetrics.Enhancement, "Enhancement"),
-      totalValue: totalPRs,
-      currentValue: baseMetrics.Enhancement,
-    },
-    {
-      title: "Security",
-      value: baseMetrics.Security,
-      change: getChangePercentage(baseMetrics.Security, "Security"),
-      totalValue: totalPRs,
-      currentValue: baseMetrics.Security,
-    },
-  ];
 };
 
-const getRadarDataForTimeRange = (range: string) => {
-  const metrics =
-    {
-      "15days": getScaledMetrics(1, 0),
-      "1month": getScaledMetrics(2, 0.5),
-      "3month": getScaledMetrics(5, 1),
-    }[range] || getScaledMetrics(2, 0.5);
+const CustomNode = (props: any) => {
+  const { x, y, width, height, index, payload } = props;
 
-  // Calculate total PRs for this period
-  const totalPRs = Object.values(metrics).reduce(
-    (sum, count) => sum + count,
-    0,
+  return (
+    <Layer key={`CustomNode${index}`}>
+      <Rectangle
+        x={x}
+        y={y}
+        width={width}
+        height={height}
+        fill={blueColors[0]}
+        fillOpacity={0.8}
+        stroke={blueColors[0]}
+      />
+      <text
+        x={x + width + 10}
+        y={y + height / 2}
+        textAnchor="start"
+        dominantBaseline="middle"
+        fill="hsl(var(--foreground))"
+        fontSize={12}
+        fontWeight={500}
+      >
+        {payload.name}
+      </text>
+    </Layer>
   );
-
-  // Return the same categories as the metric cards
-  return [
-    { type: "Features", count: metrics.Features, total: totalPRs },
-    { type: "Bugs", count: metrics.Bugs, total: totalPRs },
-    { type: "Chore", count: metrics.Chore, total: totalPRs },
-    { type: "Documentation", count: metrics.Documentation, total: totalPRs },
-    { type: "Enhancement", count: metrics.Enhancement, total: totalPRs },
-    { type: "Security", count: metrics.Security, total: totalPRs },
-  ];
 };
-
-const chartConfig = {
-  count: {
-    label: "Count",
-    color: blueColors[0],
-  },
-  total: {
-    label: "Total",
-    color: blueColors[7],
-  },
-} satisfies ChartConfig;
 
 export function WorkDistributionOverviewChart() {
   const [timeRange, setTimeRange] = React.useState("1month");
-  const [currentPage, setCurrentPage] = React.useState(0);
-  const cardsPerPage = 4;
-  const allMetrics = getMetricsForTimeRange(timeRange);
-  const maxPages = Math.ceil(allMetrics.length / cardsPerPage);
-  const radarData = getRadarDataForTimeRange(timeRange);
 
-  // Get current page's metrics
-  const getCurrentMetrics = () => {
-    const start = currentPage * cardsPerPage;
-    return allMetrics.slice(start, start + cardsPerPage);
-  };
+  const countMetrics = React.useMemo(() => {
+    const multiplier =
+      timeRange === "15days" ? 1 : timeRange === "1month" ? 2 : 5;
+    const trendFactor =
+      timeRange === "15days" ? 0 : timeRange === "1month" ? 0.5 : 1;
+
+    // Add weekly patterns
+    const isLongerPeriod = timeRange !== "15days";
+    const weekendReduction = isLongerPeriod ? 0.7 : 1; // Reduced activity on weekends
+
+    const baseMetrics = getScaledMetrics(multiplier, trendFactor);
+
+    // Apply weekend reduction to final numbers
+    return Object.entries(baseMetrics).reduce(
+      (acc, [key, value]) => ({
+        ...acc,
+        [key]: Math.round(value * weekendReduction),
+      }),
+      {} as Metrics
+    );
+  }, [timeRange]);
+
+  const timeMetrics = React.useMemo(() => {
+    const multiplier =
+      timeRange === "15days" ? 1 : timeRange === "1month" ? 2 : 5;
+    const trendFactor =
+      timeRange === "15days" ? 0 : timeRange === "1month" ? 0.5 : 1;
+
+    // Add weekly patterns
+    const isLongerPeriod = timeRange !== "15days";
+    const weekendReduction = isLongerPeriod ? 0.7 : 1; // Reduced activity on weekends
+
+    const baseMetrics = getScaledTimeMetrics(multiplier, trendFactor);
+
+    // Apply weekend reduction to final numbers
+    return Object.entries(baseMetrics).reduce(
+      (acc, [key, value]) => ({
+        ...acc,
+        [key]: Math.round(value * weekendReduction),
+      }),
+      {} as Metrics
+    );
+  }, [timeRange]);
 
   return (
-    <div className="flex flex-col" data-oid="s1znzcc">
-      <div className="flex items-center justify-between" data-oid="hnj8hk-">
-        <div data-oid="rt0m0j5">
-          <h2
-            className="flex items-center gap-2 text-2xl font-semibold"
-            data-oid="hj0dog3"
-          >
+    <div className="flex flex-col space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="flex items-center gap-2 text-2xl font-semibold">
             Work Distribution
-            <span
-              className="flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-sm text-green-500"
-              data-oid="7wztk6a"
-            >
-              <ArrowUp className="h-4 w-4" data-oid="w9x:p6c" />
+            <span className="flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-sm text-green-500">
+              <ArrowUp className="h-4 w-4" />
               5.97%
             </span>
           </h2>
-          <p className="text-sm text-muted-foreground" data-oid="q87is3p">
-            Neque porro quisquam est qui dolorem ipsum quia
+          <p className="text-sm text-muted-foreground">
+            Distribution of work across different types of pull requests
           </p>
         </div>
-        <div className="flex items-center gap-2" data-oid="ek9rzte">
-          <DropdownMenu data-oid="5y7s9.1">
-            <DropdownMenuTrigger asChild data-oid="s_k_y:9">
-              <Button variant="outline" size="sm" data-oid="wtgfivk">
-                {timeRangeOptions.find((opt) => opt.value === timeRange)?.label}
-                <ChevronDown className="ml-2 h-4 w-4" data-oid="mfojep6" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" data-oid="2q8yoq0">
-              {timeRangeOptions.map((option) => (
-                <DropdownMenuItem
-                  key={option.value}
-                  onClick={() => setTimeRange(option.value)}
-                  data-oid="q0di1g6"
-                >
-                  {option.label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
-            disabled={currentPage === 0}
-            data-oid="dosk481"
-          >
-            <ChevronLeft className="h-4 w-4" data-oid="mkt1ie-" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setCurrentPage((p) => Math.min(maxPages - 1, p + 1))}
-            disabled={currentPage === maxPages - 1}
-            data-oid="xbp310o"
-          >
-            <ChevronRight className="h-4 w-4" data-oid="g3uv87d" />
-          </Button>
-          <Button variant="outline" size="sm" asChild data-oid="nm6wvg:">
-            <Link href="/metrics" data-oid="764_s:8">
-              View More
-            </Link>
-          </Button>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm">
+              {timeRangeOptions.find((opt) => opt.value === timeRange)?.label}
+              <ChevronDown className="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {timeRangeOptions.map((option) => (
+              <DropdownMenuItem
+                key={option.value}
+                onClick={() => setTimeRange(option.value)}
+              >
+                {option.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
-      <div className="mt-4 grid gap-4 md:grid-cols-2" data-oid="inx8d3i">
-        <Card className="h-full" data-oid="ulvu7xx">
-          <CardHeader className="pb-2" data-oid="j9q1xb6">
-            <CardTitle data-oid="vxoqmc_">Pull Request Distribution</CardTitle>
-            <CardDescription data-oid="l2zn-21">
-              Distribution of pull requests by type over{" "}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle>Pull Request Count</CardTitle>
+            <CardDescription>
+              Number of pull requests by type over{" "}
               {timeRangeOptions
                 .find((opt) => opt.value === timeRange)
                 ?.label.toLowerCase()}
             </CardDescription>
           </CardHeader>
-          <CardContent data-oid="jw7rhtw">
-            <ChartContainer
-              config={chartConfig}
-              className="mx-auto aspect-[4/3] w-full"
-              data-oid="7tu8a5k"
-            >
-              <RadarChart
-                data={radarData}
-                margin={{
-                  top: 20,
-                  right: 20,
-                  bottom: 20,
-                  left: 20,
-                }}
-                data-oid="8o8u32c"
-              >
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent indicator="line" data-oid="8y6p99p" />
-                  }
-                  cursor={false}
-                  data-oid="136_bh3"
-                />
-
-                <PolarGrid
-                  stroke={blueColors[7]}
-                  strokeDasharray="3 3"
-                  data-oid="89edcxj"
-                />
-
-                <PolarAngleAxis
-                  dataKey="type"
-                  tick={{
-                    fill: "hsl(var(--foreground))",
-                    fontSize: 12,
+          <CardContent>
+            <div className="h-[400px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <Sankey
+                  data={getSankeyData(countMetrics, "count")}
+                  nodeWidth={20}
+                  nodePadding={60}
+                  iterations={64}
+                  link={{
+                    stroke: blueColors[7],
+                    strokeOpacity: 0.2,
+                    fill: `url(#linkGradient)`,
+                    fillOpacity: 0.2,
                   }}
-                  data-oid="tlotk4-"
-                />
-
-                <Radar
-                  name="Count"
-                  dataKey="count"
-                  stroke={blueColors[0]}
-                  fill={blueColors[0]}
-                  fillOpacity={0.6}
-                  data-oid="hd-fmiq"
-                />
-
-                <Radar
-                  name="Total"
-                  dataKey="total"
-                  stroke={blueColors[7]}
-                  fill={blueColors[7]}
-                  fillOpacity={0.4}
-                  data-oid="3pkr8iy"
-                />
-
-                <ChartLegend
-                  content={<ChartLegendContent data-oid="6nc-gwi" />}
-                  data-oid="ez5b0kv"
-                />
-              </RadarChart>
-            </ChartContainer>
+                  node={CustomNode}
+                  margin={{ left: 200, right: 200, top: 20, bottom: 20 }}
+                >
+                  <defs>
+                    <linearGradient
+                      id="linkGradient"
+                      x1="0"
+                      y1="0"
+                      x2="1"
+                      y2="0"
+                    >
+                      <stop
+                        offset="0%"
+                        stopColor={blueColors[7]}
+                        stopOpacity={0.2}
+                      />
+                      <stop
+                        offset="100%"
+                        stopColor={blueColors[0]}
+                        stopOpacity={0.2}
+                      />
+                    </linearGradient>
+                  </defs>
+                </Sankey>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
 
-        <div
-          className="grid h-full grid-cols-2 content-start gap-4"
-          data-oid="n1el1-5"
-        >
-          {getCurrentMetrics().map((metric) => (
-            <MetricCard key={metric.title} {...metric} data-oid="c6rn8.0" />
-          ))}
-        </div>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle>Time Focus</CardTitle>
+            <CardDescription>
+              Time spent on pull requests by type over{" "}
+              {timeRangeOptions
+                .find((opt) => opt.value === timeRange)
+                ?.label.toLowerCase()}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[400px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <Sankey
+                  data={getSankeyData(timeMetrics, "time")}
+                  nodeWidth={20}
+                  nodePadding={60}
+                  iterations={64}
+                  link={{
+                    stroke: blueColors[7],
+                    strokeOpacity: 0.2,
+                    fill: `url(#linkGradient)`,
+                    fillOpacity: 0.2,
+                  }}
+                  node={CustomNode}
+                  margin={{ left: 200, right: 200, top: 20, bottom: 20 }}
+                >
+                  <defs>
+                    <linearGradient
+                      id="linkGradient"
+                      x1="0"
+                      y1="0"
+                      x2="1"
+                      y2="0"
+                    >
+                      <stop
+                        offset="0%"
+                        stopColor={blueColors[7]}
+                        stopOpacity={0.2}
+                      />
+                      <stop
+                        offset="100%"
+                        stopColor={blueColors[0]}
+                        stopOpacity={0.2}
+                      />
+                    </linearGradient>
+                  </defs>
+                </Sankey>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
