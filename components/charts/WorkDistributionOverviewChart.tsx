@@ -19,6 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ResponsiveSankey } from "@nivo/sankey";
 
 const timeRangeOptions = [
   { label: "15 Days", value: "15days" },
@@ -215,28 +216,29 @@ const getSankeyData = (metrics: Metrics, viewType: string) => {
       : `${totalMerged + totalClosed + totalOpen} Total PRs`;
 
   const nodes = [
-    { name: formatTotal },
-    { name: `Merged (${formatValue(totalMerged)})` },
-    { name: `Closed (${formatValue(totalClosed)})` },
-    { name: `Open (${formatValue(totalOpen)})` },
+    { id: "total", name: formatTotal },
+    { id: "merged", name: `Merged (${formatValue(totalMerged)})` },
+    { id: "closed", name: `Closed (${formatValue(totalClosed)})` },
+    { id: "open", name: `Open (${formatValue(totalOpen)})` },
     ...Object.entries(prStatusMetrics).map(([key, status]) => ({
+      id: key.toLowerCase(),
       name: `${key} (${formatValue(
         status.merged + status.closed + status.open
       )})`,
     })),
-  ].map((node, index) => ({ ...node, id: index }));
+  ];
 
   const links = [
     // Links from total to status
-    { source: 0, target: 1, value: totalMerged },
-    { source: 0, target: 2, value: totalClosed },
-    { source: 0, target: 3, value: totalOpen },
+    { source: "total", target: "merged", value: totalMerged },
+    { source: "total", target: "closed", value: totalClosed },
+    { source: "total", target: "open", value: totalOpen },
 
     // Links from status to PR types
-    ...Object.entries(prStatusMetrics).flatMap(([key, status], index) => [
-      { source: 1, target: 4 + index, value: status.merged },
-      { source: 2, target: 4 + index, value: status.closed },
-      { source: 3, target: 4 + index, value: status.open },
+    ...Object.entries(prStatusMetrics).flatMap(([key, status]) => [
+      { source: "merged", target: key.toLowerCase(), value: status.merged },
+      { source: "closed", target: key.toLowerCase(), value: status.closed },
+      { source: "open", target: key.toLowerCase(), value: status.open },
     ]),
   ];
 
@@ -367,43 +369,29 @@ export function WorkDistributionOverviewChart() {
           </CardHeader>
           <CardContent>
             <div className="h-[500px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <Sankey
-                  data={getSankeyData(countMetrics, "count")}
-                  iterations={64}
-                  link={{
-                    stroke: blueColors[7],
-                    strokeOpacity: 0.2,
-                    fill: `url(#linkGradient)`,
-                    fillOpacity: 0.2,
-                  }}
-                  node={CustomNode}
-                  margin={{ left: 150, right: 150, top: 40, bottom: 40 }}
-                  nodePadding={100}
-                  nodeWidth={30}
-                >
-                  <defs>
-                    <linearGradient
-                      id="linkGradient"
-                      x1="0"
-                      y1="0"
-                      x2="1"
-                      y2="0"
-                    >
-                      <stop
-                        offset="0%"
-                        stopColor={blueColors[7]}
-                        stopOpacity={0.2}
-                      />
-                      <stop
-                        offset="100%"
-                        stopColor={blueColors[0]}
-                        stopOpacity={0.2}
-                      />
-                    </linearGradient>
-                  </defs>
-                </Sankey>
-              </ResponsiveContainer>
+              <ResponsiveSankey
+                data={getSankeyData(countMetrics, "count")}
+                margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
+                align="justify"
+                colors={{ scheme: "category10" }}
+                nodeOpacity={1}
+                nodeHoverOthersOpacity={0.35}
+                nodeThickness={18}
+                nodeSpacing={24}
+                nodeBorderWidth={0}
+                nodeBorderColor={{
+                  from: "color",
+                  modifiers: [["darker", 0.8]],
+                }}
+                linkOpacity={0.5}
+                linkHoverOthersOpacity={0.1}
+                linkContract={3}
+                enableLinkGradient={true}
+                labelPosition="inside"
+                labelOrientation="horizontal"
+                labelPadding={16}
+                labelTextColor={{ from: "color", modifiers: [["darker", 1]] }}
+              />
             </div>
           </CardContent>
         </Card>
@@ -420,43 +408,29 @@ export function WorkDistributionOverviewChart() {
           </CardHeader>
           <CardContent>
             <div className="h-[500px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <Sankey
-                  data={getSankeyData(timeMetrics, "time")}
-                  iterations={64}
-                  link={{
-                    stroke: blueColors[7],
-                    strokeOpacity: 0.2,
-                    fill: `url(#linkGradient)`,
-                    fillOpacity: 0.2,
-                  }}
-                  node={CustomNode}
-                  margin={{ left: 150, right: 150, top: 40, bottom: 40 }}
-                  nodePadding={100}
-                  nodeWidth={30}
-                >
-                  <defs>
-                    <linearGradient
-                      id="linkGradient"
-                      x1="0"
-                      y1="0"
-                      x2="1"
-                      y2="0"
-                    >
-                      <stop
-                        offset="0%"
-                        stopColor={blueColors[7]}
-                        stopOpacity={0.2}
-                      />
-                      <stop
-                        offset="100%"
-                        stopColor={blueColors[0]}
-                        stopOpacity={0.2}
-                      />
-                    </linearGradient>
-                  </defs>
-                </Sankey>
-              </ResponsiveContainer>
+              <ResponsiveSankey
+                data={getSankeyData(timeMetrics, "time")}
+                margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
+                align="justify"
+                colors={{ scheme: "category10" }}
+                nodeOpacity={1}
+                nodeHoverOthersOpacity={0.35}
+                nodeThickness={18}
+                nodeSpacing={24}
+                nodeBorderWidth={0}
+                nodeBorderColor={{
+                  from: "color",
+                  modifiers: [["darker", 0.8]],
+                }}
+                linkOpacity={0.5}
+                linkHoverOthersOpacity={0.1}
+                linkContract={3}
+                enableLinkGradient={true}
+                labelPosition="inside"
+                labelOrientation="horizontal"
+                labelPadding={16}
+                labelTextColor={{ from: "color", modifiers: [["darker", 1]] }}
+              />
             </div>
           </CardContent>
         </Card>
