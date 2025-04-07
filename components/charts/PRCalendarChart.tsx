@@ -2,22 +2,10 @@
 
 import * as React from "react";
 import { ResponsiveCalendar } from "@nivo/calendar";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
 import { blueColors } from "@/lib/colors";
+import Menu from "@/components/menu";
+import { DashboardLayout } from "@/components/dashboard-layout";
+import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
 
 interface CalendarData {
   day: string;
@@ -26,7 +14,7 @@ interface CalendarData {
     merged: number;
     closed: number;
     open: number;
-    byType: {
+    byFocus: {
       [key: string]: number;
     };
   };
@@ -42,27 +30,132 @@ interface PRMetrics {
   [key: string]: PRStatus;
 }
 
-const viewOptions = [
-  { label: "All PRs", value: "all" },
-  { label: "Features", value: "features" },
-  { label: "Bugs", value: "bugs" },
-  { label: "Chore", value: "chore" },
-  { label: "Documentation", value: "documentation" },
-  { label: "Enhancement", value: "enhancement" },
-  { label: "Security", value: "security" },
-];
+interface MetricConfig {
+  label: string;
+  description: string;
+}
 
-const displayOptions = [
-  { label: "By Status", value: "status" },
-  { label: "By Type", value: "type" },
-];
+const viewTypeLabels = {
+  focus: "By Focus",
+  status: "By Status",
+};
+
+const timeRangeLabels: Record<TimeRange, string> = {
+  "1week": "1 Week",
+  "15days": "15 Days",
+  "1month": "1 Month",
+  "3month": "3 Months",
+  "6month": "6 Months",
+  "1year": "1 Year",
+};
+
+const chartConfigs = {
+  status: {
+    merged: {
+      label: "Merged",
+      description: "Total number of merged pull requests",
+    },
+    closed: {
+      label: "Closed",
+      description: "Total number of closed pull requests",
+    },
+    open: {
+      label: "Open",
+      description: "Total number of open pull requests",
+    },
+  },
+  focus: {
+    features: {
+      label: "Features",
+      description: "Feature-related pull requests",
+    },
+    bugs: {
+      label: "Bugs",
+      description: "Bug fix pull requests",
+    },
+    chore: {
+      label: "Chores",
+      description: "Maintenance and chore pull requests",
+    },
+    documentation: {
+      label: "Documentation",
+      description: "Documentation updates",
+    },
+    enhancement: {
+      label: "Enhancements",
+      description: "Enhancement pull requests",
+    },
+    security: {
+      label: "Security",
+      description: "Security-related pull requests",
+    },
+  },
+};
+
+// Custom tooltip component
+interface TooltipData {
+  day: string;
+  value: number;
+  data: CalendarData;
+}
+
+const CustomTooltip = ({
+  day,
+  value,
+  data,
+  viewType,
+}: TooltipData & { viewType: keyof typeof viewTypeLabels }) => {
+  const details = data.details;
+  const items =
+    viewType === "status"
+      ? [
+          { label: "Merged", value: details.merged },
+          { label: "Closed", value: details.closed },
+          { label: "Open", value: details.open },
+        ]
+      : Object.entries(details.byFocus).map(([key, value]) => ({
+          label: key.charAt(0).toUpperCase() + key.slice(1),
+          value,
+        }));
+
+  return (
+    <div className="rounded-lg border bg-card p-3 text-card-foreground shadow-sm">
+      <div className="flex flex-col space-y-1.5">
+        <h3 className="text-sm font-semibold leading-none tracking-tight">
+          {new Date(day).toLocaleDateString(undefined, {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </h3>
+        <div className="space-y-1">
+          <div className="text-sm text-muted-foreground">
+            Total PRs: {value}
+          </div>
+          <div className="mt-2 space-y-1">
+            {items.map(({ label, value }) => (
+              <div
+                key={label}
+                className="flex items-center justify-between text-sm"
+              >
+                <span className="text-muted-foreground">{label}</span>
+                <span className="font-medium">{value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // Helper function to generate random calendar data
 function generateCalendarData(
   from: Date,
   to: Date,
   metrics: PRMetrics,
-  viewType: string
+  viewType: keyof typeof viewTypeLabels
 ): CalendarData[] {
   const data: CalendarData[] = [];
   const currentDate = new Date(from);
@@ -74,29 +167,17 @@ function generateCalendarData(
       merged: 0,
       closed: 0,
       open: 0,
-      byType: {} as { [key: string]: number },
+      byFocus: {} as { [key: string]: number },
     };
 
-    if (viewType === "all") {
-      // Sum all PRs for the day
-      Object.entries(metrics).forEach(([type, status]) => {
-        details.merged += status.merged;
-        details.closed += status.closed;
-        details.open += status.open;
-        details.byType[type] = status.merged + status.closed + status.open;
-        value += status.merged + status.closed + status.open;
-      });
-    } else {
-      // Get specific PR type
-      const prType = metrics[viewType];
-      if (prType) {
-        details.merged = prType.merged;
-        details.closed = prType.closed;
-        details.open = prType.open;
-        details.byType[viewType] = prType.merged + prType.closed + prType.open;
-        value = prType.merged + prType.closed + prType.open;
-      }
-    }
+    // Sum all PRs for the day
+    Object.entries(metrics).forEach(([type, status]) => {
+      details.merged += status.merged;
+      details.closed += status.closed;
+      details.open += status.open;
+      details.byFocus[type] = status.merged + status.closed + status.open;
+      value += status.merged + status.closed + status.open;
+    });
 
     // Add some randomness to make it more realistic
     const randomFactor = 0.8 + Math.random() * 0.4;
@@ -104,9 +185,9 @@ function generateCalendarData(
     details.merged = Math.round(details.merged * randomFactor);
     details.closed = Math.round(details.closed * randomFactor);
     details.open = Math.round(details.open * randomFactor);
-    Object.keys(details.byType).forEach(
+    Object.keys(details.byFocus).forEach(
       (key) =>
-        (details.byType[key] = Math.round(details.byType[key] * randomFactor))
+        (details.byFocus[key] = Math.round(details.byFocus[key] * randomFactor))
     );
 
     data.push({ day, value, details });
@@ -117,9 +198,11 @@ function generateCalendarData(
 }
 
 export function PRCalendarChart() {
-  const [viewType, setViewType] = React.useState("all");
-  const [displayType, setDisplayType] = React.useState("status");
+  const [viewType, setViewType] =
+    React.useState<keyof typeof viewTypeLabels>("focus");
+  const [timeRange, setTimeRange] = React.useState<TimeRange>("1year");
   const [metrics, setMetrics] = React.useState<PRMetrics>({});
+  const [selectedDay, setSelectedDay] = React.useState<string | null>(null);
 
   // Generate sample metrics (you would replace this with real data)
   React.useEffect(() => {
@@ -134,154 +217,87 @@ export function PRCalendarChart() {
     setMetrics(sampleMetrics);
   }, []);
 
-  // Calculate date range (last 3 months)
+  // Calculate date range based on timeRange
   const to = new Date();
   const from = new Date();
-  from.setMonth(from.getMonth() - 3);
+  switch (timeRange) {
+    case "1week":
+      from.setDate(from.getDate() - 7);
+      break;
+    case "15days":
+      from.setDate(from.getDate() - 15);
+      break;
+    case "1month":
+      from.setMonth(from.getMonth() - 1);
+      break;
+    case "3month":
+      from.setMonth(from.getMonth() - 3);
+      break;
+    case "6month":
+      from.setMonth(from.getMonth() - 6);
+      break;
+    case "1year":
+      from.setFullYear(from.getFullYear() - 1);
+      break;
+  }
 
   const calendarData = generateCalendarData(from, to, metrics, viewType);
 
-  const renderTooltip = ({ day, value, details }: CalendarData) => {
-    if (displayType === "status") {
-      return (
-        <div className="rounded-lg border bg-card p-3 text-card-foreground shadow-sm">
-          <div className="flex flex-col space-y-1.5">
-            <h3 className="text-sm font-semibold leading-none tracking-tight">
-              {day}
-            </h3>
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Merged</span>
-                <span className="font-medium">{details.merged}</span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Closed</span>
-                <span className="font-medium">{details.closed}</span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Open</span>
-                <span className="font-medium">{details.open}</span>
-              </div>
-              <div className="flex items-center justify-between border-t pt-1 text-sm font-medium">
-                <span>Total</span>
-                <span>{value}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="rounded-lg border bg-card p-3 text-card-foreground shadow-sm">
-          <div className="flex flex-col space-y-1.5">
-            <h3 className="text-sm font-semibold leading-none tracking-tight">
-              {day}
-            </h3>
-            <div className="space-y-1">
-              {Object.entries(details.byType).map(([type, count]) => (
-                <div
-                  key={type}
-                  className="flex items-center justify-between text-sm"
-                >
-                  <span className="text-muted-foreground capitalize">
-                    {type}
-                  </span>
-                  <span className="font-medium">{count}</span>
-                </div>
-              ))}
-              <div className="flex items-center justify-between border-t pt-1 text-sm font-medium">
-                <span>Total</span>
-                <span>{value}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-  };
+  // --- Menu Configuration ---
+  const menuContent = (
+    <Menu
+      viewType={viewType}
+      setViewType={(newViewType) =>
+        setViewType(newViewType as keyof typeof viewTypeLabels)
+      }
+      timeRange={timeRange}
+      setTimeRange={setTimeRange}
+      viewTypeLabels={viewTypeLabels}
+      timeRangeLabels={timeRangeLabels}
+      showViewTypeSelector={true}
+      showTimeRangeSelector={true}
+      data-oid="beyk3q8"
+    />
+  );
 
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle>Daily PR Activity</CardTitle>
-            <CardDescription>
-              Track pull request activity over time
-            </CardDescription>
-          </div>
-          <div className="flex gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                  {
-                    displayOptions.find((opt) => opt.value === displayType)
-                      ?.label
-                  }
-                  <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {displayOptions.map((option) => (
-                  <DropdownMenuItem
-                    key={option.value}
-                    onClick={() => setDisplayType(option.value)}
-                  >
-                    {option.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                  {viewOptions.find((opt) => opt.value === viewType)?.label}
-                  <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {viewOptions.map((option) => (
-                  <DropdownMenuItem
-                    key={option.value}
-                    onClick={() => setViewType(option.value)}
-                  >
-                    {option.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="h-[300px] w-full">
-          <ResponsiveCalendar
-            data={calendarData}
-            from={from.toISOString().split("T")[0]}
-            to={to.toISOString().split("T")[0]}
-            emptyColor="#eeeeee"
-            colors={blueColors}
-            margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
-            yearSpacing={40}
-            monthBorderColor="#ffffff"
-            dayBorderWidth={2}
-            dayBorderColor="#ffffff"
-            legends={[
-              {
-                anchor: "bottom-right",
-                direction: "row",
-                translateY: 36,
-                itemCount: 4,
-                itemWidth: 42,
-                itemHeight: 36,
-                itemsSpacing: 14,
-                itemDirection: "right-to-left",
-              },
-            ]}
-            tooltip={({ data }) => renderTooltip(data as CalendarData)}
-          />
-        </div>
-      </CardContent>
-    </Card>
+    <DashboardLayout
+      title="Daily PR Activity"
+      description={
+        viewType === "focus"
+          ? "Track pull requests by focus area"
+          : "Track pull requests by status"
+      }
+      menuContent={menuContent}
+      data-oid="d_6:v.w"
+    >
+      <div className="h-[500px] w-full">
+        <ResponsiveCalendar
+          data={calendarData}
+          from={from.toISOString().split("T")[0]}
+          to={to.toISOString().split("T")[0]}
+          emptyColor="#eeeeee"
+          colors={blueColors}
+          margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
+          yearSpacing={40}
+          monthBorderColor="#ffffff"
+          dayBorderWidth={2}
+          dayBorderColor="#ffffff"
+          onClick={(day) => setSelectedDay(day.day)}
+          tooltip={({ day }) => {
+            const dayData = calendarData.find((d) => d.day === day);
+            if (!dayData) return null;
+            return (
+              <CustomTooltip
+                day={day}
+                value={dayData.value}
+                data={dayData}
+                viewType={viewType}
+              />
+            );
+          }}
+        />
+      </div>
+    </DashboardLayout>
   );
 }
