@@ -40,6 +40,16 @@ interface Metrics {
   Security: number;
 }
 
+interface PRStatus {
+  merged: number;
+  closed: number;
+  open: number;
+}
+
+interface PRMetrics {
+  [key: string]: PRStatus;
+}
+
 type MetricKey = keyof Metrics;
 
 interface BaseMetric {
@@ -168,31 +178,69 @@ const formatHours = (hours: number) => {
   return remainingHours > 0 ? `${days}d ${remainingHours}h` : `${days}d`;
 };
 
-const getSankeyData = (metrics: Metrics, viewType: string) => {
-  const total = Object.values(metrics).reduce((a, b) => a + b, 0);
-  const formatValue = viewType === "time" ? formatHours : String;
-  const formatTotal =
-    viewType === "time" ? `${formatHours(total)} Total` : `${total} Total PRs`;
+// Helper function to generate PR status metrics
+function getPRStatusMetrics(metrics: Metrics): PRMetrics {
+  return Object.entries(metrics).reduce((acc, [key, value]) => {
+    // Realistic distribution of PR statuses
+    const merged = Math.round(value * 0.7); // 70% merged
+    const closed = Math.round(value * 0.2); // 20% closed
+    const open = value - merged - closed; // Remaining open
 
-  return {
-    nodes: [
-      { name: formatTotal },
-      { name: `Features (${formatValue(metrics.Features)})` },
-      { name: `Bugs (${formatValue(metrics.Bugs)})` },
-      { name: `Chore (${formatValue(metrics.Chore)})` },
-      { name: `Documentation (${formatValue(metrics.Documentation)})` },
-      { name: `Enhancement (${formatValue(metrics.Enhancement)})` },
-      { name: `Security (${formatValue(metrics.Security)})` },
-    ].map((node, index) => ({ ...node, id: index })),
-    links: [
-      { source: 0, target: 1, value: metrics.Features },
-      { source: 0, target: 2, value: metrics.Bugs },
-      { source: 0, target: 3, value: metrics.Chore },
-      { source: 0, target: 4, value: metrics.Documentation },
-      { source: 0, target: 5, value: metrics.Enhancement },
-      { source: 0, target: 6, value: metrics.Security },
-    ],
-  };
+    acc[key] = { merged, closed, open };
+    return acc;
+  }, {} as PRMetrics);
+}
+
+const getSankeyData = (metrics: Metrics, viewType: string) => {
+  const prStatusMetrics = getPRStatusMetrics(metrics);
+  const formatValue = viewType === "time" ? formatHours : String;
+
+  // Calculate totals for each status
+  const totalMerged = Object.values(prStatusMetrics).reduce(
+    (sum, status) => sum + status.merged,
+    0
+  );
+  const totalClosed = Object.values(prStatusMetrics).reduce(
+    (sum, status) => sum + status.closed,
+    0
+  );
+  const totalOpen = Object.values(prStatusMetrics).reduce(
+    (sum, status) => sum + status.open,
+    0
+  );
+
+  const formatTotal =
+    viewType === "time"
+      ? `${formatHours(totalMerged + totalClosed + totalOpen)} Total`
+      : `${totalMerged + totalClosed + totalOpen} Total PRs`;
+
+  const nodes = [
+    { name: formatTotal },
+    { name: `Merged (${formatValue(totalMerged)})` },
+    { name: `Closed (${formatValue(totalClosed)})` },
+    { name: `Open (${formatValue(totalOpen)})` },
+    ...Object.entries(prStatusMetrics).map(([key, status]) => ({
+      name: `${key} (${formatValue(
+        status.merged + status.closed + status.open
+      )})`,
+    })),
+  ].map((node, index) => ({ ...node, id: index }));
+
+  const links = [
+    // Links from total to status
+    { source: 0, target: 1, value: totalMerged },
+    { source: 0, target: 2, value: totalClosed },
+    { source: 0, target: 3, value: totalOpen },
+
+    // Links from status to PR types
+    ...Object.entries(prStatusMetrics).flatMap(([key, status], index) => [
+      { source: 1, target: 4 + index, value: status.merged },
+      { source: 2, target: 4 + index, value: status.closed },
+      { source: 3, target: 4 + index, value: status.open },
+    ]),
+  ];
+
+  return { nodes, links };
 };
 
 const CustomNode = (props: any) => {
@@ -318,12 +366,10 @@ export function WorkDistributionOverviewChart() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[400px] w-full">
+            <div className="h-[500px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <Sankey
                   data={getSankeyData(countMetrics, "count")}
-                  nodeWidth={20}
-                  nodePadding={60}
                   iterations={64}
                   link={{
                     stroke: blueColors[7],
@@ -332,7 +378,9 @@ export function WorkDistributionOverviewChart() {
                     fillOpacity: 0.2,
                   }}
                   node={CustomNode}
-                  margin={{ left: 200, right: 200, top: 20, bottom: 20 }}
+                  margin={{ left: 150, right: 150, top: 40, bottom: 40 }}
+                  nodePadding={100}
+                  nodeWidth={30}
                 >
                   <defs>
                     <linearGradient
@@ -371,12 +419,10 @@ export function WorkDistributionOverviewChart() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[400px] w-full">
+            <div className="h-[500px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <Sankey
                   data={getSankeyData(timeMetrics, "time")}
-                  nodeWidth={20}
-                  nodePadding={60}
                   iterations={64}
                   link={{
                     stroke: blueColors[7],
@@ -385,7 +431,9 @@ export function WorkDistributionOverviewChart() {
                     fillOpacity: 0.2,
                   }}
                   node={CustomNode}
-                  margin={{ left: 200, right: 200, top: 20, bottom: 20 }}
+                  margin={{ left: 150, right: 150, top: 40, bottom: 40 }}
+                  nodePadding={100}
+                  nodeWidth={30}
                 >
                   <defs>
                     <linearGradient
