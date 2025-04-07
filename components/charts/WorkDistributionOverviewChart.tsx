@@ -274,17 +274,59 @@ const CustomNode = (props: any) => {
   );
 };
 
+const CustomNodeTooltip = ({ node }: { node: any }) => {
+  if (!node) return null;
+
+  return (
+    <div className="rounded-lg border bg-card p-3 text-card-foreground shadow-sm">
+      <div className="flex flex-col space-y-1.5">
+        <h3 className="text-sm font-semibold leading-none tracking-tight">
+          {node.name}
+        </h3>
+        <div className="space-y-1">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Value</span>
+            <span className="font-medium">{node.value}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const CustomLinkTooltip = ({ link }: { link: any }) => {
+  if (!link) return null;
+
+  return (
+    <div className="rounded-lg border bg-card p-3 text-card-foreground shadow-sm">
+      <div className="flex flex-col space-y-1.5">
+        <h3 className="text-sm font-semibold leading-none tracking-tight">
+          {link.source.name} → {link.target.name}
+        </h3>
+        <div className="space-y-1">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Value</span>
+            <span className="font-medium">{link.value}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export function WorkDistributionOverviewChart() {
-  const [timeRange, setTimeRange] = React.useState("1month");
+  const [countTimeRange, setCountTimeRange] = React.useState("1month");
+  const [timeTimeRange, setTimeTimeRange] = React.useState("1month");
+  const [metrics, setMetrics] = React.useState<PRMetrics>({});
 
   const countMetrics = React.useMemo(() => {
     const multiplier =
-      timeRange === "15days" ? 1 : timeRange === "1month" ? 2 : 5;
+      countTimeRange === "15days" ? 1 : countTimeRange === "1month" ? 2 : 5;
     const trendFactor =
-      timeRange === "15days" ? 0 : timeRange === "1month" ? 0.5 : 1;
+      countTimeRange === "15days" ? 0 : countTimeRange === "1month" ? 0.5 : 1;
 
     // Add weekly patterns
-    const isLongerPeriod = timeRange !== "15days";
+    const isLongerPeriod = countTimeRange !== "15days";
     const weekendReduction = isLongerPeriod ? 0.7 : 1; // Reduced activity on weekends
 
     const baseMetrics = getScaledMetrics(multiplier, trendFactor);
@@ -297,16 +339,16 @@ export function WorkDistributionOverviewChart() {
       }),
       {} as Metrics
     );
-  }, [timeRange]);
+  }, [countTimeRange]);
 
   const timeMetrics = React.useMemo(() => {
     const multiplier =
-      timeRange === "15days" ? 1 : timeRange === "1month" ? 2 : 5;
+      timeTimeRange === "15days" ? 1 : timeTimeRange === "1month" ? 2 : 5;
     const trendFactor =
-      timeRange === "15days" ? 0 : timeRange === "1month" ? 0.5 : 1;
+      timeTimeRange === "15days" ? 0 : timeTimeRange === "1month" ? 0.5 : 1;
 
     // Add weekly patterns
-    const isLongerPeriod = timeRange !== "15days";
+    const isLongerPeriod = timeTimeRange !== "15days";
     const weekendReduction = isLongerPeriod ? 0.7 : 1; // Reduced activity on weekends
 
     const baseMetrics = getScaledTimeMetrics(multiplier, trendFactor);
@@ -319,53 +361,46 @@ export function WorkDistributionOverviewChart() {
       }),
       {} as Metrics
     );
-  }, [timeRange]);
+  }, [timeTimeRange]);
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="flex items-center gap-2 text-2xl font-semibold">
-            Work Distribution
-            <span className="flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-sm text-green-500">
-              <ArrowUp className="h-4 w-4" />
-              5.97%
-            </span>
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Distribution of work across different types of pull requests
-          </p>
-        </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm">
-              {timeRangeOptions.find((opt) => opt.value === timeRange)?.label}
-              <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {timeRangeOptions.map((option) => (
-              <DropdownMenuItem
-                key={option.value}
-                onClick={() => setTimeRange(option.value)}
-              >
-                {option.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle>Pull Request Count</CardTitle>
-            <CardDescription>
-              Number of pull requests by type over{" "}
-              {timeRangeOptions
-                .find((opt) => opt.value === timeRange)
-                ?.label.toLowerCase()}
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Pull Request Count</CardTitle>
+                <CardDescription>
+                  Number of pull requests by type over{" "}
+                  {timeRangeOptions
+                    .find((opt) => opt.value === countTimeRange)
+                    ?.label.toLowerCase()}
+                </CardDescription>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    {
+                      timeRangeOptions.find(
+                        (opt) => opt.value === countTimeRange
+                      )?.label
+                    }
+                    <ChevronDown className="ml-2 h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {timeRangeOptions.map((option) => (
+                    <DropdownMenuItem
+                      key={option.value}
+                      onClick={() => setCountTimeRange(option.value)}
+                    >
+                      {option.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="h-[500px] w-full">
@@ -373,7 +408,7 @@ export function WorkDistributionOverviewChart() {
                 data={getSankeyData(countMetrics, "count")}
                 margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
                 align="justify"
-                colors={{ scheme: "category10" }}
+                colors={blueColors}
                 nodeOpacity={1}
                 nodeHoverOthersOpacity={0.35}
                 nodeThickness={18}
@@ -391,6 +426,8 @@ export function WorkDistributionOverviewChart() {
                 labelOrientation="horizontal"
                 labelPadding={16}
                 labelTextColor={{ from: "color", modifiers: [["darker", 1]] }}
+                nodeTooltip={CustomNodeTooltip}
+                linkTooltip={CustomLinkTooltip}
               />
             </div>
           </CardContent>
@@ -398,13 +435,39 @@ export function WorkDistributionOverviewChart() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle>Time Focus</CardTitle>
-            <CardDescription>
-              Time spent on pull requests by type over{" "}
-              {timeRangeOptions
-                .find((opt) => opt.value === timeRange)
-                ?.label.toLowerCase()}
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Time Focus</CardTitle>
+                <CardDescription>
+                  Time spent on pull requests by type over{" "}
+                  {timeRangeOptions
+                    .find((opt) => opt.value === timeTimeRange)
+                    ?.label.toLowerCase()}
+                </CardDescription>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    {
+                      timeRangeOptions.find(
+                        (opt) => opt.value === timeTimeRange
+                      )?.label
+                    }
+                    <ChevronDown className="ml-2 h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {timeRangeOptions.map((option) => (
+                    <DropdownMenuItem
+                      key={option.value}
+                      onClick={() => setTimeTimeRange(option.value)}
+                    >
+                      {option.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="h-[500px] w-full">
@@ -412,7 +475,7 @@ export function WorkDistributionOverviewChart() {
                 data={getSankeyData(timeMetrics, "time")}
                 margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
                 align="justify"
-                colors={{ scheme: "category10" }}
+                colors={blueColors}
                 nodeOpacity={1}
                 nodeHoverOthersOpacity={0.35}
                 nodeThickness={18}
@@ -430,6 +493,8 @@ export function WorkDistributionOverviewChart() {
                 labelOrientation="horizontal"
                 labelPadding={16}
                 labelTextColor={{ from: "color", modifiers: [["darker", 1]] }}
+                nodeTooltip={CustomNodeTooltip}
+                linkTooltip={CustomLinkTooltip}
               />
             </div>
           </CardContent>

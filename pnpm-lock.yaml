@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@nivo/calendar':
+        specifier: ^0.88.0
+        version: 0.88.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@nivo/sankey':
         specifier: ^0.88.0
         version: 0.88.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -354,6 +357,11 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
+
+  '@nivo/calendar@0.88.0':
+    resolution: {integrity: sha512-sTpoaN5bNRwywRIVKAv7oo+/ZZjX0cjBcpbyFQZqXnEmFX8tEO55Rn/469zWDG776Gk7wHcuwmQfEIqwWM9PfQ==}
+    peerDependencies:
+      react: '>= 16.14.0 < 19.0.0'
 
   '@nivo/colors@0.88.0':
     resolution: {integrity: sha512-IZ+leYIqAlo7dyLHmsQwujanfRgXyoQ5H7PU3RWLEn1PP0zxDKLgEjFEDADpDauuslh2Tx0L81GNkWR6QSP0Mw==}
@@ -895,6 +903,12 @@ packages:
   '@types/d3-shape@3.1.7':
     resolution: {integrity: sha512-VLvUQ33C+3J+8p+Daf+nYSOsjB4GXp19/S/aGo60m9h1v6XaxjiT82lKVWJCfzhtuZ3yD7i/TPeC/fuKLLOSmg==}
 
+  '@types/d3-time-format@3.0.4':
+    resolution: {integrity: sha512-or9DiDnYI1h38J9hxKEsw513+KVuFbEVhl7qdxcaudoiqWWepapUen+2vAriFGexr6W5+P4l9+HJrB39GG+oRg==}
+
+  '@types/d3-time@1.1.4':
+    resolution: {integrity: sha512-JIvy2HjRInE+TXOmIGN5LCmeO0hkFZx5f9FZ7kiN+D+YTcc8pptsiLiuHsvwxwC7VVKmJ2ExHUgNlAiV7vQM9g==}
+
   '@types/d3-time@3.0.4':
     resolution: {integrity: sha512-yuzZug1nkAAaBlBBikKZTgzCeA+k1uy4ZFwWANOfKw5z5LRhV0gNA7gNkKm7HoK+HRN0wX3EkxGk0fpbWhmB7g==}
 
@@ -1262,6 +1276,9 @@ packages:
   d3-time-format@4.1.0:
     resolution: {integrity: sha512-dJxPBlzC7NugB2PDLwo9Q8JiTR3M3e4/XANkreKSUxF8vvXKqm1Yfq4Q5dl8budlunRVlUUaDUgFt7eA8D6NLg==}
     engines: {node: '>=12'}
+
+  d3-time@1.1.0:
+    resolution: {integrity: sha512-Xh0isrZ5rPYYdqhAVk8VLnMEidhz5aP7htAADH6MfzgmmicPkTo8LhkLxci61/lCB7n7UmE3bN0leRt+qvkLxA==}
 
   d3-time@2.1.1:
     resolution: {integrity: sha512-/eIQe/eR4kCQwq7yxi7z4c6qEXf2IYGcjoWB5OOQy4Tq9Uv39/947qlDcN2TLkiTzQWzvnsuYPB9TrWaNfipKQ==}
@@ -2625,6 +2642,22 @@ snapshots:
   '@next/swc-win32-x64-msvc@15.2.4':
     optional: true
 
+  '@nivo/calendar@0.88.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@nivo/core': 0.88.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@nivo/legends': 0.88.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@nivo/tooltip': 0.88.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@types/d3-scale': 4.0.9
+      '@types/d3-time': 1.1.4
+      '@types/d3-time-format': 3.0.4
+      d3-scale: 4.0.2
+      d3-time: 1.1.0
+      d3-time-format: 3.0.0
+      lodash: 4.17.21
+      react: 19.1.0
+    transitivePeerDependencies:
+      - react-dom
+
   '@nivo/colors@0.88.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@nivo/core': 0.88.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -3191,6 +3224,10 @@ snapshots:
     dependencies:
       '@types/d3-path': 3.1.1
 
+  '@types/d3-time-format@3.0.4': {}
+
+  '@types/d3-time@1.1.4': {}
+
   '@types/d3-time@3.0.4': {}
 
   '@types/d3-timer@3.0.2': {}
@@ -3591,6 +3628,8 @@ snapshots:
   d3-time-format@4.1.0:
     dependencies:
       d3-time: 3.1.0
+
+  d3-time@1.1.0: {}
 
   d3-time@2.1.1:
     dependencies:
