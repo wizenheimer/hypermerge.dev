@@ -20,6 +20,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ResponsiveSankey } from "@nivo/sankey";
+import Menu from "@/components/menu";
+import { DashboardLayout } from "@/components/dashboard-layout";
+import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
 
 const timeRangeOptions = [
   { label: "15 Days", value: "15days" },
@@ -314,19 +317,33 @@ const CustomLinkTooltip = ({ link }: { link: any }) => {
   );
 };
 
+const viewTypeLabels = {
+  count: "PR Count",
+  time: "Time Focus",
+};
+
+const timeRangeLabels: Record<TimeRange, string> = {
+  "1week": "1 Week",
+  "15days": "15 Days",
+  "1month": "1 Month",
+  "3month": "3 Months",
+  "6month": "6 Months",
+  "1year": "1 Year",
+};
+
 export function WorkDistributionOverviewChart() {
-  const [countTimeRange, setCountTimeRange] = React.useState("1month");
-  const [timeTimeRange, setTimeTimeRange] = React.useState("1month");
+  const [viewType, setViewType] = React.useState<"count" | "time">("count");
+  const [timeRange, setTimeRange] = React.useState<TimeRange>("1month");
   const [metrics, setMetrics] = React.useState<PRMetrics>({});
 
   const countMetrics = React.useMemo(() => {
     const multiplier =
-      countTimeRange === "15days" ? 1 : countTimeRange === "1month" ? 2 : 5;
+      timeRange === "15days" ? 1 : timeRange === "1month" ? 2 : 5;
     const trendFactor =
-      countTimeRange === "15days" ? 0 : countTimeRange === "1month" ? 0.5 : 1;
+      timeRange === "15days" ? 0 : timeRange === "1month" ? 0.5 : 1;
 
     // Add weekly patterns
-    const isLongerPeriod = countTimeRange !== "15days";
+    const isLongerPeriod = timeRange !== "15days";
     const weekendReduction = isLongerPeriod ? 0.7 : 1; // Reduced activity on weekends
 
     const baseMetrics = getScaledMetrics(multiplier, trendFactor);
@@ -339,16 +356,16 @@ export function WorkDistributionOverviewChart() {
       }),
       {} as Metrics
     );
-  }, [countTimeRange]);
+  }, [timeRange]);
 
   const timeMetrics = React.useMemo(() => {
     const multiplier =
-      timeTimeRange === "15days" ? 1 : timeTimeRange === "1month" ? 2 : 5;
+      timeRange === "15days" ? 1 : timeRange === "1month" ? 2 : 5;
     const trendFactor =
-      timeTimeRange === "15days" ? 0 : timeTimeRange === "1month" ? 0.5 : 1;
+      timeRange === "15days" ? 0 : timeRange === "1month" ? 0.5 : 1;
 
     // Add weekly patterns
-    const isLongerPeriod = timeTimeRange !== "15days";
+    const isLongerPeriod = timeRange !== "15days";
     const weekendReduction = isLongerPeriod ? 0.7 : 1; // Reduced activity on weekends
 
     const baseMetrics = getScaledTimeMetrics(multiplier, trendFactor);
@@ -361,145 +378,65 @@ export function WorkDistributionOverviewChart() {
       }),
       {} as Metrics
     );
-  }, [timeTimeRange]);
+  }, [timeRange]);
+
+  const currentMetrics = viewType === "count" ? countMetrics : timeMetrics;
+
+  // --- Menu Configuration ---
+  const menuContent = (
+    <Menu
+      viewType={viewType}
+      setViewType={(newViewType) =>
+        setViewType(newViewType as "count" | "time")
+      }
+      timeRange={timeRange}
+      setTimeRange={setTimeRange}
+      viewTypeLabels={viewTypeLabels}
+      timeRangeLabels={timeRangeLabels}
+      showViewTypeSelector={true}
+      showTimeRangeSelector={true}
+      data-oid="beyk3q8"
+    />
+  );
 
   return (
-    <div className="flex flex-col space-y-4">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Pull Request Count</CardTitle>
-                <CardDescription>
-                  Number of pull requests by type over{" "}
-                  {timeRangeOptions
-                    .find((opt) => opt.value === countTimeRange)
-                    ?.label.toLowerCase()}
-                </CardDescription>
-              </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    {
-                      timeRangeOptions.find(
-                        (opt) => opt.value === countTimeRange
-                      )?.label
-                    }
-                    <ChevronDown className="ml-2 h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  {timeRangeOptions.map((option) => (
-                    <DropdownMenuItem
-                      key={option.value}
-                      onClick={() => setCountTimeRange(option.value)}
-                    >
-                      {option.label}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[500px] w-full">
-              <ResponsiveSankey
-                data={getSankeyData(countMetrics, "count")}
-                margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
-                align="justify"
-                colors={blueColors}
-                nodeOpacity={1}
-                nodeHoverOthersOpacity={0.35}
-                nodeThickness={18}
-                nodeSpacing={24}
-                nodeBorderWidth={0}
-                nodeBorderColor={{
-                  from: "color",
-                  modifiers: [["darker", 0.8]],
-                }}
-                linkOpacity={0.5}
-                linkHoverOthersOpacity={0.1}
-                linkContract={3}
-                enableLinkGradient={true}
-                labelPosition="inside"
-                labelOrientation="horizontal"
-                labelPadding={16}
-                labelTextColor={{ from: "color", modifiers: [["darker", 1]] }}
-                nodeTooltip={CustomNodeTooltip}
-                linkTooltip={CustomLinkTooltip}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Time Focus</CardTitle>
-                <CardDescription>
-                  Time spent on pull requests by type over{" "}
-                  {timeRangeOptions
-                    .find((opt) => opt.value === timeTimeRange)
-                    ?.label.toLowerCase()}
-                </CardDescription>
-              </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    {
-                      timeRangeOptions.find(
-                        (opt) => opt.value === timeTimeRange
-                      )?.label
-                    }
-                    <ChevronDown className="ml-2 h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  {timeRangeOptions.map((option) => (
-                    <DropdownMenuItem
-                      key={option.value}
-                      onClick={() => setTimeTimeRange(option.value)}
-                    >
-                      {option.label}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[500px] w-full">
-              <ResponsiveSankey
-                data={getSankeyData(timeMetrics, "time")}
-                margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
-                align="justify"
-                colors={blueColors}
-                nodeOpacity={1}
-                nodeHoverOthersOpacity={0.35}
-                nodeThickness={18}
-                nodeSpacing={24}
-                nodeBorderWidth={0}
-                nodeBorderColor={{
-                  from: "color",
-                  modifiers: [["darker", 0.8]],
-                }}
-                linkOpacity={0.5}
-                linkHoverOthersOpacity={0.1}
-                linkContract={3}
-                enableLinkGradient={true}
-                labelPosition="inside"
-                labelOrientation="horizontal"
-                labelPadding={16}
-                labelTextColor={{ from: "color", modifiers: [["darker", 1]] }}
-                nodeTooltip={CustomNodeTooltip}
-                linkTooltip={CustomLinkTooltip}
-              />
-            </div>
-          </CardContent>
-        </Card>
+    <DashboardLayout
+      title="Work Distribution Overview"
+      description={
+        viewType === "count"
+          ? "Number of pull requests by type"
+          : "Time spent on pull requests by type"
+      }
+      menuContent={menuContent}
+      data-oid="d_6:v.w"
+    >
+      <div className="h-[500px] w-full">
+        <ResponsiveSankey
+          data={getSankeyData(currentMetrics, viewType)}
+          margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
+          align="justify"
+          colors={blueColors}
+          nodeOpacity={1}
+          nodeHoverOthersOpacity={0.35}
+          nodeThickness={18}
+          nodeSpacing={24}
+          nodeBorderWidth={0}
+          nodeBorderColor={{
+            from: "color",
+            modifiers: [["darker", 0.8]],
+          }}
+          linkOpacity={0.5}
+          linkHoverOthersOpacity={0.1}
+          linkContract={3}
+          enableLinkGradient={true}
+          labelPosition="inside"
+          labelOrientation="horizontal"
+          labelPadding={16}
+          labelTextColor={{ from: "color", modifiers: [["darker", 1]] }}
+          nodeTooltip={CustomNodeTooltip}
+          linkTooltip={CustomLinkTooltip}
+        />
       </div>
-    </div>
+    </DashboardLayout>
   );
 }
