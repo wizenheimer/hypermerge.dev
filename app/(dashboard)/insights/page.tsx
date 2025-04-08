@@ -7,7 +7,7 @@ import { CycleTimeCompoundChart } from "@/components/charts/CycleTimeCompoundCha
 import { PRDataTable } from "@/components/charts/PRDataTable";
 import { DeploymentDataTable } from "@/components/charts/DeploymentDataTable";
 import { IssuesDataTable } from "@/components/charts/IssuesDataTable";
-
+import { TeamGoalsDataTable } from "@/components/charts/TeamGoalsDataTable";
 export default function Page() {
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0" data-oid="12c32oz">
@@ -17,6 +17,7 @@ export default function Page() {
       <PRDataTable />
       <DeploymentDataTable />
       <IssuesDataTable />
+      <TeamGoalsDataTable />
     </div>
   );
 }
