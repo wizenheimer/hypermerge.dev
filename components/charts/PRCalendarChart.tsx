@@ -6,6 +6,11 @@ import { blueColors } from "@/lib/colors";
 import Menu from "@/components/menu";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
+import { useRouter } from "next/navigation";
+
+interface PRCalendarChartProps {
+  showViewMore?: boolean;
+}
 
 interface CalendarData {
   day: string;
@@ -197,7 +202,8 @@ function generateCalendarData(
   return data;
 }
 
-export function PRCalendarChart() {
+export function PRCalendarChart({ showViewMore }: PRCalendarChartProps) {
+  const router = useRouter();
   const [viewType, setViewType] =
     React.useState<keyof typeof viewTypeLabels>("focus");
   const [timeRange, setTimeRange] = React.useState<TimeRange>("1year");
@@ -269,6 +275,14 @@ export function PRCalendarChart() {
           : "Track pull requests by status"
       }
       menuContent={menuContent}
+      viewMore={
+        showViewMore
+          ? {
+              label: "View Details",
+              onClick: () => router.push("/metrics"),
+            }
+          : undefined
+      }
       data-oid="d_6:v.w"
     >
       <div className="h-[500px] w-full">

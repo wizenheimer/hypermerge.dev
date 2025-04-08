@@ -4,6 +4,7 @@ import * as React from "react";
 import { ArrowUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ResponsiveContainer, Sankey, Layer, Rectangle } from "recharts";
 import {
   Card,
@@ -331,7 +332,14 @@ const timeRangeLabels: Record<TimeRange, string> = {
   "1year": "1 Year",
 };
 
-export function WorkDistributionOverviewChart() {
+interface WorkDistributionOverviewChartProps {
+  showViewMore?: boolean;
+}
+
+export function WorkDistributionOverviewChart({
+  showViewMore,
+}: WorkDistributionOverviewChartProps) {
+  const router = useRouter();
   const [viewType, setViewType] = React.useState<"count" | "time">("count");
   const [timeRange, setTimeRange] = React.useState<TimeRange>("1month");
   const [metrics, setMetrics] = React.useState<PRMetrics>({});
@@ -408,6 +416,14 @@ export function WorkDistributionOverviewChart() {
           : "Time spent on pull requests by type"
       }
       menuContent={menuContent}
+      viewMore={
+        showViewMore
+          ? {
+              label: "View Details",
+              onClick: () => router.push("/metrics"),
+            }
+          : undefined
+      }
       data-oid="d_6:v.w"
     >
       <div className="h-[500px] w-full">

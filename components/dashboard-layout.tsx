@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Settings2, ArrowLeft, ArrowRight } from "lucide-react";
+import { Settings2, ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
 
 interface PaginationControls {
   currentPage: number;
@@ -29,6 +29,10 @@ interface DashboardLayoutProps {
   menuContent: React.ReactNode;
   pagination?: PaginationControls;
   children: React.ReactNode;
+  viewMore?: {
+    label: string;
+    onClick: () => void;
+  };
 }
 
 export function DashboardLayout({
@@ -37,6 +41,7 @@ export function DashboardLayout({
   menuContent,
   pagination,
   children,
+  viewMore,
 }: DashboardLayoutProps) {
   const [settingsOpen, setSettingsOpen] = React.useState(false);
 
@@ -93,6 +98,17 @@ export function DashboardLayout({
                 <ArrowRight className="h-4 w-4" data-oid="lj1m6w3" />
               </button>
             </>
+          )}
+          {viewMore && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-sm text-muted-foreground hover:text-foreground"
+              onClick={viewMore.onClick}
+            >
+              {viewMore.label}
+              <ChevronRight className="ml-1 h-4 w-4" />
+            </Button>
           )}
           <Popover
             open={settingsOpen}

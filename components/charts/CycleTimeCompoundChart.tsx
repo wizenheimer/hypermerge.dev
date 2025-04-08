@@ -10,6 +10,11 @@ import { MetricCardGrid, MetricCardData } from "@/components/menu-card-grid";
 import { GenericChart } from "@/components/generic-chart";
 import { useDashboardState, TimeRange } from "@/hooks/useDashboardState";
 import { generateCycleTimeData } from "@/data/dataGenerators";
+import { useRouter } from "next/navigation";
+
+interface CycleTimeCompoundChartProps {
+  showViewMore?: boolean;
+}
 
 // --- Configuration ---
 interface MetricConfig {
@@ -74,7 +79,10 @@ interface CycleTimeData {
 // };
 
 // --- Component ---
-export function CycleTimeCompoundChart() {
+export function CycleTimeCompoundChart({
+  showViewMore,
+}: CycleTimeCompoundChartProps) {
+  const router = useRouter();
   // Original Data State
   const [cycleTimeData, setCycleTimeData] = React.useState<CycleTimeData[]>([]);
 
@@ -87,7 +95,7 @@ export function CycleTimeCompoundChart() {
   const { timeRange, setTimeRange, filteredData } =
     useDashboardState<CycleTimeData>({ data: cycleTimeData });
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics,
+    defaultSelectedMetrics
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -142,7 +150,7 @@ export function CycleTimeCompoundChart() {
       getMetricValue, // Added dependency
       getChangePercentage, // Added dependency
       getChangeType, // Added dependency
-    ],
+    ]
   );
 
   // --- Event Handlers ---
@@ -186,7 +194,14 @@ export function CycleTimeCompoundChart() {
       title="Cycle Time"
       description="Track time for code changes through different stages"
       menuContent={menuContent}
-      // No pagination needed
+      viewMore={
+        showViewMore
+          ? {
+              label: "View Details",
+              onClick: () => router.push("/metrics"),
+            }
+          : undefined
+      }
       data-oid="0qqa1tk"
     >
       <MetricCardGrid
