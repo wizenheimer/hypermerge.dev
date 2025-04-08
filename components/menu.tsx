@@ -24,6 +24,11 @@ interface MenuProps {
   selectedCards?: string[];
   setSelectedCards?: (cards: string[] | ((prev: string[]) => string[])) => void; // Allow function updates
 
+  // Column selector props
+  columns?: any[];
+  columnVisibility?: Record<string, boolean>;
+  setColumnVisibility?: (visibility: Record<string, boolean>) => void;
+
   // Required props (assuming always present)
   timeRange: string; // Keep as string for flexibility, or use TimeRange if strictly enforced
   setTimeRange: React.Dispatch<React.SetStateAction<TimeRange>>; // Changed back to use TimeRange type
@@ -34,6 +39,7 @@ interface MenuProps {
   showChartMetricSelector?: boolean;
   showCardSelector?: boolean;
   showTimeRangeSelector?: boolean;
+  showColumnSelector?: boolean;
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -49,10 +55,14 @@ const Menu: React.FC<MenuProps> = ({
   selectedCards,
   setSelectedCards,
   cardConfigs,
+  columns,
+  columnVisibility,
+  setColumnVisibility,
   showViewTypeSelector = false,
   showChartMetricSelector = false,
   showCardSelector = false,
   showTimeRangeSelector = true, // Default to true as it's usually present
+  showColumnSelector = false,
 }) => {
   const menuGroups = [];
 
@@ -75,7 +85,7 @@ const Menu: React.FC<MenuProps> = ({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      viewType === key ? "opacity-100" : "opacity-0",
+                      viewType === key ? "opacity-100" : "opacity-0"
                     )}
                     data-oid="nfxe097"
                   />
@@ -116,7 +126,7 @@ const Menu: React.FC<MenuProps> = ({
                       "mr-2 h-4 w-4",
                       currentSelectedMetrics.includes(key)
                         ? "opacity-100"
-                        : "opacity-0",
+                        : "opacity-0"
                     )}
                     data-oid="xt1k42_"
                   />
@@ -150,7 +160,7 @@ const Menu: React.FC<MenuProps> = ({
                       setSelectedCards((prev = []) =>
                         prev.includes(key)
                           ? prev.filter((card) => card !== key)
-                          : [...prev, key],
+                          : [...prev, key]
                       );
                     } else {
                       // Handle direct array setting if needed, though less common with useState
@@ -165,7 +175,7 @@ const Menu: React.FC<MenuProps> = ({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      selectedCards.includes(key) ? "opacity-100" : "opacity-0",
+                      selectedCards.includes(key) ? "opacity-100" : "opacity-0"
                     )}
                     data-oid="7kfwpvw"
                   />
@@ -199,7 +209,7 @@ const Menu: React.FC<MenuProps> = ({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      timeRange === key ? "opacity-100" : "opacity-0",
+                      timeRange === key ? "opacity-100" : "opacity-0"
                     )}
                     data-oid="o2r1zdi"
                   />
@@ -207,6 +217,65 @@ const Menu: React.FC<MenuProps> = ({
                   {label}
                 </CommandItem>
               ))}
+            </CommandGroup>
+          ),
+        },
+      ],
+    });
+  }
+
+  // 5. Column Selector (Conditional)
+  if (
+    showColumnSelector &&
+    columns &&
+    columnVisibility &&
+    setColumnVisibility
+  ) {
+    menuGroups.push({
+      items: [
+        {
+          label: "Table Columns",
+          icon: BarChart3,
+          content: (
+            <CommandGroup>
+              {columns
+                .filter((column) => {
+                  // Skip columns that can't be hidden
+                  if (!column.getCanHide()) return false;
+                  return true;
+                })
+                .map((column) => {
+                  const isVisible = column.getIsVisible();
+
+                  // Get a display name for the column
+                  let label = "";
+                  if (column.id) {
+                    // Remove 'metrics.' prefix and format the remaining text
+                    label = column.id
+                      .replace("metrics.", "")
+                      .split("_")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ");
+                  }
+
+                  return (
+                    <CommandItem
+                      key={column.id}
+                      value={column.id}
+                      onSelect={() => column.toggleVisibility()}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          isVisible ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {label}
+                    </CommandItem>
+                  );
+                })}
             </CommandGroup>
           ),
         },
