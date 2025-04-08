@@ -6,6 +6,7 @@ import { PRCalendarChart } from "@/components/charts/PRCalendarChart";
 import { CycleTimeCompoundChart } from "@/components/charts/CycleTimeCompoundChart";
 import { PRDataTable } from "@/components/charts/PRDataTable";
 import { DeploymentDataTable } from "@/components/charts/DeploymentDataTable";
+import { IssuesDataTable } from "@/components/charts/IssuesDataTable";
 
 export default function Page() {
   return (
@@ -15,6 +16,7 @@ export default function Page() {
       <PRCalendarChart />
       <PRDataTable />
       <DeploymentDataTable />
+      <IssuesDataTable />
     </div>
   );
 }
