@@ -5,6 +5,8 @@ import { WorkDistributionOverviewChart } from "@/components/charts/WorkDistribut
 import { PRCalendarChart } from "@/components/charts/PRCalendarChart";
 import { CycleTimeCompoundChart } from "@/components/charts/CycleTimeCompoundChart";
 import { PRDataTable } from "@/components/charts/PRDataTable";
+import { DeploymentDataTable } from "@/components/charts/DeploymentDataTable";
+
 export default function Page() {
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0" data-oid="12c32oz">
@@ -12,6 +14,7 @@ export default function Page() {
       <WorkDistributionOverviewChart data-oid="sil_abd" />
       <PRCalendarChart />
       <PRDataTable />
+      <DeploymentDataTable />
     </div>
   );
 }
