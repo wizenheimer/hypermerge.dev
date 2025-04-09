@@ -913,12 +913,12 @@ export function IssuesDataTable() {
       title="Issues"
       description={`Showing issues from the last ${timeRange.replace(
         /(\d+)/,
-        "$1 ",
+        "$1 "
       )}`}
       menuContent={menuContent}
       data-oid="vi6g:pn"
     >
-      <div className="flex flex-col gap-4" data-oid="aztj74-">
+      <div className="flex flex-col gap-4 w-full" data-oid="aztj74-">
         <div className="flex items-center justify-between" data-oid="yqrw0s9">
           <div className="flex items-center gap-2" data-oid="vmsk8fc">
             <Input
@@ -935,7 +935,7 @@ export function IssuesDataTable() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-lg border" data-oid="5i8wddn">
+        <div className="overflow-x-auto rounded-lg border" data-oid="5i8wddn">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
@@ -962,7 +962,7 @@ export function IssuesDataTable() {
                             ? null
                             : flexRender(
                                 header.column.columnDef.header,
-                                header.getContext(),
+                                header.getContext()
                               )}
                         </TableHead>
                       );

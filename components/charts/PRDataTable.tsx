@@ -1017,12 +1017,12 @@ export function PRDataTable() {
       title="Pull Requests"
       description={`Showing pull requests from the last ${timeRange.replace(
         /(\d+)/,
-        "$1 ",
+        "$1 "
       )}`}
       menuContent={menuContent}
       data-oid="k.s_eq_"
     >
-      <div className="flex flex-col gap-4" data-oid="c_nc:sn">
+      <div className="flex flex-col gap-4 w-full" data-oid="c_nc:sn">
         <div className="flex items-center justify-between" data-oid=":ndw8sv">
           <div className="flex items-center gap-2" data-oid="1ftm2x0">
             <Input
@@ -1039,7 +1039,7 @@ export function PRDataTable() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-lg border" data-oid="hrqdq5r">
+        <div className="overflow-x-auto rounded-lg border" data-oid="hrqdq5r">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
@@ -1066,7 +1066,7 @@ export function PRDataTable() {
                             ? null
                             : flexRender(
                                 header.column.columnDef.header,
-                                header.getContext(),
+                                header.getContext()
                               )}
                         </TableHead>
                       );

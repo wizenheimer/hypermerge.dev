@@ -760,12 +760,12 @@ export function TeamGoalsDataTable() {
       title="Team Goals & Metrics"
       description={`Showing team performance metrics for ${timeRange.replace(
         /(\d+)/,
-        "$1 ",
+        "$1 "
       )}`}
       menuContent={menuContent}
       data-oid="fvfmvit"
     >
-      <div className="flex flex-col gap-4" data-oid="_mv68tb">
+      <div className="flex flex-col gap-4 w-full" data-oid="_mv68tb">
         <div className="flex items-center justify-between" data-oid="4-fe1l8">
           <div className="flex items-center gap-2" data-oid="zzxfqkt">
             <Input
@@ -782,7 +782,7 @@ export function TeamGoalsDataTable() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-lg border" data-oid="tp:rydp">
+        <div className="overflow-x-auto rounded-lg border" data-oid="tp:rydp">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
@@ -809,7 +809,7 @@ export function TeamGoalsDataTable() {
                             ? null
                             : flexRender(
                                 header.column.columnDef.header,
-                                header.getContext(),
+                                header.getContext()
                               )}
                         </TableHead>
                       );

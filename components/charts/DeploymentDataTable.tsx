@@ -851,7 +851,7 @@ export function DeploymentDataTable() {
       menuContent={menuContent}
       data-oid="e2:bw3l"
     >
-      <div className="flex flex-col gap-4" data-oid="j7ex-gt">
+      <div className="flex flex-col gap-4 w-full" data-oid="j7ex-gt">
         <div className="flex items-center justify-between" data-oid="gv2abw7">
           <div className="flex items-center gap-2" data-oid="vhkkqdm">
             <Input
@@ -868,7 +868,7 @@ export function DeploymentDataTable() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-lg border" data-oid="g_97-_2">
+        <div className="overflow-x-auto rounded-lg border" data-oid="g_97-_2">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}

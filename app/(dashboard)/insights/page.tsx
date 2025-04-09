@@ -10,7 +10,7 @@ import { IssuesDataTable } from "@/components/charts/IssuesDataTable";
 import { TeamGoalsDataTable } from "@/components/charts/TeamGoalsDataTable";
 export default function Page() {
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0" data-oid="12c32oz">
+    <div className="flex flex-1 flex-col gap-4 w-full" data-oid="12c32oz">
       <CycleTimeCompoundChart showViewMore={true} data-oid="3jbt_vt" />
       <WorkDistributionOverviewChart showViewMore={true} data-oid="sil_abd" />
       <PRCalendarChart showViewMore={true} data-oid="oo.nsu2" />
