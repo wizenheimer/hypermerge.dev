@@ -154,9 +154,15 @@ function DragHandle({ id }: { id: number }) {
       variant="ghost"
       size="icon"
       className="size-7 text-muted-foreground hover:bg-transparent"
+      data-oid="gt6egb_"
     >
-      <GripVerticalIcon className="size-3 text-muted-foreground" />
-      <span className="sr-only">Drag to reorder</span>
+      <GripVerticalIcon
+        className="size-3 text-muted-foreground"
+        data-oid="1zqv:xp"
+      />
+      <span className="sr-only" data-oid="4uz_ufe">
+        Drag to reorder
+      </span>
     </Button>
   );
 }
@@ -188,16 +194,17 @@ const MetricWithProgress = ({
   const isGood = isInverse ? value <= goal : value >= goal;
 
   return (
-    <div className="flex items-center gap-2">
-      <div className="min-w-[60px] text-sm font-medium">
+    <div className="flex items-center gap-2" data-oid="_ptu-iu">
+      <div className="min-w-[60px] text-sm font-medium" data-oid="g_152nb">
         {label === "time" ? formatDuration(value) : formatPercent(value)}
       </div>
-      <div className="h-2 w-16 rounded-full bg-muted">
+      <div className="h-2 w-16 rounded-full bg-muted" data-oid="w7awi2l">
         <div
           className={`h-full rounded-full ${
             isGood ? "bg-green-500" : "bg-red-500"
           }`}
           style={{ width: `${Math.min(100, percentage)}%` }}
+          data-oid="l.fub48"
         />
       </div>
     </div>
@@ -210,12 +217,12 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     id: "drag",
     header: () => null,
     enableHiding: false,
-    cell: ({ row }) => <DragHandle id={row.original.id} />,
+    cell: ({ row }) => <DragHandle id={row.original.id} data-oid="4.6qsi:" />,
   },
   {
     id: "select",
     header: ({ table }) => (
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center" data-oid="2-y0t.m">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -225,18 +232,22 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
             table.toggleAllPageRowsSelected(!!value)
           }
           aria-label="Select all"
+          data-oid="82f:vfi"
         />
       </div>
     ),
+
     cell: ({ row }) => (
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center" data-oid="qaf6_.1">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
           aria-label="Select row"
+          data-oid="p.c4myw"
         />
       </div>
     ),
+
     enableSorting: false,
     enableHiding: false,
   },
@@ -244,9 +255,11 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     accessorKey: "team_name",
     header: "Team",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <UsersIcon className="size-4" />
-        <span className="font-medium">{row.original.team_name}</span>
+      <div className="flex items-center gap-2" data-oid="p8l3r_6">
+        <UsersIcon className="size-4" data-oid="jmyxphl" />
+        <span className="font-medium" data-oid="mc5_dg.">
+          {row.original.team_name}
+        </span>
       </div>
     ),
   },
@@ -277,8 +290,12 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       };
       const { icon: Icon, color, label } = statusConfig[status];
       return (
-        <Badge variant="outline" className={`flex gap-1 px-1.5 ${color}`}>
-          <Icon className="size-3" />
+        <Badge
+          variant="outline"
+          className={`flex gap-1 px-1.5 ${color}`}
+          data-oid="86w8h3p"
+        >
+          <Icon className="size-3" data-oid="i.i-vy7" />
           {label}
         </Badge>
       );
@@ -299,11 +316,15 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       };
       const { icon: Icon, color } = trendConfig[trend];
       return (
-        <div className={`flex items-center gap-1 ${color}`}>
+        <div className={`flex items-center gap-1 ${color}`} data-oid="i-c1x1u">
           <Icon
             className={`size-4 ${trend === "declining" ? "rotate-180" : ""}`}
+            data-oid="yimv6bd"
           />
-          <span className="capitalize">{trend}</span>
+
+          <span className="capitalize" data-oid="hvd9-l8">
+            {trend}
+          </span>
         </div>
       );
     },
@@ -316,6 +337,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         value={row.original.productivity.velocity}
         goal={row.original.goals.velocity_goal}
         label="points"
+        data-oid="-5dgu30"
       />
     ),
   },
@@ -328,6 +350,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         goal={24}
         label="time"
         isInverse={true}
+        data-oid="cgg:bae"
       />
     ),
   },
@@ -339,6 +362,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         value={row.original.code_quality.code_coverage}
         goal={row.original.goals.quality_goal}
         label="percent"
+        data-oid="hbpt0so"
       />
     ),
   },
@@ -351,6 +375,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         goal={row.original.goals.review_time_goal}
         label="time"
         isInverse={true}
+        data-oid="gs:sc82"
       />
     ),
   },
@@ -362,6 +387,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         value={row.original.review_metrics.review_coverage}
         goal={row.original.goals.coverage_goal}
         label="percent"
+        data-oid="zhws33x"
       />
     ),
   },
@@ -371,8 +397,10 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const size = row.original.pr_metrics.avg_pr_size;
       return (
-        <div className="flex items-center gap-2">
-          <span className="text-muted-foreground">{size} lines</span>
+        <div className="flex items-center gap-2" data-oid="_2bbh93">
+          <span className="text-muted-foreground" data-oid="oif2e86">
+            {size} lines
+          </span>
         </div>
       );
     },
@@ -381,13 +409,14 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     accessorKey: "pr_metrics.high_risk_pr_rate",
     header: "High Risk PRs",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2" data-oid="fizeu9i">
         <span
           className={`font-medium ${
             row.original.pr_metrics.high_risk_pr_rate > 20
               ? "text-red-600"
               : "text-green-600"
           }`}
+          data-oid="3fhr3v4"
         >
           {formatPercent(row.original.pr_metrics.high_risk_pr_rate)}
         </span>
@@ -397,22 +426,25 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   {
     id: "actions",
     cell: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+      <DropdownMenu data-oid="x8qu5el">
+        <DropdownMenuTrigger asChild data-oid="f3up50l">
           <Button
             variant="ghost"
             className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
             size="icon"
+            data-oid=".b:b8d3"
           >
-            <MoreVerticalIcon />
-            <span className="sr-only">Open menu</span>
+            <MoreVerticalIcon data-oid="56jicr1" />
+            <span className="sr-only" data-oid="bpthzrw">
+              Open menu
+            </span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-32">
-          <DropdownMenuItem>View Details</DropdownMenuItem>
-          <DropdownMenuItem>Edit Goals</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Export Data</DropdownMenuItem>
+        <DropdownMenuContent align="end" className="w-32" data-oid="sv0orad">
+          <DropdownMenuItem data-oid="1:-xnxi">View Details</DropdownMenuItem>
+          <DropdownMenuItem data-oid="n.tg21y">Edit Goals</DropdownMenuItem>
+          <DropdownMenuSeparator data-oid="xz3_w_g" />
+          <DropdownMenuItem data-oid="o3xb.57">Export Data</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     ),
@@ -434,9 +466,10 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
         transform: CSS.Transform.toString(transform),
         transition: transition,
       }}
+      data-oid="ltsqrbz"
     >
       {row.getVisibleCells().map((cell) => (
-        <TableCell key={cell.id}>
+        <TableCell key={cell.id} data-oid="w5skqfv">
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </TableCell>
       ))}
@@ -455,7 +488,7 @@ export function TeamGoalsDataTable() {
       actions: false,
     });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
@@ -468,12 +501,12 @@ export function TeamGoalsDataTable() {
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
-    useSensor(KeyboardSensor, {})
+    useSensor(KeyboardSensor, {}),
   );
 
   const dataIds = React.useMemo<UniqueIdentifier[]>(
     () => data?.map(({ id }) => id) || [],
-    [data]
+    [data],
   );
 
   // Filter data based on time range
@@ -570,7 +603,7 @@ export function TeamGoalsDataTable() {
         productivity: {
           velocity: randomInRange(
             baseMetrics.velocity.min,
-            baseMetrics.velocity.max
+            baseMetrics.velocity.max,
           ),
           lead_time: randomInRange(24, 72), // 1-3 days
           cycle_time: randomInRange(16, 48), // 16-48 hours
@@ -579,7 +612,7 @@ export function TeamGoalsDataTable() {
         code_quality: {
           code_coverage: randomInRange(
             baseMetrics.coverage.min,
-            baseMetrics.coverage.max
+            baseMetrics.coverage.max,
           ),
           bug_rate: randomInRange(1, 4) / 10, // 0.1-0.4 bugs per PR
           tech_debt_ratio: randomInRange(8, 18), // 8-18%
@@ -596,7 +629,7 @@ export function TeamGoalsDataTable() {
         pr_metrics: {
           avg_pr_size: randomInRange(
             baseMetrics.pr_size.min,
-            baseMetrics.pr_size.max
+            baseMetrics.pr_size.max,
           ),
           time_to_first_review: randomInRange(1, 4), // 1-4 hours
           pickup_time: randomInRange(1, 3), // 1-3 hours
@@ -718,6 +751,7 @@ export function TeamGoalsDataTable() {
         .filter((column) => column.id !== "select" && column.id !== "drag")}
       columnVisibility={columnVisibility}
       setColumnVisibility={setColumnVisibility}
+      data-oid="5.eo0_e"
     />
   );
 
@@ -726,13 +760,14 @@ export function TeamGoalsDataTable() {
       title="Team Goals & Metrics"
       description={`Showing team performance metrics for ${timeRange.replace(
         /(\d+)/,
-        "$1 "
+        "$1 ",
       )}`}
       menuContent={menuContent}
+      data-oid="fvfmvit"
     >
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-4" data-oid="_mv68tb">
+        <div className="flex items-center justify-between" data-oid="4-fe1l8">
+          <div className="flex items-center gap-2" data-oid="zzxfqkt">
             <Input
               placeholder="Filter teams..."
               value={
@@ -742,30 +777,39 @@ export function TeamGoalsDataTable() {
                 table.getColumn("team_name")?.setFilterValue(event.target.value)
               }
               className="max-w-sm"
+              data-oid="_1vle5r"
             />
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-lg border">
+        <div className="overflow-hidden rounded-lg border" data-oid="tp:rydp">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
             onDragEnd={handleDragEnd}
             sensors={sensors}
             id={sortableId}
+            data-oid="r8cmiq0"
           >
-            <Table>
-              <TableHeader className="sticky top-0 z-10 bg-muted">
+            <Table data-oid="5qe.7s-">
+              <TableHeader
+                className="sticky top-0 z-10 bg-muted"
+                data-oid="uc68x.j"
+              >
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
+                  <TableRow key={headerGroup.id} data-oid="6ael:lr">
                     {headerGroup.headers.map((header) => {
                       return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
+                        <TableHead
+                          key={header.id}
+                          colSpan={header.colSpan}
+                          data-oid="_s97mz:"
+                        >
                           {header.isPlaceholder
                             ? null
                             : flexRender(
                                 header.column.columnDef.header,
-                                header.getContext()
+                                header.getContext(),
                               )}
                         </TableHead>
                       );
@@ -773,21 +817,23 @@ export function TeamGoalsDataTable() {
                   </TableRow>
                 ))}
               </TableHeader>
-              <TableBody>
+              <TableBody data-oid="7s_cupd">
                 {table.getRowModel().rows?.length ? (
                   <SortableContext
                     items={dataIds}
                     strategy={verticalListSortingStrategy}
+                    data-oid="7gnk57j"
                   >
                     {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
+                      <DraggableRow key={row.id} row={row} data-oid="88frm9p" />
                     ))}
                   </SortableContext>
                 ) : (
-                  <TableRow>
+                  <TableRow data-oid=":-u53aj">
                     <TableCell
                       colSpan={columns.length}
                       className="h-24 text-center"
+                      data-oid="j2s-m26"
                     >
                       No results.
                     </TableCell>
@@ -798,14 +844,18 @@ export function TeamGoalsDataTable() {
           </DndContext>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-muted-foreground">
+        <div className="flex items-center justify-between" data-oid="s1fahb3">
+          <div className="text-sm text-muted-foreground" data-oid="o.ckmxc">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2">
-              <Label htmlFor="rows-per-page" className="text-sm font-medium">
+          <div className="flex items-center gap-2" data-oid="1gl12gh">
+            <div className="flex items-center gap-2" data-oid="90u0y4p">
+              <Label
+                htmlFor="rows-per-page"
+                className="text-sm font-medium"
+                data-oid="-f85ct5"
+              >
                 Rows per page
               </Label>
               <Select
@@ -813,57 +863,79 @@ export function TeamGoalsDataTable() {
                 onValueChange={(value: string) => {
                   table.setPageSize(Number(value));
                 }}
+                data-oid="sodjg7q"
               >
-                <SelectTrigger className="w-20" id="rows-per-page">
+                <SelectTrigger
+                  className="w-20"
+                  id="rows-per-page"
+                  data-oid="fuox70b"
+                >
                   <SelectValue
                     placeholder={table.getState().pagination.pageSize}
+                    data-oid="tyyizhd"
                   />
                 </SelectTrigger>
-                <SelectContent side="top">
+                <SelectContent side="top" data-oid="pqqrjbv">
                   {[10, 20, 30, 40, 50].map((pageSize) => (
-                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                    <SelectItem
+                      key={pageSize}
+                      value={`${pageSize}`}
+                      data-oid="37ggaiy"
+                    >
                       {pageSize}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2" data-oid="zalgaku">
               <Button
                 variant="outline"
                 className="hidden size-8 p-0 lg:flex"
                 onClick={() => table.setPageIndex(0)}
                 disabled={!table.getCanPreviousPage()}
+                data-oid="s4lx7oa"
               >
-                <span className="sr-only">Go to first page</span>
-                <ChevronsLeftIcon className="size-4" />
+                <span className="sr-only" data-oid="2lb8g9b">
+                  Go to first page
+                </span>
+                <ChevronsLeftIcon className="size-4" data-oid="fhze33_" />
               </Button>
               <Button
                 variant="outline"
                 className="size-8 p-0"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
+                data-oid="2.f0h4p"
               >
-                <span className="sr-only">Go to previous page</span>
-                <ChevronLeftIcon className="size-4" />
+                <span className="sr-only" data-oid="8ohqzbh">
+                  Go to previous page
+                </span>
+                <ChevronLeftIcon className="size-4" data-oid="by_.162" />
               </Button>
               <Button
                 variant="outline"
                 className="size-8 p-0"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
+                data-oid="itv_36y"
               >
-                <span className="sr-only">Go to next page</span>
-                <ChevronRightIcon className="size-4" />
+                <span className="sr-only" data-oid="8ta3c12">
+                  Go to next page
+                </span>
+                <ChevronRightIcon className="size-4" data-oid="ft4_hn-" />
               </Button>
               <Button
                 variant="outline"
                 className="hidden size-8 p-0 lg:flex"
                 onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                 disabled={!table.getCanNextPage()}
+                data-oid="7enuuad"
               >
-                <span className="sr-only">Go to last page</span>
-                <ChevronsRightIcon className="size-4" />
+                <span className="sr-only" data-oid="6za2fsf">
+                  Go to last page
+                </span>
+                <ChevronsRightIcon className="size-4" data-oid="7f1q0u." />
               </Button>
             </div>
           </div>

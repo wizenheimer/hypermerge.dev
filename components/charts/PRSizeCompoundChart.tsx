@@ -79,7 +79,7 @@ export function PRSizeCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -93,7 +93,7 @@ export function PRSizeCompoundChart() {
       const latestData = filteredData[filteredData.length - 1];
       return (latestData as any)[key] || 0;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangePercentage = React.useCallback(
@@ -104,7 +104,7 @@ export function PRSizeCompoundChart() {
       if (previousValue === 0) return currentValue === 0 ? 0 : Infinity;
       return ((currentValue - previousValue) / previousValue) * 100;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangeType = React.useCallback(
@@ -114,10 +114,10 @@ export function PRSizeCompoundChart() {
       return value > target
         ? "negative"
         : value < target
-        ? "positive"
-        : "neutral";
+          ? "positive"
+          : "neutral";
     },
-    [currentCardConfig]
+    [currentCardConfig],
   );
 
   const formatValue = React.useCallback(
@@ -133,7 +133,7 @@ export function PRSizeCompoundChart() {
       }
       return value.toString();
     },
-    []
+    [],
   );
 
   const metricCards: MetricCardData[] = React.useMemo(
@@ -159,7 +159,7 @@ export function PRSizeCompoundChart() {
       getChangePercentage,
       getChangeType,
       formatValue,
-    ]
+    ],
   );
 
   const toggleChartMetric = (metric: string) => {

@@ -68,7 +68,7 @@ const timeRangeLabels: Record<TimeRange, string> = {
 
 export function PRReviewTimeCompoundChart() {
   const [goalsData, setGoalsData] = React.useState<PRReviewTimeGoalDataEntry[]>(
-    []
+    [],
   );
 
   React.useEffect(() => {
@@ -81,7 +81,7 @@ export function PRReviewTimeCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -95,7 +95,7 @@ export function PRReviewTimeCompoundChart() {
       const latestData = filteredData[filteredData.length - 1];
       return (latestData as any)[key] || 0;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangePercentage = React.useCallback(
@@ -106,7 +106,7 @@ export function PRReviewTimeCompoundChart() {
       if (previousValue === 0) return currentValue === 0 ? 0 : Infinity;
       return ((currentValue - previousValue) / previousValue) * 100;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangeType = React.useCallback(
@@ -116,10 +116,10 @@ export function PRReviewTimeCompoundChart() {
       return value > target
         ? "negative"
         : value < target
-        ? "positive"
-        : "neutral";
+          ? "positive"
+          : "neutral";
     },
-    [currentCardConfig]
+    [currentCardConfig],
   );
 
   const formatValue = React.useCallback(
@@ -132,7 +132,7 @@ export function PRReviewTimeCompoundChart() {
       }
       return value.toString();
     },
-    []
+    [],
   );
 
   const metricCards: MetricCardData[] = React.useMemo(
@@ -158,7 +158,7 @@ export function PRReviewTimeCompoundChart() {
       getChangePercentage,
       getChangeType,
       formatValue,
-    ]
+    ],
   );
 
   const toggleChartMetric = (metric: string) => {

@@ -95,7 +95,7 @@ export function CycleTimeCompoundChart({
   const { timeRange, setTimeRange, filteredData } =
     useDashboardState<CycleTimeData>({ data: cycleTimeData });
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -111,7 +111,7 @@ export function CycleTimeCompoundChart({
       const latestData = filteredData[filteredData.length - 1];
       return (latestData as any)[key] || 0;
     },
-    [filteredData]
+    [filteredData],
   );
 
   // Calculate change percentage (compared to previous point)
@@ -125,7 +125,7 @@ export function CycleTimeCompoundChart({
       if (previousValue === 0) return currentValue === 0 ? 0 : Infinity; // Avoid division by zero
       return ((currentValue - previousValue) / previousValue) * 100;
     },
-    [filteredData]
+    [filteredData],
   );
 
   // Determine positive/negative change type (lower is better for time metrics)
@@ -133,7 +133,7 @@ export function CycleTimeCompoundChart({
     (change: number): MetricCardData["changeType"] => {
       return change > 0 ? "negative" : change < 0 ? "positive" : "neutral";
     },
-    []
+    [],
   );
 
   // Prepare data for Metric Cards
@@ -158,7 +158,7 @@ export function CycleTimeCompoundChart({
       getMetricValue,
       getChangePercentage,
       getChangeType,
-    ]
+    ],
   );
 
   // --- Event Handlers ---

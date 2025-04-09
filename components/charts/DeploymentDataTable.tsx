@@ -136,9 +136,15 @@ function DragHandle({ id }: { id: number }) {
       variant="ghost"
       size="icon"
       className="size-7 text-muted-foreground hover:bg-transparent"
+      data-oid="9dyg0g0"
     >
-      <GripVerticalIcon className="size-3 text-muted-foreground" />
-      <span className="sr-only">Drag to reorder</span>
+      <GripVerticalIcon
+        className="size-3 text-muted-foreground"
+        data-oid="usjmys5"
+      />
+      <span className="sr-only" data-oid="en_uk6q">
+        Drag to reorder
+      </span>
     </Button>
   );
 }
@@ -157,12 +163,12 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     id: "drag",
     header: () => null,
     enableHiding: false,
-    cell: ({ row }) => <DragHandle id={row.original.id} />,
+    cell: ({ row }) => <DragHandle id={row.original.id} data-oid="exxld-l" />,
   },
   {
     id: "select",
     header: ({ table }) => (
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center" data-oid="yztgpnu">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -172,18 +178,22 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
             table.toggleAllPageRowsSelected(!!value)
           }
           aria-label="Select all"
+          data-oid="emkbe0r"
         />
       </div>
     ),
+
     cell: ({ row }) => (
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center" data-oid="5:2wwx7">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
           aria-label="Select row"
+          data-oid="8emohe2"
         />
       </div>
     ),
+
     enableSorting: false,
     enableHiding: false,
   },
@@ -193,9 +203,11 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const deployment = row.original;
       return (
-        <div className="flex items-center gap-2">
-          <CloudIcon className="size-4" />
-          <span className="font-medium">{deployment.name}</span>
+        <div className="flex items-center gap-2" data-oid="dz76xzl">
+          <CloudIcon className="size-4" data-oid="ers3ggy" />
+          <span className="font-medium" data-oid="17xq:6-">
+            {deployment.name}
+          </span>
         </div>
       );
     },
@@ -218,7 +230,11 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         testing: { label: "Testing", color: "bg-green-100 text-green-800" },
       };
       const { label, color } = envConfig[env];
-      return <Badge className={color}>{label}</Badge>;
+      return (
+        <Badge className={color} data-oid="1y84v:i">
+          {label}
+        </Badge>
+      );
     },
   },
   {
@@ -237,8 +253,12 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       };
       const { icon: Icon, color } = statusConfig[status];
       return (
-        <Badge variant="outline" className={`flex gap-1 px-1.5 ${color}`}>
-          <Icon className="size-3" />
+        <Badge
+          variant="outline"
+          className={`flex gap-1 px-1.5 ${color}`}
+          data-oid="q3fhd0g"
+        >
+          <Icon className="size-3" data-oid="h6wir03" />
           {status
             .split("_")
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -270,15 +290,19 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         security: { label: "Security", color: "bg-yellow-100 text-yellow-800" },
       };
       const { label, color } = typeConfig[type];
-      return <Badge className={color}>{label}</Badge>;
+      return (
+        <Badge className={color} data-oid="iubn2mr">
+          {label}
+        </Badge>
+      );
     },
   },
   {
     accessorKey: "team",
     header: "Team",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <UsersIcon className="size-4" />
+      <div className="flex items-center gap-2" data-oid="m8u4-84">
+        <UsersIcon className="size-4" data-oid="d7d::g8" />
         {row.original.team}
       </div>
     ),
@@ -287,8 +311,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     accessorKey: "started_at",
     header: "Started",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <ClockIcon className="size-4" />
+      <div className="flex items-center gap-2" data-oid="bv_dao4">
+        <ClockIcon className="size-4" data-oid="3l.6309" />
         {new Date(row.original.started_at).toLocaleDateString()}
       </div>
     ),
@@ -297,8 +321,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     accessorKey: "duration",
     header: "Duration",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <span className="text-muted-foreground">
+      <div className="flex items-center gap-2" data-oid="vo2qwdo">
+        <span className="text-muted-foreground" data-oid="baq.-.c">
           {formatDuration(row.original.duration)}
         </span>
       </div>
@@ -310,12 +334,14 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const changes = row.original.changes;
       return (
-        <div className="flex items-center gap-2">
-          <span className="text-blue-600">{changes.services} services</span>
-          <span className="text-green-600">
+        <div className="flex items-center gap-2" data-oid="gw580sd">
+          <span className="text-blue-600" data-oid=".x.g.av">
+            {changes.services} services
+          </span>
+          <span className="text-green-600" data-oid="uf_6m57">
             {changes.containers} containers
           </span>
-          <span className="text-muted-foreground">
+          <span className="text-muted-foreground" data-oid="3j:ksa9">
             {changes.config_changes} configs
           </span>
         </div>
@@ -328,28 +354,30 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const score = row.original.metrics.success_rate;
       return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2" data-oid="xh8zhr-">
           <div
             className={`font-medium ${
               score >= 95
                 ? "text-green-600"
                 : score >= 80
-                ? "text-yellow-600"
-                : "text-red-600"
+                  ? "text-yellow-600"
+                  : "text-red-600"
             }`}
+            data-oid=":kuqody"
           >
             {score}%
           </div>
-          <div className="h-2 w-16 rounded-full bg-muted">
+          <div className="h-2 w-16 rounded-full bg-muted" data-oid="minimce">
             <div
               className={`h-full rounded-full ${
                 score >= 95
                   ? "bg-green-500"
                   : score >= 80
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
+                    ? "bg-yellow-500"
+                    : "bg-red-500"
               }`}
               style={{ width: `${score}%` }}
+              data-oid="3_.r4if"
             />
           </div>
         </div>
@@ -360,8 +388,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     accessorKey: "metrics.deployment_frequency",
     header: "Deployment Frequency",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <span className="text-muted-foreground">
+      <div className="flex items-center gap-2" data-oid="qsvhwtz">
+        <span className="text-muted-foreground" data-oid="pqb27ru">
           {row.original.metrics.deployment_frequency}/day
         </span>
       </div>
@@ -371,8 +399,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     accessorKey: "metrics.lead_time",
     header: "Lead Time",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <span className="text-muted-foreground">
+      <div className="flex items-center gap-2" data-oid="ms7p7tu">
+        <span className="text-muted-foreground" data-oid="edcktmf">
           {formatDuration(row.original.metrics.lead_time)}
         </span>
       </div>
@@ -384,11 +412,15 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const mttr = row.original.metrics.mean_time_to_recovery;
       return mttr ? (
-        <div className="flex items-center gap-2">
-          <span className="text-muted-foreground">{formatDuration(mttr)}</span>
+        <div className="flex items-center gap-2" data-oid="et:sgib">
+          <span className="text-muted-foreground" data-oid="mdv70xz">
+            {formatDuration(mttr)}
+          </span>
         </div>
       ) : (
-        <span className="text-muted-foreground">-</span>
+        <span className="text-muted-foreground" data-oid="vozn2_m">
+          -
+        </span>
       );
     },
   },
@@ -398,28 +430,30 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const rate = row.original.metrics.change_failure_rate;
       return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2" data-oid=":dd:yjg">
           <div
             className={`font-medium ${
               rate <= 5
                 ? "text-green-600"
                 : rate <= 15
-                ? "text-yellow-600"
-                : "text-red-600"
+                  ? "text-yellow-600"
+                  : "text-red-600"
             }`}
+            data-oid="j3dubmx"
           >
             {rate}%
           </div>
-          <div className="h-2 w-16 rounded-full bg-muted">
+          <div className="h-2 w-16 rounded-full bg-muted" data-oid="m3.1y_a">
             <div
               className={`h-full rounded-full ${
                 rate <= 5
                   ? "bg-green-500"
                   : rate <= 15
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
+                    ? "bg-yellow-500"
+                    : "bg-red-500"
               }`}
               style={{ width: `${rate}%` }}
+              data-oid=".dmuf9o"
             />
           </div>
         </div>
@@ -433,28 +467,30 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       const availability = row.original.metrics.availability;
       const formattedAvailability = availability.toFixed(3);
       return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2" data-oid="ddghf8t">
           <div
             className={`font-medium ${
               availability >= 99.9
                 ? "text-green-600"
                 : availability >= 99
-                ? "text-yellow-600"
-                : "text-red-600"
+                  ? "text-yellow-600"
+                  : "text-red-600"
             }`}
+            data-oid="5qikoui"
           >
             {formattedAvailability}%
           </div>
-          <div className="h-2 w-16 rounded-full bg-muted">
+          <div className="h-2 w-16 rounded-full bg-muted" data-oid="ejn2_cx">
             <div
               className={`h-full rounded-full ${
                 availability >= 99.9
                   ? "bg-green-500"
                   : availability >= 99
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
+                    ? "bg-yellow-500"
+                    : "bg-red-500"
               }`}
               style={{ width: `${availability}%` }}
+              data-oid="xe7muod"
             />
           </div>
         </div>
@@ -467,28 +503,30 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const score = row.original.metrics.performance_score;
       return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2" data-oid="k7xq6hr">
           <div
             className={`font-medium ${
               score >= 90
                 ? "text-green-600"
                 : score >= 70
-                ? "text-yellow-600"
-                : "text-red-600"
+                  ? "text-yellow-600"
+                  : "text-red-600"
             }`}
+            data-oid="fpzskev"
           >
             {score}
           </div>
-          <div className="h-2 w-16 rounded-full bg-muted">
+          <div className="h-2 w-16 rounded-full bg-muted" data-oid="-832b.a">
             <div
               className={`h-full rounded-full ${
                 score >= 90
                   ? "bg-green-500"
                   : score >= 70
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
+                    ? "bg-yellow-500"
+                    : "bg-red-500"
               }`}
               style={{ width: `${score}%` }}
+              data-oid="269u33_"
             />
           </div>
         </div>
@@ -498,22 +536,25 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   {
     id: "actions",
     cell: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+      <DropdownMenu data-oid="iskcvap">
+        <DropdownMenuTrigger asChild data-oid="rcyzixy">
           <Button
             variant="ghost"
             className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
             size="icon"
+            data-oid=":nlo:gu"
           >
-            <MoreVerticalIcon />
-            <span className="sr-only">Open menu</span>
+            <MoreVerticalIcon data-oid="bt4:sa_" />
+            <span className="sr-only" data-oid=".9k8dzu">
+              Open menu
+            </span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-32">
-          <DropdownMenuItem>View Details</DropdownMenuItem>
-          <DropdownMenuItem>Rollback</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Delete</DropdownMenuItem>
+        <DropdownMenuContent align="end" className="w-32" data-oid="x2ps.d-">
+          <DropdownMenuItem data-oid="1::8uwf">View Details</DropdownMenuItem>
+          <DropdownMenuItem data-oid="dg_6qeo">Rollback</DropdownMenuItem>
+          <DropdownMenuSeparator data-oid="0yti0tb" />
+          <DropdownMenuItem data-oid="vgurhjj">Delete</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     ),
@@ -535,9 +576,10 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
         transform: CSS.Transform.toString(transform),
         transition: transition,
       }}
+      data-oid="eghoq3j"
     >
       {row.getVisibleCells().map((cell) => (
-        <TableCell key={cell.id}>
+        <TableCell key={cell.id} data-oid="pfg5sey">
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </TableCell>
       ))}
@@ -571,7 +613,7 @@ export function DeploymentDataTable() {
       "metrics.success_rate": true,
     });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
@@ -584,12 +626,12 @@ export function DeploymentDataTable() {
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
-    useSensor(KeyboardSensor, {})
+    useSensor(KeyboardSensor, {}),
   );
 
   const dataIds = React.useMemo<UniqueIdentifier[]>(
     () => data?.map(({ id }) => id) || [],
-    [data]
+    [data],
   );
 
   // Filter data based on time range
@@ -626,13 +668,13 @@ export function DeploymentDataTable() {
     const filteredData = allData.filter(
       (deployment) =>
         new Date(deployment.started_at) >= dateLimit &&
-        new Date(deployment.started_at) <= now
+        new Date(deployment.started_at) <= now,
     );
 
     // Sort by started date, newest first
     filteredData.sort(
       (a, b) =>
-        new Date(b.started_at).getTime() - new Date(a.started_at).getTime()
+        new Date(b.started_at).getTime() - new Date(a.started_at).getTime(),
     );
 
     setData(filteredData);
@@ -720,7 +762,7 @@ export function DeploymentDataTable() {
             status === "in_progress"
               ? undefined
               : new Date(
-                  new Date(started_at).getTime() + duration * 60000
+                  new Date(started_at).getTime() + duration * 60000,
                 ).toISOString(),
           duration,
           changes: {
@@ -730,7 +772,7 @@ export function DeploymentDataTable() {
           },
           metrics,
         };
-      }
+      },
     );
 
     setAllData(sampleData);
@@ -795,6 +837,7 @@ export function DeploymentDataTable() {
         .filter((column) => column.id !== "select" && column.id !== "drag")}
       columnVisibility={columnVisibility}
       setColumnVisibility={setColumnVisibility}
+      data-oid="5-v29a3"
     />
   );
 
@@ -803,13 +846,14 @@ export function DeploymentDataTable() {
       title="Deployments"
       description={`Showing deployments from the last ${timeRange.replace(
         /(\d+)/,
-        "$1 "
+        "$1 ",
       )}`}
       menuContent={menuContent}
+      data-oid="e2:bw3l"
     >
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-4" data-oid="j7ex-gt">
+        <div className="flex items-center justify-between" data-oid="gv2abw7">
+          <div className="flex items-center gap-2" data-oid="vhkkqdm">
             <Input
               placeholder="Filter deployments..."
               value={
@@ -819,30 +863,39 @@ export function DeploymentDataTable() {
                 table.getColumn("name")?.setFilterValue(event.target.value)
               }
               className="max-w-sm"
+              data-oid="n9nbvbd"
             />
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-lg border">
+        <div className="overflow-hidden rounded-lg border" data-oid="g_97-_2">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
             onDragEnd={handleDragEnd}
             sensors={sensors}
             id={sortableId}
+            data-oid="4sif0v4"
           >
-            <Table>
-              <TableHeader className="sticky top-0 z-10 bg-muted">
+            <Table data-oid=".j.1n:o">
+              <TableHeader
+                className="sticky top-0 z-10 bg-muted"
+                data-oid="vl5bmt7"
+              >
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
+                  <TableRow key={headerGroup.id} data-oid="7nmsrvf">
                     {headerGroup.headers.map((header) => {
                       return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
+                        <TableHead
+                          key={header.id}
+                          colSpan={header.colSpan}
+                          data-oid="2vjqnkc"
+                        >
                           {header.isPlaceholder
                             ? null
                             : flexRender(
                                 header.column.columnDef.header,
-                                header.getContext()
+                                header.getContext(),
                               )}
                         </TableHead>
                       );
@@ -850,21 +903,23 @@ export function DeploymentDataTable() {
                   </TableRow>
                 ))}
               </TableHeader>
-              <TableBody>
+              <TableBody data-oid="sj.z9qa">
                 {table.getRowModel().rows?.length ? (
                   <SortableContext
                     items={dataIds}
                     strategy={verticalListSortingStrategy}
+                    data-oid="h86:x20"
                   >
                     {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
+                      <DraggableRow key={row.id} row={row} data-oid="5awvy_3" />
                     ))}
                   </SortableContext>
                 ) : (
-                  <TableRow>
+                  <TableRow data-oid="ae:cf6c">
                     <TableCell
                       colSpan={columns.length}
                       className="h-24 text-center"
+                      data-oid="n9bdfth"
                     >
                       No results.
                     </TableCell>
@@ -875,14 +930,18 @@ export function DeploymentDataTable() {
           </DndContext>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-muted-foreground">
+        <div className="flex items-center justify-between" data-oid="k_8qcv5">
+          <div className="text-sm text-muted-foreground" data-oid="el3sk9j">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2">
-              <Label htmlFor="rows-per-page" className="text-sm font-medium">
+          <div className="flex items-center gap-2" data-oid="s42noaf">
+            <div className="flex items-center gap-2" data-oid="d01_mot">
+              <Label
+                htmlFor="rows-per-page"
+                className="text-sm font-medium"
+                data-oid="sd0vm6m"
+              >
                 Rows per page
               </Label>
               <Select
@@ -890,57 +949,79 @@ export function DeploymentDataTable() {
                 onValueChange={(value: string) => {
                   table.setPageSize(Number(value));
                 }}
+                data-oid="ix2t.vv"
               >
-                <SelectTrigger className="w-20" id="rows-per-page">
+                <SelectTrigger
+                  className="w-20"
+                  id="rows-per-page"
+                  data-oid="5pqq1b:"
+                >
                   <SelectValue
                     placeholder={table.getState().pagination.pageSize}
+                    data-oid="c8awy9j"
                   />
                 </SelectTrigger>
-                <SelectContent side="top">
+                <SelectContent side="top" data-oid="de.h28t">
                   {[10, 20, 30, 40, 50].map((pageSize) => (
-                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                    <SelectItem
+                      key={pageSize}
+                      value={`${pageSize}`}
+                      data-oid="hwwiky1"
+                    >
                       {pageSize}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2" data-oid="lpxkomg">
               <Button
                 variant="outline"
                 className="hidden size-8 p-0 lg:flex"
                 onClick={() => table.setPageIndex(0)}
                 disabled={!table.getCanPreviousPage()}
+                data-oid="jy616-e"
               >
-                <span className="sr-only">Go to first page</span>
-                <ChevronsLeftIcon className="size-4" />
+                <span className="sr-only" data-oid="g-uzj-p">
+                  Go to first page
+                </span>
+                <ChevronsLeftIcon className="size-4" data-oid="5bqs771" />
               </Button>
               <Button
                 variant="outline"
                 className="size-8 p-0"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
+                data-oid="af88x:g"
               >
-                <span className="sr-only">Go to previous page</span>
-                <ChevronLeftIcon className="size-4" />
+                <span className="sr-only" data-oid="06pnz5t">
+                  Go to previous page
+                </span>
+                <ChevronLeftIcon className="size-4" data-oid="nfhlfmf" />
               </Button>
               <Button
                 variant="outline"
                 className="size-8 p-0"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
+                data-oid="4k10lvh"
               >
-                <span className="sr-only">Go to next page</span>
-                <ChevronRightIcon className="size-4" />
+                <span className="sr-only" data-oid="ngvd04-">
+                  Go to next page
+                </span>
+                <ChevronRightIcon className="size-4" data-oid="f52awfh" />
               </Button>
               <Button
                 variant="outline"
                 className="hidden size-8 p-0 lg:flex"
                 onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                 disabled={!table.getCanNextPage()}
+                data-oid="lc25p2c"
               >
-                <span className="sr-only">Go to last page</span>
-                <ChevronsRightIcon className="size-4" />
+                <span className="sr-only" data-oid="y6-y5na">
+                  Go to last page
+                </span>
+                <ChevronsRightIcon className="size-4" data-oid="6rfi_bx" />
               </Button>
             </div>
           </div>

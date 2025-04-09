@@ -141,9 +141,15 @@ function DragHandle({ id }: { id: number }) {
       variant="ghost"
       size="icon"
       className="size-7 text-muted-foreground hover:bg-transparent"
+      data-oid="bzf.ae0"
     >
-      <GripVerticalIcon className="size-3 text-muted-foreground" />
-      <span className="sr-only">Drag to reorder</span>
+      <GripVerticalIcon
+        className="size-3 text-muted-foreground"
+        data-oid="q.vv:tc"
+      />
+      <span className="sr-only" data-oid="1:cgt6:">
+        Drag to reorder
+      </span>
     </Button>
   );
 }
@@ -167,12 +173,12 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     id: "drag",
     header: () => null,
     enableHiding: false,
-    cell: ({ row }) => <DragHandle id={row.original.id} />,
+    cell: ({ row }) => <DragHandle id={row.original.id} data-oid="jj7::ft" />,
   },
   {
     id: "select",
     header: ({ table }) => (
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center" data-oid="wygc99h">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
@@ -182,18 +188,22 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
             table.toggleAllPageRowsSelected(!!value)
           }
           aria-label="Select all"
+          data-oid="ql2arws"
         />
       </div>
     ),
+
     cell: ({ row }) => (
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center" data-oid="wdlc2ym">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value: boolean) => row.toggleSelected(!!value)}
           aria-label="Select row"
+          data-oid="5kqxjyn"
         />
       </div>
     ),
+
     enableSorting: false,
     enableHiding: false,
   },
@@ -203,10 +213,12 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const pr = row.original;
       return (
-        <div className="flex items-center gap-2">
-          <GitPullRequestIcon className="size-4" />
-          <span className="font-medium">{pr.title}</span>
-          <Badge variant="outline" className="ml-2">
+        <div className="flex items-center gap-2" data-oid="a2gddcj">
+          <GitPullRequestIcon className="size-4" data-oid="0a92k8k" />
+          <span className="font-medium" data-oid="43wxvfx">
+            {pr.title}
+          </span>
+          <Badge variant="outline" className="ml-2" data-oid="x3zoeo:">
             #{pr.number}
           </Badge>
         </div>
@@ -228,8 +240,12 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       };
       const { icon: Icon, color } = statusConfig[status];
       return (
-        <Badge variant="outline" className={`flex gap-1 px-1.5 ${color}`}>
-          <Icon className="size-3" />
+        <Badge
+          variant="outline"
+          className={`flex gap-1 px-1.5 ${color}`}
+          data-oid="l4y68b_"
+        >
+          <Icon className="size-3" data-oid="kek:1cs" />
           {status.charAt(0).toUpperCase() + status.slice(1)}
         </Badge>
       );
@@ -252,15 +268,19 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         security: { label: "Security", color: "bg-orange-100 text-orange-800" },
       };
       const { label, color } = focusConfig[focus];
-      return <Badge className={color}>{label}</Badge>;
+      return (
+        <Badge className={color} data-oid="lw0q8p0">
+          {label}
+        </Badge>
+      );
     },
   },
   {
     accessorKey: "author",
     header: "Author",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <UsersIcon className="size-4" />
+      <div className="flex items-center gap-2" data-oid=".u2c83z">
+        <UsersIcon className="size-4" data-oid="9xmqr:x" />
         {row.original.author}
       </div>
     ),
@@ -269,8 +289,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     accessorKey: "created_at",
     header: "Created",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <ClockIcon className="size-4" />
+      <div className="flex items-center gap-2" data-oid="5x95xed">
+        <ClockIcon className="size-4" data-oid="fwlvw3y" />
         {new Date(row.original.created_at).toLocaleDateString()}
       </div>
     ),
@@ -281,10 +301,16 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const changes = row.original.changes;
       return (
-        <div className="flex items-center gap-2">
-          <span className="text-green-600">+{changes.additions}</span>
-          <span className="text-red-600">-{changes.deletions}</span>
-          <span className="text-muted-foreground">{changes.files} files</span>
+        <div className="flex items-center gap-2" data-oid=":19fy2k">
+          <span className="text-green-600" data-oid="_n2rjgl">
+            +{changes.additions}
+          </span>
+          <span className="text-red-600" data-oid="6ur52zm">
+            -{changes.deletions}
+          </span>
+          <span className="text-muted-foreground" data-oid="7btvfjr">
+            {changes.files} files
+          </span>
         </div>
       );
     },
@@ -293,8 +319,10 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     accessorKey: "comments",
     header: "Comments",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <span className="text-muted-foreground">{row.original.comments}</span>
+      <div className="flex items-center gap-2" data-oid="gg0afsn">
+        <span className="text-muted-foreground" data-oid="cw0kk9o">
+          {row.original.comments}
+        </span>
       </div>
     ),
   },
@@ -306,13 +334,14 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       const totalReviewers = reviewers.length;
 
       return (
-        <div className="flex items-center gap-2">
-          <div className="flex -space-x-2">
+        <div className="flex items-center gap-2" data-oid="zl:ptbg">
+          <div className="flex -space-x-2" data-oid="45kox2i">
             {reviewers.slice(0, 2).map((reviewer, index) => (
               <div
                 key={index}
                 className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-medium"
                 title={reviewer}
+                data-oid="da:_r4k"
               >
                 {reviewer
                   .split(" ")
@@ -321,7 +350,10 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
               </div>
             ))}
             {totalReviewers > 2 && (
-              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-medium">
+              <div
+                className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-medium"
+                data-oid="n:kcvuz"
+              >
                 +{totalReviewers - 2}
               </div>
             )}
@@ -336,8 +368,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const cycleTime = row.original.metrics.cycle_time;
       return (
-        <div className="flex items-center gap-2">
-          <span className="text-muted-foreground">
+        <div className="flex items-center gap-2" data-oid="b2:kk5e">
+          <span className="text-muted-foreground" data-oid="eeghzhm">
             {formatDuration(cycleTime)}
           </span>
         </div>
@@ -350,13 +382,15 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const timeToReview = row.original.metrics.time_to_first_review;
       return timeToReview ? (
-        <div className="flex items-center gap-2">
-          <span className="text-muted-foreground">
+        <div className="flex items-center gap-2" data-oid="ru52lpq">
+          <span className="text-muted-foreground" data-oid="ab6yd8z">
             {formatDuration(timeToReview)}
           </span>
         </div>
       ) : (
-        <span className="text-muted-foreground">-</span>
+        <span className="text-muted-foreground" data-oid="z43cw-w">
+          -
+        </span>
       );
     },
   },
@@ -366,8 +400,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const codingTime = row.original.metrics.coding_time;
       return (
-        <div className="flex items-center gap-2">
-          <span className="text-muted-foreground">
+        <div className="flex items-center gap-2" data-oid="jqg2-k6">
+          <span className="text-muted-foreground" data-oid="0wr65a2">
             {formatDuration(codingTime)}
           </span>
         </div>
@@ -380,13 +414,15 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const pickupTime = row.original.metrics.pickup_time;
       return pickupTime ? (
-        <div className="flex items-center gap-2">
-          <span className="text-muted-foreground">
+        <div className="flex items-center gap-2" data-oid="u0m8-y-">
+          <span className="text-muted-foreground" data-oid="fnge59k">
             {formatDuration(pickupTime)}
           </span>
         </div>
       ) : (
-        <span className="text-muted-foreground">-</span>
+        <span className="text-muted-foreground" data-oid="6sooe9p">
+          -
+        </span>
       );
     },
   },
@@ -396,13 +432,15 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const reviewTime = row.original.metrics.review_time;
       return reviewTime ? (
-        <div className="flex items-center gap-2">
-          <span className="text-muted-foreground">
+        <div className="flex items-center gap-2" data-oid="-mzvr.x">
+          <span className="text-muted-foreground" data-oid="4wag9ke">
             {formatDuration(reviewTime)}
           </span>
         </div>
       ) : (
-        <span className="text-muted-foreground">-</span>
+        <span className="text-muted-foreground" data-oid="azh:ozz">
+          -
+        </span>
       );
     },
   },
@@ -412,13 +450,15 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       const mergeTime = row.original.metrics.merge_time_duration;
       return mergeTime ? (
-        <div className="flex items-center gap-2">
-          <span className="text-muted-foreground">
+        <div className="flex items-center gap-2" data-oid="s9juv:7">
+          <span className="text-muted-foreground" data-oid="pwi5.qp">
             {formatDuration(mergeTime)}
           </span>
         </div>
       ) : (
-        <span className="text-muted-foreground">-</span>
+        <span className="text-muted-foreground" data-oid="8rd58xq">
+          -
+        </span>
       );
     },
   },
@@ -434,18 +474,24 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       };
 
       return (
-        <div className="flex items-center gap-2">
-          <div className={`font-medium ${getScoreColor(score)}`}>{score}</div>
-          <div className="h-2 w-16 rounded-full bg-muted">
+        <div className="flex items-center gap-2" data-oid="w35x9.o">
+          <div
+            className={`font-medium ${getScoreColor(score)}`}
+            data-oid="_h.r_.5"
+          >
+            {score}
+          </div>
+          <div className="h-2 w-16 rounded-full bg-muted" data-oid="xu1u3a7">
             <div
               className={`h-full rounded-full ${
                 score >= 80
                   ? "bg-green-500"
                   : score >= 60
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
+                    ? "bg-yellow-500"
+                    : "bg-red-500"
               }`}
               style={{ width: `${score}%` }}
+              data-oid="1o8scbo"
             />
           </div>
         </div>
@@ -464,18 +510,24 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       };
 
       return (
-        <div className="flex items-center gap-2">
-          <div className={`font-medium ${getRiskColor(risk)}`}>{risk}%</div>
-          <div className="h-2 w-16 rounded-full bg-muted">
+        <div className="flex items-center gap-2" data-oid="1v3abv5">
+          <div
+            className={`font-medium ${getRiskColor(risk)}`}
+            data-oid="dyxc5ue"
+          >
+            {risk}%
+          </div>
+          <div className="h-2 w-16 rounded-full bg-muted" data-oid="6mcmmgr">
             <div
               className={`h-full rounded-full ${
                 risk <= 30
                   ? "bg-green-500"
                   : risk <= 60
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
+                    ? "bg-yellow-500"
+                    : "bg-red-500"
               }`}
               style={{ width: `${risk}%` }}
+              data-oid="zuvzz62"
             />
           </div>
         </div>
@@ -485,22 +537,25 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   {
     id: "actions",
     cell: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+      <DropdownMenu data-oid=".:tl-6k">
+        <DropdownMenuTrigger asChild data-oid="xx14t-5">
           <Button
             variant="ghost"
             className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
             size="icon"
+            data-oid="qwcgrer"
           >
-            <MoreVerticalIcon />
-            <span className="sr-only">Open menu</span>
+            <MoreVerticalIcon data-oid="dp0y0os" />
+            <span className="sr-only" data-oid="tqdxb2d">
+              Open menu
+            </span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-32">
-          <DropdownMenuItem>View Details</DropdownMenuItem>
-          <DropdownMenuItem>Edit</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Delete</DropdownMenuItem>
+        <DropdownMenuContent align="end" className="w-32" data-oid="vj0o1je">
+          <DropdownMenuItem data-oid="wg0farz">View Details</DropdownMenuItem>
+          <DropdownMenuItem data-oid="61b1ika">Edit</DropdownMenuItem>
+          <DropdownMenuSeparator data-oid="-8ehllj" />
+          <DropdownMenuItem data-oid="3s-1xna">Delete</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     ),
@@ -522,9 +577,10 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
         transform: CSS.Transform.toString(transform),
         transition: transition,
       }}
+      data-oid="zewy-gj"
     >
       {row.getVisibleCells().map((cell) => (
-        <TableCell key={cell.id}>
+        <TableCell key={cell.id} data-oid="9sjoroh">
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </TableCell>
       ))}
@@ -561,7 +617,7 @@ export function PRDataTable() {
       "metrics.merge_time_duration": true,
     });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
@@ -577,12 +633,12 @@ export function PRDataTable() {
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
-    useSensor(KeyboardSensor, {})
+    useSensor(KeyboardSensor, {}),
   );
 
   const dataIds = React.useMemo<UniqueIdentifier[]>(
     () => data?.map(({ id }) => id) || [],
-    [data]
+    [data],
   );
 
   // Filter data based on time range
@@ -618,13 +674,13 @@ export function PRDataTable() {
     const dateLimit = getDateLimit();
     const filteredData = allData.filter(
       (pr) =>
-        new Date(pr.created_at) >= dateLimit && new Date(pr.created_at) <= now
+        new Date(pr.created_at) >= dateLimit && new Date(pr.created_at) <= now,
     );
 
     // Sort by created date, newest first
     filteredData.sort(
       (a, b) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
     );
 
     setData(filteredData);
@@ -723,11 +779,11 @@ export function PRDataTable() {
       return {
         additions:
           Math.floor(
-            Math.random() * (range.additions[1] - range.additions[0])
+            Math.random() * (range.additions[1] - range.additions[0]),
           ) + range.additions[0],
         deletions:
           Math.floor(
-            Math.random() * (range.deletions[1] - range.deletions[0])
+            Math.random() * (range.deletions[1] - range.deletions[0]),
           ) + range.deletions[0],
         files:
           Math.floor(Math.random() * (range.files[1] - range.files[0])) +
@@ -739,7 +795,7 @@ export function PRDataTable() {
       created_at: string,
       status: PRStatus,
       focus: PRFocus,
-      changes: { additions: number; deletions: number; files: number }
+      changes: { additions: number; deletions: number; files: number },
     ) => {
       const now = new Date();
       const createdDate = new Date(created_at);
@@ -747,15 +803,15 @@ export function PRDataTable() {
 
       // Generate realistic review and merge times
       const reviewStartedAt = new Date(
-        createdDate.getTime() + Math.random() * 24 * 60 * 60 * 1000
+        createdDate.getTime() + Math.random() * 24 * 60 * 60 * 1000,
       );
       const firstReviewAt = new Date(
-        reviewStartedAt.getTime() + Math.random() * 48 * 60 * 60 * 1000
+        reviewStartedAt.getTime() + Math.random() * 48 * 60 * 60 * 1000,
       );
       const mergeDate =
         status === "merged"
           ? new Date(
-              firstReviewAt.getTime() + Math.random() * 72 * 60 * 60 * 1000
+              firstReviewAt.getTime() + Math.random() * 72 * 60 * 60 * 1000,
             )
           : undefined;
 
@@ -779,7 +835,7 @@ export function PRDataTable() {
         status !== "open"
           ? calculateHoursBetween(
               reviewStartedAt.toISOString(),
-              firstReviewAt.toISOString()
+              firstReviewAt.toISOString(),
             )
           : undefined;
 
@@ -787,7 +843,7 @@ export function PRDataTable() {
         status === "merged"
           ? calculateHoursBetween(
               firstReviewAt.toISOString(),
-              mergeDate!.toISOString()
+              mergeDate!.toISOString(),
             )
           : undefined;
 
@@ -809,7 +865,7 @@ export function PRDataTable() {
         (codeQualityFactors.changeSize +
           codeQualityFactors.filesChanged +
           codeQualityFactors.focusImpact) /
-          3
+          3,
       );
 
       // Calculate risk rate based on various factors
@@ -830,7 +886,7 @@ export function PRDataTable() {
         (riskFactors.changeSize +
           riskFactors.filesChanged +
           riskFactors.focusRisk) /
-          3
+          3,
       );
 
       return {
@@ -859,8 +915,8 @@ export function PRDataTable() {
           Math.random() > 0.7
             ? "open"
             : Math.random() > 0.5
-            ? "merged"
-            : "closed";
+              ? "merged"
+              : "closed";
         const changes = getChangesSize(focus);
         const metrics = generatePRMetrics(created_at, status, focus, changes);
 
@@ -874,7 +930,7 @@ export function PRDataTable() {
           reviewers: getRandomReviewers(),
           created_at,
           updated_at: getRandomDate(
-            Math.min(7, new Date().getTime() - new Date(created_at).getTime())
+            Math.min(7, new Date().getTime() - new Date(created_at).getTime()),
           ),
           merge_time:
             status === "merged"
@@ -886,7 +942,7 @@ export function PRDataTable() {
           changes,
           metrics: metrics.metrics,
         };
-      }
+      },
     );
 
     // Store all data
@@ -952,6 +1008,7 @@ export function PRDataTable() {
         .filter((column) => column.id !== "select" && column.id !== "drag")}
       columnVisibility={columnVisibility}
       setColumnVisibility={setColumnVisibility}
+      data-oid="k1nw1f9"
     />
   );
 
@@ -960,13 +1017,14 @@ export function PRDataTable() {
       title="Pull Requests"
       description={`Showing pull requests from the last ${timeRange.replace(
         /(\d+)/,
-        "$1 "
+        "$1 ",
       )}`}
       menuContent={menuContent}
+      data-oid="k.s_eq_"
     >
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-4" data-oid="c_nc:sn">
+        <div className="flex items-center justify-between" data-oid=":ndw8sv">
+          <div className="flex items-center gap-2" data-oid="1ftm2x0">
             <Input
               placeholder="Filter PRs..."
               value={
@@ -976,30 +1034,39 @@ export function PRDataTable() {
                 table.getColumn("title")?.setFilterValue(event.target.value)
               }
               className="max-w-sm"
+              data-oid="bd916k7"
             />
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-lg border">
+        <div className="overflow-hidden rounded-lg border" data-oid="hrqdq5r">
           <DndContext
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
             onDragEnd={handleDragEnd}
             sensors={sensors}
             id={sortableId}
+            data-oid="t4lv1yc"
           >
-            <Table>
-              <TableHeader className="sticky top-0 z-10 bg-muted">
+            <Table data-oid="kmi:20k">
+              <TableHeader
+                className="sticky top-0 z-10 bg-muted"
+                data-oid="lp0rl57"
+              >
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
+                  <TableRow key={headerGroup.id} data-oid="_tpg731">
                     {headerGroup.headers.map((header) => {
                       return (
-                        <TableHead key={header.id} colSpan={header.colSpan}>
+                        <TableHead
+                          key={header.id}
+                          colSpan={header.colSpan}
+                          data-oid="p4y_.c:"
+                        >
                           {header.isPlaceholder
                             ? null
                             : flexRender(
                                 header.column.columnDef.header,
-                                header.getContext()
+                                header.getContext(),
                               )}
                         </TableHead>
                       );
@@ -1007,21 +1074,23 @@ export function PRDataTable() {
                   </TableRow>
                 ))}
               </TableHeader>
-              <TableBody>
+              <TableBody data-oid="hsuksub">
                 {table.getRowModel().rows?.length ? (
                   <SortableContext
                     items={dataIds}
                     strategy={verticalListSortingStrategy}
+                    data-oid="1t-p2_g"
                   >
                     {table.getRowModel().rows.map((row) => (
-                      <DraggableRow key={row.id} row={row} />
+                      <DraggableRow key={row.id} row={row} data-oid="871rtuf" />
                     ))}
                   </SortableContext>
                 ) : (
-                  <TableRow>
+                  <TableRow data-oid="pb7qcek">
                     <TableCell
                       colSpan={columns.length}
                       className="h-24 text-center"
+                      data-oid="4ewqafl"
                     >
                       No results.
                     </TableCell>
@@ -1032,14 +1101,18 @@ export function PRDataTable() {
           </DndContext>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-muted-foreground">
+        <div className="flex items-center justify-between" data-oid=":b5nci5">
+          <div className="text-sm text-muted-foreground" data-oid="o_cgcxd">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2">
-              <Label htmlFor="rows-per-page" className="text-sm font-medium">
+          <div className="flex items-center gap-2" data-oid="jyw4ju.">
+            <div className="flex items-center gap-2" data-oid="gb6st9c">
+              <Label
+                htmlFor="rows-per-page"
+                className="text-sm font-medium"
+                data-oid="_q_-wrr"
+              >
                 Rows per page
               </Label>
               <Select
@@ -1047,57 +1120,79 @@ export function PRDataTable() {
                 onValueChange={(value: string) => {
                   table.setPageSize(Number(value));
                 }}
+                data-oid="z2y6flb"
               >
-                <SelectTrigger className="w-20" id="rows-per-page">
+                <SelectTrigger
+                  className="w-20"
+                  id="rows-per-page"
+                  data-oid="f63eitt"
+                >
                   <SelectValue
                     placeholder={table.getState().pagination.pageSize}
+                    data-oid="fc.y51n"
                   />
                 </SelectTrigger>
-                <SelectContent side="top">
+                <SelectContent side="top" data-oid="92ijw8-">
                   {[10, 20, 30, 40, 50].map((pageSize) => (
-                    <SelectItem key={pageSize} value={`${pageSize}`}>
+                    <SelectItem
+                      key={pageSize}
+                      value={`${pageSize}`}
+                      data-oid="zgbv:lp"
+                    >
                       {pageSize}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2" data-oid="957h96m">
               <Button
                 variant="outline"
                 className="hidden size-8 p-0 lg:flex"
                 onClick={() => table.setPageIndex(0)}
                 disabled={!table.getCanPreviousPage()}
+                data-oid="1h4z-av"
               >
-                <span className="sr-only">Go to first page</span>
-                <ChevronsLeftIcon className="size-4" />
+                <span className="sr-only" data-oid="x-jl258">
+                  Go to first page
+                </span>
+                <ChevronsLeftIcon className="size-4" data-oid="10:0:mx" />
               </Button>
               <Button
                 variant="outline"
                 className="size-8 p-0"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
+                data-oid="-_8p1v0"
               >
-                <span className="sr-only">Go to previous page</span>
-                <ChevronLeftIcon className="size-4" />
+                <span className="sr-only" data-oid="fpeql3v">
+                  Go to previous page
+                </span>
+                <ChevronLeftIcon className="size-4" data-oid="5ahi3.d" />
               </Button>
               <Button
                 variant="outline"
                 className="size-8 p-0"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
+                data-oid="a-b_xhc"
               >
-                <span className="sr-only">Go to next page</span>
-                <ChevronRightIcon className="size-4" />
+                <span className="sr-only" data-oid="i72kexy">
+                  Go to next page
+                </span>
+                <ChevronRightIcon className="size-4" data-oid="978tkjz" />
               </Button>
               <Button
                 variant="outline"
                 className="hidden size-8 p-0 lg:flex"
                 onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                 disabled={!table.getCanNextPage()}
+                data-oid="gjfhaif"
               >
-                <span className="sr-only">Go to last page</span>
-                <ChevronsRightIcon className="size-4" />
+                <span className="sr-only" data-oid="wrwgltj">
+                  Go to last page
+                </span>
+                <ChevronsRightIcon className="size-4" data-oid="4t9cok3" />
               </Button>
             </div>
           </div>

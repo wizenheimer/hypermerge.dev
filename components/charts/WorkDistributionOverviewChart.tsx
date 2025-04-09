@@ -113,7 +113,7 @@ const addVariance = (base: number, variance: number = 0.2) => {
 // Helper function for scaled metrics with randomness
 function getScaledMetrics(
   multiplier: number,
-  trendFactor: number = 1
+  trendFactor: number = 1,
 ): Metrics {
   const result = {} as Metrics;
 
@@ -133,7 +133,7 @@ function getScaledMetrics(
       }
 
       result[key] = Math.round(totalCount);
-    }
+    },
   );
 
   return result;
@@ -141,7 +141,7 @@ function getScaledMetrics(
 
 function getScaledTimeMetrics(
   multiplier: number,
-  trendFactor: number = 1
+  trendFactor: number = 1,
 ): Metrics {
   const countMetrics = getScaledMetrics(multiplier, trendFactor);
   const result = {} as Metrics;
@@ -155,7 +155,7 @@ function getScaledTimeMetrics(
       for (let i = 0; i < prCount; i++) {
         const baseTime = getRandomInRange(
           value.timeRange.min,
-          value.timeRange.max
+          value.timeRange.max,
         );
         const complexityFactor = value.complexity;
 
@@ -170,7 +170,7 @@ function getScaledTimeMetrics(
       // Add trend factor influence
       totalHours = Math.round(totalHours * (1 + 0.05 * trendFactor));
       result[key] = totalHours;
-    }
+    },
   );
 
   return result;
@@ -203,15 +203,15 @@ const getSankeyData = (metrics: Metrics, viewType: string) => {
   // Calculate totals for each status
   const totalMerged = Object.values(prStatusMetrics).reduce(
     (sum, status) => sum + status.merged,
-    0
+    0,
   );
   const totalClosed = Object.values(prStatusMetrics).reduce(
     (sum, status) => sum + status.closed,
-    0
+    0,
   );
   const totalOpen = Object.values(prStatusMetrics).reduce(
     (sum, status) => sum + status.open,
-    0
+    0,
   );
 
   const formatTotal =
@@ -227,7 +227,7 @@ const getSankeyData = (metrics: Metrics, viewType: string) => {
     ...Object.entries(prStatusMetrics).map(([key, status]) => ({
       id: key.toLowerCase(),
       name: `${key} (${formatValue(
-        status.merged + status.closed + status.open
+        status.merged + status.closed + status.open,
       )})`,
     })),
   ];
@@ -253,7 +253,7 @@ const CustomNode = (props: any) => {
   const { x, y, width, height, index, payload } = props;
 
   return (
-    <Layer key={`CustomNode${index}`}>
+    <Layer key={`CustomNode${index}`} data-oid="tymi82.">
       <Rectangle
         x={x}
         y={y}
@@ -262,7 +262,9 @@ const CustomNode = (props: any) => {
         fill={blueColors[0]}
         fillOpacity={0.8}
         stroke={blueColors[0]}
+        data-oid="v85ese5"
       />
+
       <text
         x={x + width + 10}
         y={y + height / 2}
@@ -271,6 +273,7 @@ const CustomNode = (props: any) => {
         fill="hsl(var(--foreground))"
         fontSize={12}
         fontWeight={500}
+        data-oid="g-4obyo"
       >
         {payload.name}
       </text>
@@ -282,15 +285,28 @@ const CustomNodeTooltip = ({ node }: { node: any }) => {
   if (!node) return null;
 
   return (
-    <div className="rounded-lg border bg-card p-3 text-card-foreground shadow-sm">
-      <div className="flex flex-col space-y-1.5">
-        <h3 className="text-sm font-semibold leading-none tracking-tight">
+    <div
+      className="rounded-lg border bg-card p-3 text-card-foreground shadow-sm"
+      data-oid="0d:mdks"
+    >
+      <div className="flex flex-col space-y-1.5" data-oid="o-em5ft">
+        <h3
+          className="text-sm font-semibold leading-none tracking-tight"
+          data-oid="duimre8"
+        >
           {node.name}
         </h3>
-        <div className="space-y-1">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Value</span>
-            <span className="font-medium">{node.value}</span>
+        <div className="space-y-1" data-oid="lvvtvit">
+          <div
+            className="flex items-center justify-between text-sm"
+            data-oid="c3g7cu:"
+          >
+            <span className="text-muted-foreground" data-oid="z:-q9at">
+              Value
+            </span>
+            <span className="font-medium" data-oid="21n2p_7">
+              {node.value}
+            </span>
           </div>
         </div>
       </div>
@@ -302,15 +318,28 @@ const CustomLinkTooltip = ({ link }: { link: any }) => {
   if (!link) return null;
 
   return (
-    <div className="rounded-lg border bg-card p-3 text-card-foreground shadow-sm">
-      <div className="flex flex-col space-y-1.5">
-        <h3 className="text-sm font-semibold leading-none tracking-tight">
+    <div
+      className="rounded-lg border bg-card p-3 text-card-foreground shadow-sm"
+      data-oid="nozzzsg"
+    >
+      <div className="flex flex-col space-y-1.5" data-oid="v3mgrxe">
+        <h3
+          className="text-sm font-semibold leading-none tracking-tight"
+          data-oid="hpduzlz"
+        >
           {link.source.name} → {link.target.name}
         </h3>
-        <div className="space-y-1">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Value</span>
-            <span className="font-medium">{link.value}</span>
+        <div className="space-y-1" data-oid="e7ckalz">
+          <div
+            className="flex items-center justify-between text-sm"
+            data-oid="7segreg"
+          >
+            <span className="text-muted-foreground" data-oid="171pa-7">
+              Value
+            </span>
+            <span className="font-medium" data-oid="gx0ja-y">
+              {link.value}
+            </span>
           </div>
         </div>
       </div>
@@ -362,7 +391,7 @@ export function WorkDistributionOverviewChart({
         ...acc,
         [key]: Math.round(value * weekendReduction),
       }),
-      {} as Metrics
+      {} as Metrics,
     );
   }, [timeRange]);
 
@@ -384,7 +413,7 @@ export function WorkDistributionOverviewChart({
         ...acc,
         [key]: Math.round(value * weekendReduction),
       }),
-      {} as Metrics
+      {} as Metrics,
     );
   }, [timeRange]);
 
@@ -426,7 +455,7 @@ export function WorkDistributionOverviewChart({
       }
       data-oid="d_6:v.w"
     >
-      <div className="h-[500px] w-full">
+      <div className="h-[500px] w-full" data-oid="dxtllu1">
         <ResponsiveSankey
           data={getSankeyData(currentMetrics, viewType)}
           margin={{ top: 40, right: 160, bottom: 40, left: 50 }}
@@ -451,6 +480,7 @@ export function WorkDistributionOverviewChart({
           labelTextColor={{ from: "color", modifiers: [["darker", 1]] }}
           nodeTooltip={CustomNodeTooltip}
           linkTooltip={CustomLinkTooltip}
+          data-oid="a3d86z0"
         />
       </div>
     </DashboardLayout>

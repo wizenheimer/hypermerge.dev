@@ -9,10 +9,12 @@ export default function Page() {
           className="bg-muted/50 aspect-video rounded-xl"
           data-oid="-fyx.vl"
         />
+
         <div
           className="bg-muted/50 aspect-video rounded-xl"
           data-oid="ou3-5_a"
         />
+
         <div
           className="bg-muted/50 aspect-video rounded-xl"
           data-oid="2qckkml"

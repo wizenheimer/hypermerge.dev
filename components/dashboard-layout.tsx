@@ -105,9 +105,10 @@ export function DashboardLayout({
               size="sm"
               className="text-sm text-muted-foreground hover:text-foreground"
               onClick={viewMore.onClick}
+              data-oid="f-33ge_"
             >
               {viewMore.label}
-              <ChevronRight className="ml-1 h-4 w-4" />
+              <ChevronRight className="ml-1 h-4 w-4" data-oid="vi5.kx-" />
             </Button>
           )}
           <Popover

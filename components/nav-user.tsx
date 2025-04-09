@@ -49,6 +49,7 @@ export function NavUser({
                   alt={user.name}
                   data-oid="oangv0w"
                 />
+
                 <AvatarFallback className="rounded-lg" data-oid="ks.47i5">
                   CN
                 </AvatarFallback>
@@ -85,6 +86,7 @@ export function NavUser({
                     alt={user.name}
                     data-oid="ycfebh."
                   />
+
                   <AvatarFallback className="rounded-lg" data-oid="8y23hdn">
                     CN
                   </AvatarFallback>

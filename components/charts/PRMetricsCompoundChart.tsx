@@ -139,10 +139,10 @@ export function PRMetricsCompoundChart() {
     data: rawData,
   });
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
 
   // Pagination State
@@ -162,7 +162,7 @@ export function PRMetricsCompoundChart() {
       const latestData = filteredData[filteredData.length - 1];
       return (latestData as any)[key] || 0;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangePercentage = React.useCallback(
@@ -173,7 +173,7 @@ export function PRMetricsCompoundChart() {
       if (previousValue === 0) return currentValue === 0 ? 0 : Infinity;
       return ((currentValue - previousValue) / previousValue) * 100;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangeType = React.useCallback(
@@ -181,7 +181,7 @@ export function PRMetricsCompoundChart() {
       const change = getChangePercentage(key);
       return change > 0 ? "negative" : change < 0 ? "positive" : "neutral";
     },
-    [getChangePercentage]
+    [getChangePercentage],
   );
 
   // Prepare data for Metric Cards
@@ -202,14 +202,14 @@ export function PRMetricsCompoundChart() {
       getMetricValue,
       getChangePercentage,
       getChangeType,
-    ]
+    ],
   );
 
   // Pagination Logic
   const totalPages = Math.ceil(allMetricCards.length / itemsPerPage);
   const paginatedMetricCards = allMetricCards.slice(
     currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
+    (currentPage + 1) * itemsPerPage,
   );
 
   const handleNextPage = () => {
@@ -314,10 +314,10 @@ export function PRMetricsCompoundChart() {
         viewType === "distribution"
           ? "Analyze PR types and distribution"
           : viewType === "status"
-          ? "Monitor PR status and lifecycle"
-          : viewType === "size"
-          ? "Track PR sizes over time"
-          : "Analyze code changes (LOC metrics)"
+            ? "Monitor PR status and lifecycle"
+            : viewType === "size"
+              ? "Track PR sizes over time"
+              : "Analyze code changes (LOC metrics)"
       }
       menuContent={menuContent}
       pagination={{

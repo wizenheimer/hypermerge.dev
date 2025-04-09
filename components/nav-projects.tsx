@@ -67,6 +67,7 @@ export function NavProjects({
                     className="text-muted-foreground"
                     data-oid="t-bzb5u"
                   />
+
                   <span data-oid="xjl1gi_">View Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem data-oid="m3yss7m">
@@ -74,6 +75,7 @@ export function NavProjects({
                     className="text-muted-foreground"
                     data-oid="_nl:tu-"
                   />
+
                   <span data-oid="m51uxyn">Share Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator data-oid="albw1su" />
@@ -82,6 +84,7 @@ export function NavProjects({
                     className="text-muted-foreground"
                     data-oid="gmh:45l"
                   />
+
                   <span data-oid="z1:o1hw">Delete Project</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -97,6 +100,7 @@ export function NavProjects({
               className="text-sidebar-foreground/70"
               data-oid="a3m1i2-"
             />
+
             <span data-oid="faq79rb">More</span>
           </SidebarMenuButton>
         </SidebarMenuItem>

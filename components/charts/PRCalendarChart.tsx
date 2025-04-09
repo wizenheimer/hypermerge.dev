@@ -124,9 +124,15 @@ const CustomTooltip = ({
         }));
 
   return (
-    <div className="rounded-lg border bg-card p-3 text-card-foreground shadow-sm">
-      <div className="flex flex-col space-y-1.5">
-        <h3 className="text-sm font-semibold leading-none tracking-tight">
+    <div
+      className="rounded-lg border bg-card p-3 text-card-foreground shadow-sm"
+      data-oid="59c6m4a"
+    >
+      <div className="flex flex-col space-y-1.5" data-oid="f.-v.:_">
+        <h3
+          className="text-sm font-semibold leading-none tracking-tight"
+          data-oid="dxg2kyw"
+        >
           {new Date(day).toLocaleDateString(undefined, {
             weekday: "long",
             year: "numeric",
@@ -134,18 +140,23 @@ const CustomTooltip = ({
             day: "numeric",
           })}
         </h3>
-        <div className="space-y-1">
-          <div className="text-sm text-muted-foreground">
+        <div className="space-y-1" data-oid="h0.pjc.">
+          <div className="text-sm text-muted-foreground" data-oid="lz2n12:">
             Total PRs: {value}
           </div>
-          <div className="mt-2 space-y-1">
+          <div className="mt-2 space-y-1" data-oid="ki1tbu2">
             {items.map(({ label, value }) => (
               <div
                 key={label}
                 className="flex items-center justify-between text-sm"
+                data-oid=":pshd-0"
               >
-                <span className="text-muted-foreground">{label}</span>
-                <span className="font-medium">{value}</span>
+                <span className="text-muted-foreground" data-oid="wx.cj4a">
+                  {label}
+                </span>
+                <span className="font-medium" data-oid="dugsvld">
+                  {value}
+                </span>
               </div>
             ))}
           </div>
@@ -160,7 +171,7 @@ function generateCalendarData(
   from: Date,
   to: Date,
   metrics: PRMetrics,
-  viewType: keyof typeof viewTypeLabels
+  viewType: keyof typeof viewTypeLabels,
 ): CalendarData[] {
   const data: CalendarData[] = [];
   const currentDate = new Date(from);
@@ -192,7 +203,9 @@ function generateCalendarData(
     details.open = Math.round(details.open * randomFactor);
     Object.keys(details.byFocus).forEach(
       (key) =>
-        (details.byFocus[key] = Math.round(details.byFocus[key] * randomFactor))
+        (details.byFocus[key] = Math.round(
+          details.byFocus[key] * randomFactor,
+        )),
     );
 
     data.push({ day, value, details });
@@ -285,7 +298,7 @@ export function PRCalendarChart({ showViewMore }: PRCalendarChartProps) {
       }
       data-oid="d_6:v.w"
     >
-      <div className="h-[500px] w-full">
+      <div className="h-[500px] w-full" data-oid=":50n1zt">
         <ResponsiveCalendar
           data={calendarData}
           from={from.toISOString().split("T")[0]}
@@ -307,9 +320,11 @@ export function PRCalendarChart({ showViewMore }: PRCalendarChartProps) {
                 value={dayData.value}
                 data={dayData}
                 viewType={viewType}
+                data-oid="nmzw35t"
               />
             );
           }}
+          data-oid="9f0tf0q"
         />
       </div>
     </DashboardLayout>

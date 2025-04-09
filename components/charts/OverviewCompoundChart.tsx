@@ -65,8 +65,8 @@ function MetricCard({
               change > 0
                 ? "text-green-500"
                 : change < 0
-                ? "text-red-500"
-                : "text-orange-500"
+                  ? "text-red-500"
+                  : "text-orange-500"
             }`}
             data-oid=".jd5ue1"
           >

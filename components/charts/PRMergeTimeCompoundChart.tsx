@@ -68,7 +68,7 @@ const timeRangeLabels: Record<TimeRange, string> = {
 
 export function PRMergeTimeCompoundChart() {
   const [goalsData, setGoalsData] = React.useState<PRMergeTimeGoalDataEntry[]>(
-    []
+    [],
   );
 
   React.useEffect(() => {
@@ -81,7 +81,7 @@ export function PRMergeTimeCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -95,7 +95,7 @@ export function PRMergeTimeCompoundChart() {
       const latestData = filteredData[filteredData.length - 1];
       return (latestData as any)[key] || 0;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangePercentage = React.useCallback(
@@ -106,7 +106,7 @@ export function PRMergeTimeCompoundChart() {
       if (previousValue === 0) return currentValue === 0 ? 0 : Infinity;
       return ((currentValue - previousValue) / previousValue) * 100;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangeType = React.useCallback(
@@ -116,10 +116,10 @@ export function PRMergeTimeCompoundChart() {
       return value > target
         ? "negative"
         : value < target
-        ? "positive"
-        : "neutral";
+          ? "positive"
+          : "neutral";
     },
-    [currentCardConfig]
+    [currentCardConfig],
   );
 
   const formatValue = (key: string, value: number): string => {
@@ -153,7 +153,7 @@ export function PRMergeTimeCompoundChart() {
       getMetricValue,
       getChangePercentage,
       getChangeType,
-    ]
+    ],
   );
 
   const toggleChartMetric = (metric: string) => {

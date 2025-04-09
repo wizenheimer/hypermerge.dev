@@ -79,7 +79,7 @@ export function HighRiskCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -93,7 +93,7 @@ export function HighRiskCompoundChart() {
       const latestData = filteredData[filteredData.length - 1];
       return (latestData as any)[key] || 0;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangePercentage = React.useCallback(
@@ -104,7 +104,7 @@ export function HighRiskCompoundChart() {
       if (previousValue === 0) return currentValue === 0 ? 0 : Infinity;
       return ((currentValue - previousValue) / previousValue) * 100;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangeType = React.useCallback(
@@ -114,10 +114,10 @@ export function HighRiskCompoundChart() {
       return value > target
         ? "negative"
         : value < target
-        ? "positive"
-        : "neutral";
+          ? "positive"
+          : "neutral";
     },
-    [currentCardConfig]
+    [currentCardConfig],
   );
 
   const formatValue = (key: string, value: number): string => {
@@ -146,7 +146,7 @@ export function HighRiskCompoundChart() {
       getMetricValue,
       getChangePercentage,
       getChangeType,
-    ]
+    ],
   );
 
   const toggleChartMetric = (metric: string) => {

@@ -85,7 +85,7 @@ const Menu: React.FC<MenuProps> = ({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      viewType === key ? "opacity-100" : "opacity-0"
+                      viewType === key ? "opacity-100" : "opacity-0",
                     )}
                     data-oid="nfxe097"
                   />
@@ -126,7 +126,7 @@ const Menu: React.FC<MenuProps> = ({
                       "mr-2 h-4 w-4",
                       currentSelectedMetrics.includes(key)
                         ? "opacity-100"
-                        : "opacity-0"
+                        : "opacity-0",
                     )}
                     data-oid="xt1k42_"
                   />
@@ -160,7 +160,7 @@ const Menu: React.FC<MenuProps> = ({
                       setSelectedCards((prev = []) =>
                         prev.includes(key)
                           ? prev.filter((card) => card !== key)
-                          : [...prev, key]
+                          : [...prev, key],
                       );
                     } else {
                       // Handle direct array setting if needed, though less common with useState
@@ -175,7 +175,7 @@ const Menu: React.FC<MenuProps> = ({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      selectedCards.includes(key) ? "opacity-100" : "opacity-0"
+                      selectedCards.includes(key) ? "opacity-100" : "opacity-0",
                     )}
                     data-oid="7kfwpvw"
                   />
@@ -209,7 +209,7 @@ const Menu: React.FC<MenuProps> = ({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      timeRange === key ? "opacity-100" : "opacity-0"
+                      timeRange === key ? "opacity-100" : "opacity-0",
                     )}
                     data-oid="o2r1zdi"
                   />
@@ -237,7 +237,7 @@ const Menu: React.FC<MenuProps> = ({
           label: "Table Columns",
           icon: BarChart3,
           content: (
-            <CommandGroup>
+            <CommandGroup data-oid="wpg5p:o">
               {columns
                 .filter((column) => {
                   // Skip columns that can't be hidden
@@ -255,7 +255,7 @@ const Menu: React.FC<MenuProps> = ({
                       .replace("metrics.", "")
                       .split("_")
                       .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1),
                       )
                       .join(" ");
                   }
@@ -265,13 +265,16 @@ const Menu: React.FC<MenuProps> = ({
                       key={column.id}
                       value={column.id}
                       onSelect={() => column.toggleVisibility()}
+                      data-oid="yps6.:u"
                     >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          isVisible ? "opacity-100" : "opacity-0"
+                          isVisible ? "opacity-100" : "opacity-0",
                         )}
+                        data-oid="-jvafgj"
                       />
+
                       {label}
                     </CommandItem>
                   );

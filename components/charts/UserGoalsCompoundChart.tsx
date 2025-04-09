@@ -62,7 +62,7 @@ export function UserGoalsCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics
+    defaultSelectedMetrics,
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -76,7 +76,7 @@ export function UserGoalsCompoundChart() {
       const latestData = filteredData[filteredData.length - 1];
       return (latestData as any)[key] || 0;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangePercentage = React.useCallback(
@@ -87,7 +87,7 @@ export function UserGoalsCompoundChart() {
       if (previousValue === 0) return currentValue === 0 ? 0 : Infinity;
       return ((currentValue - previousValue) / previousValue) * 100;
     },
-    [filteredData]
+    [filteredData],
   );
 
   const getChangeType = React.useCallback(
@@ -97,10 +97,10 @@ export function UserGoalsCompoundChart() {
       return value > target
         ? "positive"
         : value < target
-        ? "negative"
-        : "neutral";
+          ? "negative"
+          : "neutral";
     },
-    [currentCardConfig]
+    [currentCardConfig],
   );
 
   const metricCards: MetricCardData[] = React.useMemo(
@@ -124,7 +124,7 @@ export function UserGoalsCompoundChart() {
       getMetricValue,
       getChangePercentage,
       getChangeType,
-    ]
+    ],
   );
 
   const toggleChartMetric = (metric: string) => {
