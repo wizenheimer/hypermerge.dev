@@ -1,25 +1,14 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { AppSidebar } from "@/components/app-sidebar";
 import { BreadcrumbClientWrapper } from "@/components/breadcrumb-client-wrapper";
+import { NavActions } from "@/components/nav-actions";
+import Section from "@/components/section-w-sidebar";
+import { Separator } from "@/components/ui/separator";
 import {
   SidebarProvider,
-  SidebarInset,
-  SidebarTrigger,
+  SidebarTrigger
 } from "@/components/ui/sidebar";
-import { Separator } from "@radix-ui/react-separator";
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { NavActions } from "@/components/nav-actions";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,33 +18,28 @@ export const metadata: Metadata = {
 export default async function DashboardLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const cookieStore = await cookies();
-  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+  const cookieStore = await cookies()
+  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
 
   return (
-    <SidebarProvider defaultOpen={defaultOpen} data-oid="d5_5sr1">
-      <AppSidebar data-oid="i7m9xzx" />
-      <SidebarInset data-oid="cr08lkr">
-        <header
-          className="sticky top-0 z-50 flex h-20 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-16 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
-          data-oid="z81v.5a"
-        >
-          <div className="flex items-center gap-2 px-4" data-oid=".gr-69y">
-            <SidebarTrigger className="-ml-1" data-oid="1jc2eu6" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-              data-oid=":qejjun"
-            />
-
-            <BreadcrumbClientWrapper data-oid="smo_6mp" />
-          </div>
-          <div className="ml-auto px-3" data-oid="gjyewqk">
-            <NavActions data-oid="5hypg4t" />
-          </div>
-        </header>
-        {children}
-      </SidebarInset>
+    <SidebarProvider defaultOpen={defaultOpen}>
+      <AppSidebar />
+      <Section>
+          <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center gap-2 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-2">
+            <div className="flex items-center gap-2 px-4">
+              <SidebarTrigger className="-ml-1" />
+              <Separator
+                orientation="vertical"
+                className="mr-2 data-[orientation=vertical]:h-4"
+              />
+              <BreadcrumbClientWrapper />
+            </div>
+            <div className="ml-auto px-3">
+              <NavActions />
+            </div>
+          </header>
+        {children}              
+      </Section>
     </SidebarProvider>
   );
 }
