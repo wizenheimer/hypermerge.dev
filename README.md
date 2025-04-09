@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <h3 align="center">Hypermerge</h3>
+
+  <p align="center">
+    Engineering Management Without The Guesswork
+    <br />
+    <a href="https://hypermerge.dev/docs"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://demo.hypermerge.dev">View Demo</a>
+    &middot;
+    <a href="https://hypermerge.dev/contact">Contact Us</a>
+    &middot;
+    <a href="https://hypermerge.dev/blog">Read Blog</a>
+  </p>
+</div>
+
+A comprehensive platform for measuring engineering productivity and performance, with powerful metrics for sprint management, resource allocation, and engineering ROI optimization.
+
+![Dashboard Preview](/media/image.png)
+
+## Overview
+
+Hypermerge provides visibility into your engineering workflow with data-informed insights. While software development consumes 40-60% of operating budgets across enterprises, it remains largely unmeasured. Hypermerge transforms narrative-driven engineering into metrics-based decision making.
+
+## Features
+
+- **Engineering Metrics Dashboard**: Track cycle time, coding time, review time and other key performance indicators
+- **Blocker Detection**: Identify issues before they derail your sprint
+- **Resource Allocation Insights**: Visualize where your engineering time is being spent
+- **DORA Metrics**: Industry-standard delivery performance measurements
+- **Sprint Management Tools**: Make every sprint count with data-driven planning
+- **Outcome Tracking**: Drive outcomes, not just output
+
+## Integrations
+
+Hypermerge works seamlessly with your existing tools:
+
+- GitHub
+- GitLab
+- BitBucket
+- Linear
+- ClickUp
+- Slack
+
+## Use Cases
+
+### End Narrative-Driven Engineering
+
+Stop allowing the most persuasive storytellers to determine resource allocation. Use data to make informed decisions about where to invest engineering resources.
+
+### Measure What Matters
+
+Understand what truly moves your product forward with comprehensive metrics that focus on business value, not just developer activity.
+
+### Ship More, Guess Less
+
+See which efforts actually deliver value and which teams need support based on real performance data, not subjective assessments.
+
+### Drive Outcomes, Not Output
+
+Track investment across features, bugs, and maintenance work to ensure you're building what matters for your customers.
+
+## Pricing
+
+| **Starter**                            | **Scaleup**                            | **Enterprise**                                  |
+| -------------------------------------- | -------------------------------------- | ----------------------------------------------- |
+| **Free**                               | **$10/dev/month**                      | **Custom Pricing**                              |
+| 5 developers                           | Unlimited developers                   | Unlimited developers                            |
+| 3 repos                                | Unlimited repos                        | Unlimited repos                                 |
+| 3 months history                       | 6 months history                       | Unlimited history                               |
+| Email/Chat support                     | Priority support                       | Dedicated success manager                       |
+| 3 integrations                         | Unlimited integrations                 | Multiple Git org support                        |
+| [Get Started](https://hypermerge.dev/) | [Get Started](https://hypermerge.dev/) | [Contact Sales](https://hypermerge.dev/contact) |
 
 ## Getting Started
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Visit [hypermerge.dev](https://hypermerge.dev) to create your account
+2. Connect your repositories and tools
+3. Start measuring your engineering performance
