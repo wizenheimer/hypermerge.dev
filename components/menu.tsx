@@ -85,7 +85,7 @@ const Menu: React.FC<MenuProps> = ({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      viewType === key ? "opacity-100" : "opacity-0",
+                      viewType === key ? "opacity-100" : "opacity-0"
                     )}
                     data-oid="nfxe097"
                   />
@@ -126,7 +126,7 @@ const Menu: React.FC<MenuProps> = ({
                       "mr-2 h-4 w-4",
                       currentSelectedMetrics.includes(key)
                         ? "opacity-100"
-                        : "opacity-0",
+                        : "opacity-0"
                     )}
                     data-oid="xt1k42_"
                   />
@@ -155,19 +155,11 @@ const Menu: React.FC<MenuProps> = ({
                   key={key}
                   value={key}
                   onSelect={() => {
-                    // Use functional update form if needed
-                    if (typeof setSelectedCards === "function") {
-                      setSelectedCards((prev = []) =>
-                        prev.includes(key)
-                          ? prev.filter((card) => card !== key)
-                          : [...prev, key],
-                      );
-                    } else {
-                      // Handle direct array setting if needed, though less common with useState
-                      const newSelected = selectedCards.includes(key)
+                    if (setSelectedCards) {
+                      const newSelected = selectedCards?.includes(key)
                         ? selectedCards.filter((card) => card !== key)
-                        : [...selectedCards, key];
-                      setSelectedCards(newSelected); // This branch might be unused if only state setters are passed
+                        : [...(selectedCards || []), key];
+                      setSelectedCards(newSelected);
                     }
                   }}
                   data-oid="vpi7tm6"
@@ -175,7 +167,7 @@ const Menu: React.FC<MenuProps> = ({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      selectedCards.includes(key) ? "opacity-100" : "opacity-0",
+                      selectedCards.includes(key) ? "opacity-100" : "opacity-0"
                     )}
                     data-oid="7kfwpvw"
                   />
@@ -209,7 +201,7 @@ const Menu: React.FC<MenuProps> = ({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      timeRange === key ? "opacity-100" : "opacity-0",
+                      timeRange === key ? "opacity-100" : "opacity-0"
                     )}
                     data-oid="o2r1zdi"
                   />
@@ -255,7 +247,8 @@ const Menu: React.FC<MenuProps> = ({
                       .replace("metrics.", "")
                       .split("_")
                       .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1),
+                        (word: string) =>
+                          word.charAt(0).toUpperCase() + word.slice(1)
                       )
                       .join(" ");
                   }
@@ -270,7 +263,7 @@ const Menu: React.FC<MenuProps> = ({
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          isVisible ? "opacity-100" : "opacity-0",
+                          isVisible ? "opacity-100" : "opacity-0"
                         )}
                         data-oid="-jvafgj"
                       />

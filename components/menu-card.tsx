@@ -4,9 +4,9 @@ import ChangeIndicator from "./change-indicator";
 
 interface MetricCardProps {
   title: string;
-  value: number;
-  change: number;
-  changeType: "positive" | "negative" | "neutral";
+  value: number | string;
+  change?: number;
+  changeType?: "positive" | "negative" | "neutral";
 }
 
 const MetricCard: React.FC<MetricCardProps> = ({
@@ -28,11 +28,13 @@ const MetricCard: React.FC<MetricCardProps> = ({
           >
             {title}
           </CardDescription>
-          <ChangeIndicator
-            value={change}
-            type={changeType}
-            data-oid="-8grqaa"
-          />
+          {change !== undefined && changeType && (
+            <ChangeIndicator
+              value={change}
+              type={changeType}
+              data-oid="-8grqaa"
+            />
+          )}
         </div>
         <div className="mt-2 text-2xl font-bold md:text-3xl" data-oid="b:_xd90">
           {value}

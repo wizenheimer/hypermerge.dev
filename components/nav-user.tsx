@@ -8,8 +8,9 @@ import {
   LogOut,
   Sparkles,
 } from "lucide-react";
+import Avatar from "boring-avatars";
+import { cn } from "@/lib/utils";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,7 +32,7 @@ export function NavUser({
 }: {
   user: { name: string; email: string; avatar: string };
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile, state } = useSidebar();
 
   return (
     <SidebarMenu data-oid="rrh3:si">
@@ -43,19 +44,31 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               data-oid="j5z65_v"
             >
-              <Avatar className="h-8 w-8 rounded-lg" data-oid="xkk1_3i">
-                <AvatarImage
-                  src={user.avatar}
-                  alt={user.name}
-                  data-oid="oangv0w"
-                />
-
-                <AvatarFallback className="rounded-lg" data-oid="ks.47i5">
-                  CN
-                </AvatarFallback>
-              </Avatar>
               <div
-                className="grid flex-1 text-left text-sm leading-tight"
+                className={cn(
+                  "h-8 w-8 rounded-lg overflow-hidden",
+                  state === "collapsed" && "mx-auto"
+                )}
+                data-oid="xkk1_3i"
+              >
+                <Avatar
+                  name={user.name}
+                  colors={[
+                    "#332e1d",
+                    "#5ac7aa",
+                    "#9adcb9",
+                    "#fafcd3",
+                    "#efeba9",
+                  ]}
+                  variant="beam"
+                  size={32}
+                />
+              </div>
+              <div
+                className={cn(
+                  "grid flex-1 text-left text-sm leading-tight",
+                  state === "collapsed" && "hidden"
+                )}
                 data-oid="1j_uvlg"
               >
                 <span className="truncate font-medium" data-oid="c7l6h4i">
@@ -65,7 +78,13 @@ export function NavUser({
                   {user.email}
                 </span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" data-oid="677l5-q" />
+              <ChevronsUpDown
+                className={cn(
+                  "ml-auto size-4",
+                  state === "collapsed" && "hidden"
+                )}
+                data-oid="677l5-q"
+              />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -80,17 +99,23 @@ export function NavUser({
                 className="flex items-center gap-2 px-1 py-1.5 text-left text-sm"
                 data-oid="kdon6tp"
               >
-                <Avatar className="h-8 w-8 rounded-lg" data-oid="umbo6f3">
-                  <AvatarImage
-                    src={user.avatar}
-                    alt={user.name}
-                    data-oid="ycfebh."
+                <div
+                  className="h-8 w-8 rounded-lg overflow-hidden"
+                  data-oid="umbo6f3"
+                >
+                  <Avatar
+                    name={user.name}
+                    colors={[
+                      "#332e1d",
+                      "#5ac7aa",
+                      "#9adcb9",
+                      "#fafcd3",
+                      "#efeba9",
+                    ]}
+                    variant="beam"
+                    size={32}
                   />
-
-                  <AvatarFallback className="rounded-lg" data-oid="8y23hdn">
-                    CN
-                  </AvatarFallback>
-                </Avatar>
+                </div>
                 <div
                   className="grid flex-1 text-left text-sm leading-tight"
                   data-oid="t5qb6ws"

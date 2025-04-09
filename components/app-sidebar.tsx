@@ -71,12 +71,12 @@ const data = {
     },
     {
       title: "Documentation",
-      url: "/documentation",
+      url: "#Documentation",
       icon: BookOpen,
     },
     {
       title: "Settings",
-      url: "/settings",
+      url: "#Settings",
       icon: Settings2,
     },
   ],

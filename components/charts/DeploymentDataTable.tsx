@@ -360,8 +360,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
               score >= 95
                 ? "text-green-600"
                 : score >= 80
-                  ? "text-yellow-600"
-                  : "text-red-600"
+                ? "text-yellow-600"
+                : "text-red-600"
             }`}
             data-oid=":kuqody"
           >
@@ -373,8 +373,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
                 score >= 95
                   ? "bg-green-500"
                   : score >= 80
-                    ? "bg-yellow-500"
-                    : "bg-red-500"
+                  ? "bg-yellow-500"
+                  : "bg-red-500"
               }`}
               style={{ width: `${score}%` }}
               data-oid="3_.r4if"
@@ -436,8 +436,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
               rate <= 5
                 ? "text-green-600"
                 : rate <= 15
-                  ? "text-yellow-600"
-                  : "text-red-600"
+                ? "text-yellow-600"
+                : "text-red-600"
             }`}
             data-oid="j3dubmx"
           >
@@ -449,8 +449,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
                 rate <= 5
                   ? "bg-green-500"
                   : rate <= 15
-                    ? "bg-yellow-500"
-                    : "bg-red-500"
+                  ? "bg-yellow-500"
+                  : "bg-red-500"
               }`}
               style={{ width: `${rate}%` }}
               data-oid=".dmuf9o"
@@ -473,8 +473,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
               availability >= 99.9
                 ? "text-green-600"
                 : availability >= 99
-                  ? "text-yellow-600"
-                  : "text-red-600"
+                ? "text-yellow-600"
+                : "text-red-600"
             }`}
             data-oid="5qikoui"
           >
@@ -486,8 +486,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
                 availability >= 99.9
                   ? "bg-green-500"
                   : availability >= 99
-                    ? "bg-yellow-500"
-                    : "bg-red-500"
+                  ? "bg-yellow-500"
+                  : "bg-red-500"
               }`}
               style={{ width: `${availability}%` }}
               data-oid="xe7muod"
@@ -509,8 +509,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
               score >= 90
                 ? "text-green-600"
                 : score >= 70
-                  ? "text-yellow-600"
-                  : "text-red-600"
+                ? "text-yellow-600"
+                : "text-red-600"
             }`}
             data-oid="fpzskev"
           >
@@ -522,8 +522,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
                 score >= 90
                   ? "bg-green-500"
                   : score >= 70
-                    ? "bg-yellow-500"
-                    : "bg-red-500"
+                  ? "bg-yellow-500"
+                  : "bg-red-500"
               }`}
               style={{ width: `${score}%` }}
               data-oid="269u33_"
@@ -613,7 +613,7 @@ export function DeploymentDataTable() {
       "metrics.success_rate": true,
     });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
+    []
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
@@ -626,12 +626,12 @@ export function DeploymentDataTable() {
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
-    useSensor(KeyboardSensor, {}),
+    useSensor(KeyboardSensor, {})
   );
 
   const dataIds = React.useMemo<UniqueIdentifier[]>(
     () => data?.map(({ id }) => id) || [],
-    [data],
+    [data]
   );
 
   // Filter data based on time range
@@ -668,13 +668,13 @@ export function DeploymentDataTable() {
     const filteredData = allData.filter(
       (deployment) =>
         new Date(deployment.started_at) >= dateLimit &&
-        new Date(deployment.started_at) <= now,
+        new Date(deployment.started_at) <= now
     );
 
     // Sort by started date, newest first
     filteredData.sort(
       (a, b) =>
-        new Date(b.started_at).getTime() - new Date(a.started_at).getTime(),
+        new Date(b.started_at).getTime() - new Date(a.started_at).getTime()
     );
 
     setData(filteredData);
@@ -718,7 +718,7 @@ export function DeploymentDataTable() {
     const generateDeploymentMetrics = () => {
       return {
         success_rate: Math.floor(Math.random() * 20) + 80, // 80-100%
-        deployment_frequency: (Math.random() * 5).toFixed(1), // 0-5 per day
+        deployment_frequency: Math.random() * 5, // 0-5 per day
         lead_time: Math.floor(Math.random() * 120) + 30, // 30-150 minutes
         mean_time_to_recovery: Math.floor(Math.random() * 60) + 15, // 15-75 minutes
         change_failure_rate: Math.floor(Math.random() * 15), // 0-15%
@@ -762,7 +762,7 @@ export function DeploymentDataTable() {
             status === "in_progress"
               ? undefined
               : new Date(
-                  new Date(started_at).getTime() + duration * 60000,
+                  new Date(started_at).getTime() + duration * 60000
                 ).toISOString(),
           duration,
           changes: {
@@ -772,7 +772,7 @@ export function DeploymentDataTable() {
           },
           metrics,
         };
-      },
+      }
     );
 
     setAllData(sampleData);
@@ -846,7 +846,7 @@ export function DeploymentDataTable() {
       title="Deployments"
       description={`Showing deployments from the last ${timeRange.replace(
         /(\d+)/,
-        "$1 ",
+        "$1 "
       )}`}
       menuContent={menuContent}
       data-oid="e2:bw3l"
@@ -895,7 +895,7 @@ export function DeploymentDataTable() {
                             ? null
                             : flexRender(
                                 header.column.columnDef.header,
-                                header.getContext(),
+                                header.getContext()
                               )}
                         </TableHead>
                       );
