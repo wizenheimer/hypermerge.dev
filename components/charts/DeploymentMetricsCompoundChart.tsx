@@ -154,7 +154,7 @@ export function DeploymentMetricsCompoundChart() {
   }, [processedCountData, timeRange]);
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedChartMetrics,
+    defaultSelectedChartMetrics
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -175,7 +175,7 @@ export function DeploymentMetricsCompoundChart() {
       // Use explicit any cast to bypass persistent linter error
       return (latestData as any)[key] || 0;
     },
-    [filteredCountDataForCards],
+    [filteredCountDataForCards]
   );
 
   // Calculate change percentage (compared to previous point in filtered COUNT data for cards)
@@ -209,7 +209,7 @@ export function DeploymentMetricsCompoundChart() {
         (((currentValue ?? 0) - (previousValue ?? 0)) / previousValue) * 100
       );
     },
-    [filteredCountDataForCards],
+    [filteredCountDataForCards]
   );
 
   // Determine positive/negative change type for cards
@@ -221,7 +221,7 @@ export function DeploymentMetricsCompoundChart() {
         return change > 0 ? "positive" : change < 0 ? "negative" : "neutral";
       }
     },
-    [],
+    []
   );
 
   // Prepare data for Metric Cards
@@ -248,11 +248,10 @@ export function DeploymentMetricsCompoundChart() {
         }),
     [
       selectedCardMetrics,
-      filteredCountDataForCards, // Correct dependency
       getMetricValue,
       getChangePercentage,
       getCardChangeType,
-    ],
+    ]
   );
 
   // --- Event Handlers ---
@@ -278,7 +277,7 @@ export function DeploymentMetricsCompoundChart() {
     setSelectedCardMetrics((prev) =>
       prev.includes(metric)
         ? prev.filter((m) => m !== metric)
-        : [...prev, metric],
+        : [...prev, metric]
     );
   };
 

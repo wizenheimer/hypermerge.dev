@@ -79,7 +79,7 @@ export function PRReviewCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics,
+    defaultSelectedMetrics
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -87,50 +87,51 @@ export function PRReviewCompoundChart() {
   const currentChartConfig = chartConfigs.metrics;
   const currentCardConfig = cardConfigs;
 
-  const getMetricValue = (key: string): number => {
-    if (filteredData.length === 0) return 0;
-    const latestData = filteredData[filteredData.length - 1];
-    return latestData[key] || 0;
-  };
+  const getMetricValue = React.useCallback(
+    (key: string): number => {
+      if (filteredData.length === 0) return 0;
+      const latestData = filteredData[filteredData.length - 1];
+      return (latestData as any)[key] || 0;
+    },
+    [filteredData]
+  );
 
-  const getChangePercentage = (key: string): number => {
-    if (filteredData.length < 2) return 0;
-    const currentValue = filteredData[filteredData.length - 1][key] || 0;
-    const previousValue = filteredData[filteredData.length - 2][key] || 0;
-    if (previousValue === 0) return currentValue === 0 ? 0 : Infinity;
-    return ((currentValue - previousValue) / previousValue) * 100;
-  };
+  const getChangePercentage = React.useCallback(
+    (key: string): number => {
+      if (filteredData.length < 2) return 0;
+      const currentValue = filteredData[filteredData.length - 1][key] || 0;
+      const previousValue = filteredData[filteredData.length - 2][key] || 0;
+      if (previousValue === 0) return currentValue === 0 ? 0 : Infinity;
+      return ((currentValue - previousValue) / previousValue) * 100;
+    },
+    [filteredData]
+  );
 
-  const getChangeType = (
-    key: string,
-    value: number,
-  ): MetricCardData["changeType"] => {
-    const target = currentCardConfig[key].target;
-    if (!target) return "neutral";
+  const getChangeType = React.useCallback(
+    (key: string, value: number): MetricCardData["changeType"] => {
+      const target = currentCardConfig[key]?.target;
+      if (target === undefined) return "neutral";
+      return value > target
+        ? "negative"
+        : value < target
+        ? "positive"
+        : "neutral";
+    },
+    [currentCardConfig]
+  );
 
-    // For metrics where lower is better (timeToFirstReview)
-    if (key === "timeToFirstReview") {
-      if (value <= target) return "positive";
-      if (value <= target * 1.5) return "neutral";
-      return "negative";
-    }
-
-    // For metrics where higher is better (all others)
-    if (value >= target) return "positive";
-    if (value >= target * 0.9) return "neutral";
-    return "negative";
-  };
-
-  const formatValue = (key: string, value: number): string => {
-    switch (key) {
-      case "reviewerCount":
-        return value.toFixed(1);
-      case "timeToFirstReview":
+  const formatValue = React.useCallback(
+    (key: string, value: number): string => {
+      if (key === "timeToFirstReview") {
         return `${value.toFixed(1)}h`;
-      default:
+      }
+      if (key === "reviewCoverage" || key === "approvalRate") {
         return `${value.toFixed(1)}%`;
-    }
-  };
+      }
+      return value.toString();
+    },
+    []
+  );
 
   const metricCards: MetricCardData[] = React.useMemo(
     () =>
@@ -148,7 +149,14 @@ export function PRReviewCompoundChart() {
             description: config.description,
           };
         }),
-    [selectedCardMetrics, filteredData, currentCardConfig],
+    [
+      selectedCardMetrics,
+      currentCardConfig,
+      getMetricValue,
+      getChangePercentage,
+      getChangeType,
+      formatValue,
+    ]
   );
 
   const toggleChartMetric = (metric: string) => {

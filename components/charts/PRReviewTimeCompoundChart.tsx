@@ -68,7 +68,7 @@ const timeRangeLabels: Record<TimeRange, string> = {
 
 export function PRReviewTimeCompoundChart() {
   const [goalsData, setGoalsData] = React.useState<PRReviewTimeGoalDataEntry[]>(
-    [],
+    []
   );
 
   React.useEffect(() => {
@@ -81,7 +81,7 @@ export function PRReviewTimeCompoundChart() {
     });
 
   const [selectedChartMetrics, setSelectedChartMetrics] = React.useState(
-    defaultSelectedMetrics,
+    defaultSelectedMetrics
   );
   const [selectedCardMetrics, setSelectedCardMetrics] =
     React.useState(defaultSelectedCards);
@@ -89,54 +89,51 @@ export function PRReviewTimeCompoundChart() {
   const currentChartConfig = chartConfigs.metrics;
   const currentCardConfig = cardConfigs;
 
-  const getMetricValue = (key: string): number => {
-    if (filteredData.length === 0) return 0;
-    const latestData = filteredData[filteredData.length - 1];
-    return latestData[key] || 0;
-  };
+  const getMetricValue = React.useCallback(
+    (key: string): number => {
+      if (filteredData.length === 0) return 0;
+      const latestData = filteredData[filteredData.length - 1];
+      return (latestData as any)[key] || 0;
+    },
+    [filteredData]
+  );
 
-  const getChangePercentage = (key: string): number => {
-    if (filteredData.length < 2) return 0;
-    const currentValue = filteredData[filteredData.length - 1][key] || 0;
-    const previousValue = filteredData[filteredData.length - 2][key] || 0;
-    if (previousValue === 0) return currentValue === 0 ? 0 : Infinity;
-    return ((currentValue - previousValue) / previousValue) * 100;
-  };
+  const getChangePercentage = React.useCallback(
+    (key: string): number => {
+      if (filteredData.length < 2) return 0;
+      const currentValue = filteredData[filteredData.length - 1][key] || 0;
+      const previousValue = filteredData[filteredData.length - 2][key] || 0;
+      if (previousValue === 0) return currentValue === 0 ? 0 : Infinity;
+      return ((currentValue - previousValue) / previousValue) * 100;
+    },
+    [filteredData]
+  );
 
-  const getChangeType = (
-    key: string,
-    value: number,
-  ): MetricCardData["changeType"] => {
-    const target = currentCardConfig[key].target;
-    if (!target) return "neutral";
+  const getChangeType = React.useCallback(
+    (key: string, value: number): MetricCardData["changeType"] => {
+      const target = currentCardConfig[key]?.target;
+      if (target === undefined) return "neutral";
+      return value > target
+        ? "negative"
+        : value < target
+        ? "positive"
+        : "neutral";
+    },
+    [currentCardConfig]
+  );
 
-    // For metrics where lower is better (reviewCompletionTime, staleReviewRate, iterationCount)
-    if (
-      key === "reviewCompletionTime" ||
-      key === "staleReviewRate" ||
-      key === "iterationCount"
-    ) {
-      if (value <= target) return "positive";
-      if (value <= target * 1.5) return "neutral";
-      return "negative";
-    }
-
-    // For metrics where higher is better (firstPassRate)
-    if (value >= target) return "positive";
-    if (value >= target * 0.9) return "neutral";
-    return "negative";
-  };
-
-  const formatValue = (key: string, value: number): string => {
-    switch (key) {
-      case "reviewCompletionTime":
+  const formatValue = React.useCallback(
+    (key: string, value: number): string => {
+      if (key === "reviewCompletionTime" || key === "iterationCount") {
         return `${value.toFixed(1)}h`;
-      case "iterationCount":
-        return value.toFixed(1);
-      default:
+      }
+      if (key === "staleReviewRate" || key === "firstPassRate") {
         return `${value.toFixed(1)}%`;
-    }
-  };
+      }
+      return value.toString();
+    },
+    []
+  );
 
   const metricCards: MetricCardData[] = React.useMemo(
     () =>
@@ -154,7 +151,14 @@ export function PRReviewTimeCompoundChart() {
             description: config.description,
           };
         }),
-    [selectedCardMetrics, filteredData, currentCardConfig],
+    [
+      selectedCardMetrics,
+      currentCardConfig,
+      getMetricValue,
+      getChangePercentage,
+      getChangeType,
+      formatValue,
+    ]
   );
 
   const toggleChartMetric = (metric: string) => {

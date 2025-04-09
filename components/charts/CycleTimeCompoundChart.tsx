@@ -104,28 +104,37 @@ export function CycleTimeCompoundChart({
   const currentChartConfig = chartConfigs.metrics;
   const currentCardConfig = cardConfigs;
 
-  // Calculate metric values (use latest point in filtered time range)
-  const getMetricValue = (key: string): number => {
-    if (filteredData.length === 0) return 0;
-    const latestData = filteredData[filteredData.length - 1];
-    return latestData[key as keyof CycleTimeData] || 0;
-  };
+  // Calculate metric values (use latest point in filtered data)
+  const getMetricValue = React.useCallback(
+    (key: string): number => {
+      if (filteredData.length === 0) return 0;
+      const latestData = filteredData[filteredData.length - 1];
+      return (latestData as any)[key] || 0;
+    },
+    [filteredData]
+  );
 
   // Calculate change percentage (compared to previous point)
-  const getChangePercentage = (key: string): number => {
-    if (filteredData.length < 2) return 0;
-    const currentValue =
-      filteredData[filteredData.length - 1][key as keyof CycleTimeData] || 0;
-    const previousValue =
-      filteredData[filteredData.length - 2][key as keyof CycleTimeData] || 0;
-    if (previousValue === 0) return currentValue === 0 ? 0 : Infinity; // Avoid division by zero
-    return ((currentValue - previousValue) / previousValue) * 100;
-  };
+  const getChangePercentage = React.useCallback(
+    (key: string): number => {
+      if (filteredData.length < 2) return 0;
+      const currentValue =
+        filteredData[filteredData.length - 1][key as keyof CycleTimeData] || 0;
+      const previousValue =
+        filteredData[filteredData.length - 2][key as keyof CycleTimeData] || 0;
+      if (previousValue === 0) return currentValue === 0 ? 0 : Infinity; // Avoid division by zero
+      return ((currentValue - previousValue) / previousValue) * 100;
+    },
+    [filteredData]
+  );
 
   // Determine positive/negative change type (lower is better for time metrics)
-  const getChangeType = (change: number): MetricCardData["changeType"] => {
-    return change > 0 ? "negative" : change < 0 ? "positive" : "neutral";
-  };
+  const getChangeType = React.useCallback(
+    (change: number): MetricCardData["changeType"] => {
+      return change > 0 ? "negative" : change < 0 ? "positive" : "neutral";
+    },
+    []
+  );
 
   // Prepare data for Metric Cards
   const metricCards: MetricCardData[] = React.useMemo(
@@ -146,10 +155,9 @@ export function CycleTimeCompoundChart({
     [
       currentCardConfig,
       selectedCardMetrics,
-      filteredData,
-      getMetricValue, // Added dependency
-      getChangePercentage, // Added dependency
-      getChangeType, // Added dependency
+      getMetricValue,
+      getChangePercentage,
+      getChangeType,
     ]
   );
 
