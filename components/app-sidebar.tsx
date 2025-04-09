@@ -1,23 +1,16 @@
 "use client";
 
-import * as React from "react";
 import {
   AudioWaveform,
   BookOpen,
-  Bot,
   Command,
-  Frame,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
   Settings2,
-  SquareTerminal,
-  Target,
-  Telescope,
+  Telescope
 } from "lucide-react";
+import * as React from "react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
@@ -26,7 +19,12 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  SidebarTrigger,
+  useSidebar
 } from "@/components/ui/sidebar";
+import { Separator } from "@radix-ui/react-separator";
+import { BreadcrumbClientWrapper } from "./breadcrumb-client-wrapper";
+import { NavActions } from "./nav-actions";
 
 // This is sample data.
 const data = {
@@ -82,14 +80,9 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar() {
   return (
-    <Sidebar
-      collapsible="icon"
-      variant="floating"
-      {...props}
-      data-oid="9.g4ydo"
-    >
+    <Sidebar data-oid="9.g4ydo" collapsible="icon" variant="inset">
       <SidebarHeader data-oid="vkxzylr">
         <TeamSwitcher teams={data.teams} data-oid="-mx2ftf" />
       </SidebarHeader>
